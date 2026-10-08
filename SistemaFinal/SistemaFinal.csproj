@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="BaseDatos.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="BaseDatos.db">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FontAwesome" Version="4.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Capa Presentacion\AgregarGasto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Capa Presentacion\Usuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Capa Presentacion\AgregarVendedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Capa Presentacion\PagoVendedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Capa Presentacion\PagoCuenCo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Capa Presentacion\Gasto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Capa Presentacion\ConfirmTarj.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Capa Presentacion\Retiro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Capa Presentacion\Ingreso.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Capa Presentacion\FactPresupuesto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Capa Presentacion\FactCompra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
