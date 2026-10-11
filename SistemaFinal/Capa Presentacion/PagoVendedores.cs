@@ -35,7 +35,7 @@ namespace SistemaFinal.Capa_Presentacion
             }
             string vendedores = "";
             var vend = ventaL.ObtenerVendedores(vendedores);
-            
+
             var VendFiltrado = vend
             .Where(m => m.Activo == 1 && !m.Nombre.Trim().Equals("N/A", StringComparison.OrdinalIgnoreCase))
             .ToList();
@@ -76,6 +76,11 @@ namespace SistemaFinal.Capa_Presentacion
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PagoVendedores_Load(object sender, EventArgs e)
         {
 
         }

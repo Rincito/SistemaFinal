@@ -13,8 +13,6 @@ namespace SistemaFinal.Capa_Datos
         public decimal Precio { get; set; }
         public int Stock { get; set; }
         public decimal Costo { get; set; }
-        public int Proveedor { get; set; }
-        public string NombreProveedor { get; set; }
         public int StockMin { get; set; }
         public decimal Ganancia { get; set; }
         public decimal IVA { get; set; }
@@ -119,39 +117,9 @@ namespace SistemaFinal.Capa_Datos
 
             return listaMarcas;
         }
-        public List<string> ObtenerProveedores()
-        {
-            List<string> listaProveedores = new List<string>();
-
-            try
-            {
-                using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
-                {
-                    conexion.Open();
-                    string query = "SELECT Nombre FROM Proveedores WHERE Activo = 1";
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
-                    {
-                        using (SQLiteDataReader dr = cmd.ExecuteReader())
-                        {
-                            while (dr.Read())
-                            {
-                                listaProveedores.Add(dr["Nombre"].ToString());
-
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener los proveedores: " + ex.Message);
-            }
-
-            return listaProveedores;
-        }
         public bool GuardarProducto(string codigo, string nombre, int stock, decimal costo,
             decimal precio, int stockCritico, decimal iva, decimal ganancia,
-            string marca, string rubro, int Idproveedor)
+            string marca, string rubro)
         {
             if (string.IsNullOrEmpty(codigo) || string.IsNullOrEmpty(nombre))
                 throw new ArgumentException("Código y nombre son requeridos");
@@ -164,11 +132,10 @@ namespace SistemaFinal.Capa_Datos
                     try
                     {
                         const string query = @"INSERT INTO Articulos 
-                            (Codigo, Nombre, Marca, Rubro, Precio, Stock, Costo, 
-                             Proveedor, StockMin, Ganancia, IVA, Activo)
+                            (Codigo, Nombre, Marca, Rubro, Precio, Stock, Costo, StockMin, Ganancia, IVA, Activo)
                             VALUES 
                             (@Codigo, @Nombre, @Marca, @Rubro, @Precio, @Stock, 
-                             @Costo, @Proveedor, @StockMin, @Ganancia, @IVA, @Activo)";
+                             @Costo, @StockMin, @Ganancia, @IVA, @Activo)";
 
                         using (var cmd = new SQLiteCommand(query, conexion, transaction))
                         {
@@ -182,7 +149,6 @@ namespace SistemaFinal.Capa_Datos
                             cmd.Parameters.AddWithValue("@Ganancia", ganancia);
                             cmd.Parameters.AddWithValue("@Marca", marca);
                             cmd.Parameters.AddWithValue("@Rubro", rubro);
-                            cmd.Parameters.AddWithValue("@Proveedor", Idproveedor);
                             cmd.Parameters.AddWithValue("@Activo", 1);
 
                             int filasAfectadas = cmd.ExecuteNonQuery();
@@ -204,50 +170,6 @@ namespace SistemaFinal.Capa_Datos
             finally
             {
                 CerrarConexion();
-            }
-        }
-        public int ObtenerIDProveedorPorNombre(string nombreProveedor)
-        {
-            try
-
-            {
-                using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
-                {
-                    conexion.Open();
-                    string query = "SELECT ID FROM Proveedores WHERE Nombre = @Nombre";
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@Nombre", nombreProveedor);
-                        object resultado = cmd.ExecuteScalar();
-                        return resultado != null ? Convert.ToInt32(resultado) : 0;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener el ID del proveedor: " + ex.Message);
-            }
-        }
-        public string ObtenerNombreProveedorPorID(int IDProveedor)
-        {
-            try
-
-            {
-                using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
-                {
-                    conexion.Open();
-                    string query = "SELECT Nombre FROM Proveedores WHERE ID = @ID";
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@ID", IDProveedor);
-                        object resultado = cmd.ExecuteScalar();
-                        return resultado != null ? resultado.ToString() : string.Empty;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener el ID del proveedor: " + ex.Message);
             }
         }
         public bool ExisteArticulo(string codigo, string nombre)
@@ -284,7 +206,7 @@ namespace SistemaFinal.Capa_Datos
             {
                 AbrirConexion();
                 const string query = @"SELECT Codigo, Nombre, Marca, Rubro, Precio, 
-                    Stock, Costo, Proveedor, StockMin, Ganancia, IVA, Activo 
+                    Stock, Costo, StockMin, Ganancia, IVA, Activo 
                     FROM Articulos";
 
                 using (var cmd = new SQLiteCommand(query, conexion))
@@ -292,8 +214,7 @@ namespace SistemaFinal.Capa_Datos
                 {
                     while (dr.Read())
                     {
-                        int proveedorId = Convert.ToInt32(dr["Proveedor"] ?? 0);
-                        string nombreProveedor = ObtenerNombreProveedorPorID(proveedorId);
+                 
                         articulos.Add(new Articulo
                         {
                             Codigo = dr["Codigo"].ToString(),
@@ -303,8 +224,6 @@ namespace SistemaFinal.Capa_Datos
                             Precio = Convert.ToDecimal(dr["Precio"] ?? 0),
                             Stock = Convert.ToInt32(dr["Stock"] ?? 0),
                             Costo = Convert.ToDecimal(dr["Costo"] ?? 0),
-                            Proveedor = proveedorId,
-                            NombreProveedor = nombreProveedor,
                             StockMin = Convert.ToInt32(dr["StockMin"] ?? 0),
                             Ganancia = Convert.ToDecimal(dr["Ganancia"] ?? 0),
                             IVA = Convert.ToDecimal(dr["IVA"] ?? 0),
@@ -324,6 +243,78 @@ namespace SistemaFinal.Capa_Datos
                 CerrarConexion();
             }
 
+        }
+
+        public int ObtenerTotalArticulos()
+        {
+            try
+            {
+                AbrirConexion();
+                const string query = "SELECT COUNT(*) FROM Articulos";
+                using (var cmd = new SQLiteCommand(query, conexion))
+                {
+                    return Convert.ToInt32(cmd.ExecuteScalar() ?? 0);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al contar los artículos: " + ex.Message);
+            }
+            finally
+            {
+                CerrarConexion();
+            }
+        }
+
+        public List<Articulo> ListarArticulosPaginados(int paginaActual, int registrosPorPagina)
+        {
+            var articulos = new List<Articulo>();
+            int offset = (paginaActual - 1) * registrosPorPagina;
+
+            try
+            {
+                AbrirConexion();
+                const string query = @"SELECT Codigo, Nombre, Marca, Rubro, Precio, 
+                                      Stock, Costo, StockMin, Ganancia, IVA, Activo 
+                                      FROM Articulos 
+                                      LIMIT @Limit OFFSET @Offset";
+
+                using (var cmd = new SQLiteCommand(query, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@Limit", registrosPorPagina);
+                    cmd.Parameters.AddWithValue("@Offset", offset);
+
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            articulos.Add(new Articulo
+                            {
+                                Codigo = dr["Codigo"].ToString(),
+                                Nombre = dr["Nombre"].ToString(),
+                                Marca = dr["Marca"].ToString(),
+                                Rubro = dr["Rubro"].ToString(),
+                                Precio = Convert.ToDecimal(dr["Precio"] ?? 0),
+                                Stock = Convert.ToInt32(dr["Stock"] ?? 0),
+                                Costo = Convert.ToDecimal(dr["Costo"] ?? 0),
+                                StockMin = Convert.ToInt32(dr["StockMin"] ?? 0),
+                                Ganancia = Convert.ToDecimal(dr["Ganancia"] ?? 0),
+                                IVA = Convert.ToDecimal(dr["IVA"] ?? 0),
+                                Activo = Convert.ToInt32(dr["Activo"])
+                            });
+                        }
+                    }
+                }
+                return articulos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar artículos paginados: " + ex.Message);
+            }
+            finally
+            {
+                CerrarConexion();
+            }
         }
         public bool DarDeBajaArticulo(string codigo)
         {
@@ -378,8 +369,8 @@ namespace SistemaFinal.Capa_Datos
                     string query = @"UPDATE Articulos 
                              SET Nombre = @Nombre, Marca = @Marca, Rubro = @Rubro, 
                                  Precio = @Precio, Stock = @Stock, Costo = @Costo, 
-                                 Proveedor = @Proveedor, StockMin = @StockMin, 
-                                 Ganancia = @Ganancia, IVA = @IVA WHERE Codigo = @AntCodigo";
+                                 StockMin = @StockMin, Ganancia = @Ganancia, 
+                                 IVA = @IVA WHERE Codigo = @AntCodigo";
 
                     using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
                     {
@@ -390,7 +381,6 @@ namespace SistemaFinal.Capa_Datos
                         cmd.Parameters.AddWithValue("@Precio", articulo.Precio);
                         cmd.Parameters.AddWithValue("@Stock", articulo.Stock);
                         cmd.Parameters.AddWithValue("@Costo", articulo.Costo);
-                        cmd.Parameters.AddWithValue("@Proveedor", articulo.Proveedor);
                         cmd.Parameters.AddWithValue("@StockMin", articulo.StockMin);
                         cmd.Parameters.AddWithValue("@Ganancia", articulo.Ganancia);
                         cmd.Parameters.AddWithValue("@IVA", articulo.IVA);
@@ -406,23 +396,7 @@ namespace SistemaFinal.Capa_Datos
                 throw new Exception("Error al actualizar el artículo: " + ex.Message);
             }
         }
-        public bool BorrarArticulo(string codigo)
-        {
-            using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
-            {
-                conexion.Open();
-
-                string query = "DELETE FROM Articulos WHERE Codigo = @Codigo";
-
-                using (SQLiteCommand comando = new SQLiteCommand(query, conexion))
-                {
-                    comando.Parameters.AddWithValue("@Codigo", codigo);
-
-                    int filasAfectadas = comando.ExecuteNonQuery();
-                    return filasAfectadas > 0;
-                }
-            }
-        }
+        
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)

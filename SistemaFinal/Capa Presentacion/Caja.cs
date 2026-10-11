@@ -22,7 +22,7 @@ namespace SistemaFinal.Capa_Presentacion
         private void cargarCaja()
         {
 
-            
+
             string fecha = DateTime.Now.ToString("yyyy-MM-dd");
             if (caja.CajaCerrada(fecha))
             {
@@ -95,19 +95,19 @@ namespace SistemaFinal.Capa_Presentacion
                 decimal ingresosEfect = decimal.Parse(VentasEfect) + decimal.Parse(OtrosEfect) + decimal.Parse(CCEfect);
                 decimal ingresosTarj = decimal.Parse(VentasTarj) + decimal.Parse(OtrosTarj) + decimal.Parse(CCTarj);
                 decimal egresosEfect = decimal.Parse(PagoVendEfect) + decimal.Parse(RetiroOtrosEfect);
-                decimal egresosTarj =  decimal.Parse(PagoVendTarj) + decimal.Parse(EgresoOtrosTarj);
+                decimal egresosTarj = decimal.Parse(PagoVendTarj) + decimal.Parse(EgresoOtrosTarj);
                 decimal gananciaBruta = (ingresosEfect + ingresosTarj) - (egresosEfect + egresosTarj);
                 GananciaTxtBox.Text = "$" + gananciaBruta.ToString();
 
             }
-           
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-        
+
         private void button2_Click(object sender, EventArgs e)
         {
             string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
@@ -171,7 +171,7 @@ namespace SistemaFinal.Capa_Presentacion
                     }
                 }
             }
-            
+
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -183,17 +183,22 @@ namespace SistemaFinal.Capa_Presentacion
             if (CajaEditada == "")
             {
                 MessageBox.Show("No se ingresó un valor, se cerrará la ventana");
-               
+
             }
             else
             {
-               CajaInicioTxtBox.Text = CajaEditada;
+                CajaInicioTxtBox.Text = CajaEditada;
                 CajaL cajaL = new CajaL();
                 cajaL.ModMontoInicio(CajaEditada);
                 cajaL.NotifiCaja(CajaActual, CajaEditada);
                 MessageBox.Show("Caja inicial modificada");
                 cargarCaja();
             }
+        }
+
+        private void Caja_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

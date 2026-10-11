@@ -15,7 +15,6 @@ namespace SistemaFinal.Capa_Presentacion
             this.ShowInTaskbar = false;
             this.Deactivate += ModificarArt_Deactivate;
             CargarComboBoxMarcas();
-            CargarComboBoxProveedores();
             CargarComboBoxRubros();
             CargarDatosArticulo(articulo);
         }
@@ -57,26 +56,11 @@ namespace SistemaFinal.Capa_Presentacion
                 MessageBox.Show("Error al cargar las marcas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void CargarComboBoxProveedores()
-        {
-            try
-            {
-                ArticuloL articuloL = new ArticuloL();
-                List<string> listaProveedores = articuloL.ObtenerListaProvs();
-
-                ProvComBox.DataSource = null;
-                ProvComBox.DataSource = listaProveedores;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar los proveedores: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        
         private void CargarDatosArticulo(Articulo articulo)
         {
             if (articulo != null)
             {
-
 
                 CodTxtBox.Text = articulo.Codigo;
                 NomTxtBox.Text = articulo.Nombre;
@@ -86,14 +70,9 @@ namespace SistemaFinal.Capa_Presentacion
                 StockCritTxtBox.Text = articulo.StockMin.ToString();
                 GanTxtBox.Text = articulo.Ganancia.ToString("F2");
                 IVATxtBox.Text = articulo.IVA.ToString("F2");
-                if (ProvComBox.DataSource != null)
-                {
-                    ProvComBox.SelectedItem = articulo.NombreProveedor;
-                    MarcComBox.SelectedItem = articulo.Marca;
-                    RubComBox.SelectedItem = articulo.Rubro;
-                }
-
-
+                MarcComBox.SelectedItem = articulo.Marca;
+                RubComBox.SelectedItem = articulo.Rubro;
+                
             }
         }
         private void ModificarArt_Load(object sender, EventArgs e)
@@ -134,22 +113,8 @@ namespace SistemaFinal.Capa_Presentacion
                 MessageBox.Show("Selecciona un rubro válido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (ProvComBox.SelectedIndex == -1 || ProvComBox.SelectedValue == null)
-            {
-                MessageBox.Show("Selecciona un proveedor válido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            
             ArticuloD articulo = new ArticuloD();
-            string proveedorNombre = ProvComBox.SelectedItem.ToString();
-            int proveedorID = articulo.ObtenerIDProveedorPorNombre(proveedorNombre);
-
-            if (proveedorID == -1)
-            {
-                MessageBox.Show("Proveedor no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            art.Proveedor = proveedorID;
 
 
             var articuloL = new ArticuloL();

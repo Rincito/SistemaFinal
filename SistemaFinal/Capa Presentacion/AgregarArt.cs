@@ -53,21 +53,6 @@ namespace SistemaFinal.Capa_Presentacion
             FormularioCerrado?.Invoke();
             this.Close();
         }
-        private void CargarComboBoxProveedores()
-        {
-            try
-            {
-                ArticuloL articuloL = new ArticuloL();
-                List<string> listaProveedores = articuloL.ObtenerListaProvs();
-
-                ProvComBox.DataSource = null;
-                ProvComBox.DataSource = listaProveedores;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar los proveedores: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
         private void label4_Click(object sender, EventArgs e)
         {
 
@@ -77,7 +62,6 @@ namespace SistemaFinal.Capa_Presentacion
         {
             CargarComboBoxRubros();
             CargarComboBoxMarcas();
-            CargarComboBoxProveedores();
         }
 
         private void ProvComBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -149,15 +133,14 @@ namespace SistemaFinal.Capa_Presentacion
 
                 string marca = MarcCombBox.SelectedItem?.ToString() ?? "";
                 string rubro = RubroComBox.SelectedItem?.ToString() ?? "";
-                string proveedor = ProvComBox.SelectedItem?.ToString() ?? "";
 
-                if (string.IsNullOrEmpty(marca) || string.IsNullOrEmpty(rubro) || string.IsNullOrEmpty(proveedor))
+                if (string.IsNullOrEmpty(marca) || string.IsNullOrEmpty(rubro))
                 {
                     MessageBox.Show("Debe seleccionar una opción válida para Marca, Rubro y Proveedor.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 ArticuloL productoL = new ArticuloL();
-                bool resultado = productoL.GuardarProducto(codigo, nombre, stock, costo, precio, stockCritico, iva, ganancia, marca, rubro, proveedor);
+                bool resultado = productoL.GuardarProducto(codigo, nombre, stock, costo, precio, stockCritico, iva, ganancia, marca, rubro);
                 if (resultado)
                 {
                     MessageBox.Show("El artículo se agregó correctamente.");
@@ -242,6 +225,11 @@ namespace SistemaFinal.Capa_Presentacion
                 GananciaTxtBox.Text = ganancia.ToString("F2");
                 GananciaTxtBox.TextChanged += GananciaTxtBox_TextChanged;
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -36,9 +36,18 @@
             panel2 = new Panel();
             BusquedaTxtBox = new TextBox();
             dataGridView1 = new DataGridView();
+            panel3 = new Panel();
+            panelPaginacion = new Panel();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            siguienteBtn = new Button();
+            anteriorBtn = new Button();
+            paginacionLbl = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            panel3.SuspendLayout();
+            panelPaginacion.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -103,9 +112,9 @@
             panel2.Controls.Add(BusquedaTxtBox);
             panel2.Controls.Add(dataGridView1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(134, 0);
+            panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(666, 450);
+            panel2.Size = new Size(666, 329);
             panel2.TabIndex = 1;
             panel2.PreviewKeyDown += panel2_PreviewKeyDown;
             // 
@@ -131,11 +140,84 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(666, 450);
+            dataGridView1.Size = new Size(666, 329);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellContentDoubleClick += dataGridView1_CellContentDoubleClick;
             dataGridView1.ColumnHeaderMouseClick += dataGridView1_ColumnHeaderMouseClick;
+            // 
+            // panel3
+            // 
+            panel3.Controls.Add(panel2);
+            panel3.Controls.Add(panelPaginacion);
+            panel3.Dock = DockStyle.Fill;
+            panel3.Location = new Point(134, 0);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(666, 450);
+            panel3.TabIndex = 2;
+            // 
+            // panelPaginacion
+            // 
+            panelPaginacion.BackColor = SystemColors.GradientActiveCaption;
+            panelPaginacion.Controls.Add(tableLayoutPanel1);
+            panelPaginacion.Dock = DockStyle.Bottom;
+            panelPaginacion.Location = new Point(0, 329);
+            panelPaginacion.Name = "panelPaginacion";
+            panelPaginacion.Size = new Size(666, 121);
+            panelPaginacion.TabIndex = 7;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 3;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel1.Controls.Add(siguienteBtn, 2, 0);
+            tableLayoutPanel1.Controls.Add(anteriorBtn, 0, 0);
+            tableLayoutPanel1.Controls.Add(paginacionLbl, 1, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Size = new Size(666, 121);
+            tableLayoutPanel1.TabIndex = 6;
+            // 
+            // siguienteBtn
+            // 
+            siguienteBtn.Anchor = AnchorStyles.Top;
+            siguienteBtn.Location = new Point(496, 10);
+            siguienteBtn.Margin = new Padding(3, 10, 3, 3);
+            siguienteBtn.Name = "siguienteBtn";
+            siguienteBtn.Size = new Size(167, 50);
+            siguienteBtn.TabIndex = 3;
+            siguienteBtn.Text = "Siguiente ▶";
+            siguienteBtn.UseVisualStyleBackColor = true;
+            siguienteBtn.Click += siguienteBtn_Click;
+            // 
+            // anteriorBtn
+            // 
+            anteriorBtn.Anchor = AnchorStyles.Top;
+            anteriorBtn.Location = new Point(3, 10);
+            anteriorBtn.Margin = new Padding(3, 10, 3, 3);
+            anteriorBtn.Name = "anteriorBtn";
+            anteriorBtn.Size = new Size(167, 50);
+            anteriorBtn.TabIndex = 4;
+            anteriorBtn.Text = "◀ Anterior";
+            anteriorBtn.UseVisualStyleBackColor = true;
+            anteriorBtn.Click += anteriorBtn_Click;
+            // 
+            // paginacionLbl
+            // 
+            paginacionLbl.Anchor = AnchorStyles.Top;
+            paginacionLbl.AutoSize = true;
+            paginacionLbl.Location = new Point(294, 30);
+            paginacionLbl.Margin = new Padding(3, 30, 3, 0);
+            paginacionLbl.Name = "paginacionLbl";
+            paginacionLbl.Size = new Size(77, 15);
+            paginacionLbl.TabIndex = 5;
+            paginacionLbl.Text = "Página 1 de 1";
+            paginacionLbl.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // ClientesP
             // 
@@ -143,7 +225,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonShadow;
             ClientSize = new Size(800, 450);
-            Controls.Add(panel2);
+            Controls.Add(panel3);
             Controls.Add(panel1);
             ForeColor = SystemColors.ControlText;
             Name = "ClientesP";
@@ -153,6 +235,10 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            panel3.ResumeLayout(false);
+            panelPaginacion.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -166,5 +252,11 @@
         private DataGridView dataGridView1;
         private Button BuscCliBtn;
         private TextBox BusquedaTxtBox;
+        private Panel panel3;
+        private Panel panelPaginacion;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Button siguienteBtn;
+        private Button anteriorBtn;
+        private Label paginacionLbl;
     }
 }

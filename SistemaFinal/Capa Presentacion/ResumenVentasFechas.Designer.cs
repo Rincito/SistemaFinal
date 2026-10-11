@@ -58,6 +58,7 @@
             Controls.Add(label1);
             Name = "ResumenVentasFechas";
             Text = "ResumenVentasFechas";
+            Load += ResumenVentasFechas_Load;
             ResumeLayout(false);
             PerformLayout();
         }

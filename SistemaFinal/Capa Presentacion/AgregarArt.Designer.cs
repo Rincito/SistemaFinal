@@ -41,10 +41,8 @@
             label9 = new Label();
             IVATxtBox = new TextBox();
             label8 = new Label();
-            ProvComBox = new ComboBox();
             RubroComBox = new ComboBox();
             MarcCombBox = new ComboBox();
-            label7 = new Label();
             StockTxtBox = new TextBox();
             PrecTxtBox = new TextBox();
             label6 = new Label();
@@ -90,10 +88,8 @@
             panel1.Controls.Add(label9);
             panel1.Controls.Add(IVATxtBox);
             panel1.Controls.Add(label8);
-            panel1.Controls.Add(ProvComBox);
             panel1.Controls.Add(RubroComBox);
             panel1.Controls.Add(MarcCombBox);
-            panel1.Controls.Add(label7);
             panel1.Controls.Add(StockTxtBox);
             panel1.Controls.Add(PrecTxtBox);
             panel1.Controls.Add(label6);
@@ -114,7 +110,7 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label13.Location = new Point(667, 76);
+            label13.Location = new Point(668, 107);
             label13.Name = "label13";
             label13.Size = new Size(409, 21);
             label13.TabIndex = 27;
@@ -142,7 +138,7 @@
             // StockCritTxtBox
             // 
             StockCritTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            StockCritTxtBox.Location = new Point(779, 261);
+            StockCritTxtBox.Location = new Point(756, 235);
             StockCritTxtBox.Name = "StockCritTxtBox";
             StockCritTxtBox.Size = new Size(248, 29);
             StockCritTxtBox.TabIndex = 24;
@@ -151,7 +147,7 @@
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.Location = new Point(779, 217);
+            label11.Location = new Point(756, 191);
             label11.Name = "label11";
             label11.Size = new Size(125, 25);
             label11.TabIndex = 23;
@@ -170,7 +166,7 @@
             // GananciaTxtBox
             // 
             GananciaTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            GananciaTxtBox.Location = new Point(779, 431);
+            GananciaTxtBox.Location = new Point(756, 405);
             GananciaTxtBox.Name = "GananciaTxtBox";
             GananciaTxtBox.Size = new Size(248, 29);
             GananciaTxtBox.TabIndex = 21;
@@ -180,7 +176,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(779, 389);
+            label9.Location = new Point(756, 363);
             label9.Name = "label9";
             label9.Size = new Size(115, 25);
             label9.TabIndex = 20;
@@ -189,7 +185,7 @@
             // IVATxtBox
             // 
             IVATxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            IVATxtBox.Location = new Point(779, 344);
+            IVATxtBox.Location = new Point(756, 318);
             IVATxtBox.Name = "IVATxtBox";
             IVATxtBox.Size = new Size(248, 29);
             IVATxtBox.TabIndex = 19;
@@ -199,27 +195,17 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(779, 303);
+            label8.Location = new Point(756, 277);
             label8.Name = "label8";
             label8.Size = new Size(64, 25);
             label8.TabIndex = 18;
             label8.Text = "IVA %";
             // 
-            // ProvComBox
-            // 
-            ProvComBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            ProvComBox.FormattingEnabled = true;
-            ProvComBox.Location = new Point(13, 431);
-            ProvComBox.Name = "ProvComBox";
-            ProvComBox.Size = new Size(248, 29);
-            ProvComBox.TabIndex = 17;
-            ProvComBox.SelectedIndexChanged += ProvComBox_SelectedIndexChanged;
-            // 
             // RubroComBox
             // 
             RubroComBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             RubroComBox.FormattingEnabled = true;
-            RubroComBox.Location = new Point(13, 344);
+            RubroComBox.Location = new Point(33, 405);
             RubroComBox.Name = "RubroComBox";
             RubroComBox.Size = new Size(248, 29);
             RubroComBox.TabIndex = 16;
@@ -228,20 +214,10 @@
             // 
             MarcCombBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MarcCombBox.FormattingEnabled = true;
-            MarcCombBox.Location = new Point(13, 261);
+            MarcCombBox.Location = new Point(33, 322);
             MarcCombBox.Name = "MarcCombBox";
             MarcCombBox.Size = new Size(248, 29);
             MarcCombBox.TabIndex = 15;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(13, 389);
-            label7.Name = "label7";
-            label7.Size = new Size(106, 25);
-            label7.TabIndex = 14;
-            label7.Text = "Proveedor";
             // 
             // StockTxtBox
             // 
@@ -264,7 +240,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(13, 303);
+            label6.Location = new Point(33, 363);
             label6.Name = "label6";
             label6.Size = new Size(68, 25);
             label6.TabIndex = 11;
@@ -295,7 +271,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(13, 217);
+            label3.Location = new Point(33, 277);
             label3.Name = "label3";
             label3.Size = new Size(67, 25);
             label3.TabIndex = 8;
@@ -322,7 +298,7 @@
             // CodTxtBox
             // 
             CodTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            CodTxtBox.Location = new Point(13, 175);
+            CodTxtBox.Location = new Point(33, 235);
             CodTxtBox.Name = "CodTxtBox";
             CodTxtBox.Size = new Size(248, 29);
             CodTxtBox.TabIndex = 5;
@@ -331,11 +307,12 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(13, 127);
+            label1.Location = new Point(33, 191);
             label1.Name = "label1";
             label1.Size = new Size(77, 25);
             label1.TabIndex = 4;
             label1.Text = "Código";
+            label1.Click += label1_Click;
             // 
             // AgregarArt
             // 
@@ -364,12 +341,10 @@
         private TextBox NomTxtBox;
         private Label label4;
         private Label label3;
-        private Label label7;
         private TextBox StockTxtBox;
         private TextBox PrecTxtBox;
         private Label label6;
         private Label label5;
-        private ComboBox ProvComBox;
         private ComboBox RubroComBox;
         private ComboBox MarcCombBox;
         private TextBox GananciaTxtBox;

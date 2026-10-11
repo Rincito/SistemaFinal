@@ -39,10 +39,18 @@
             AgArtBtn = new Button();
             panel2 = new Panel();
             BusquedaTxtBox = new TextBox();
-            BorrarBtn = new Button();
+            siguienteBtn = new Button();
+            anteriorBtn = new Button();
+            panelPaginacion = new Panel();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            paginacionLbl = new Label();
+            panel3 = new Panel();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
+            panelPaginacion.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridView1
@@ -54,7 +62,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(666, 450);
+            dataGridView1.Size = new Size(666, 336);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentDoubleClick += dataGridView1_CellContentDoubleClick;
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
@@ -63,7 +71,6 @@
             // panel1
             // 
             panel1.BackColor = Color.DarkSlateGray;
-            panel1.Controls.Add(BorrarBtn);
             panel1.Controls.Add(BuscarArtBtn);
             panel1.Controls.Add(StockActual);
             panel1.Controls.Add(DadosBaja);
@@ -74,7 +81,7 @@
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(134, 450);
+            panel1.Size = new Size(134, 457);
             panel1.TabIndex = 1;
             // 
             // BuscarArtBtn
@@ -161,15 +168,15 @@
             panel2.Controls.Add(BusquedaTxtBox);
             panel2.Controls.Add(dataGridView1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(134, 0);
+            panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(666, 450);
+            panel2.Size = new Size(666, 336);
             panel2.TabIndex = 2;
             panel2.PreviewKeyDown += panel2_PreviewKeyDown;
             // 
             // BusquedaTxtBox
             // 
-            BusquedaTxtBox.Location = new Point(173, 237);
+            BusquedaTxtBox.Location = new Point(33, 139);
             BusquedaTxtBox.Name = "BusquedaTxtBox";
             BusquedaTxtBox.Size = new Size(323, 23);
             BusquedaTxtBox.TabIndex = 1;
@@ -177,24 +184,88 @@
             BusquedaTxtBox.KeyDown += BusquedaTxtBox_KeyDown;
             BusquedaTxtBox.Leave += BusquedaTxtBox_Leave;
             // 
-            // BorrarBtn
+            // siguienteBtn
             // 
-            BorrarBtn.Dock = DockStyle.Top;
-            BorrarBtn.Location = new Point(0, 385);
-            BorrarBtn.Name = "BorrarBtn";
-            BorrarBtn.Size = new Size(134, 55);
-            BorrarBtn.TabIndex = 7;
-            BorrarBtn.Text = "Borrar Artículo (Permanente)";
-            BorrarBtn.UseVisualStyleBackColor = true;
-            BorrarBtn.Click += BorrarBtn_Click;
+            siguienteBtn.Anchor = AnchorStyles.Top;
+            siguienteBtn.Location = new Point(496, 10);
+            siguienteBtn.Margin = new Padding(3, 10, 3, 3);
+            siguienteBtn.Name = "siguienteBtn";
+            siguienteBtn.Size = new Size(167, 50);
+            siguienteBtn.TabIndex = 3;
+            siguienteBtn.Text = "Siguiente ▶";
+            siguienteBtn.UseVisualStyleBackColor = true;
+            siguienteBtn.Click += siguienteBtn_Click;
+            // 
+            // anteriorBtn
+            // 
+            anteriorBtn.Anchor = AnchorStyles.Top;
+            anteriorBtn.Location = new Point(3, 10);
+            anteriorBtn.Margin = new Padding(3, 10, 3, 3);
+            anteriorBtn.Name = "anteriorBtn";
+            anteriorBtn.Size = new Size(167, 50);
+            anteriorBtn.TabIndex = 4;
+            anteriorBtn.Text = "◀ Anterior";
+            anteriorBtn.UseVisualStyleBackColor = true;
+            anteriorBtn.Click += anteriorBtn_Click;
+            // 
+            // panelPaginacion
+            // 
+            panelPaginacion.BackColor = SystemColors.GradientActiveCaption;
+            panelPaginacion.Controls.Add(tableLayoutPanel1);
+            panelPaginacion.Dock = DockStyle.Bottom;
+            panelPaginacion.Location = new Point(0, 336);
+            panelPaginacion.Name = "panelPaginacion";
+            panelPaginacion.Size = new Size(666, 121);
+            panelPaginacion.TabIndex = 6;
+            panelPaginacion.Paint += panelPaginacion_Paint;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 3;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel1.Controls.Add(siguienteBtn, 2, 0);
+            tableLayoutPanel1.Controls.Add(anteriorBtn, 0, 0);
+            tableLayoutPanel1.Controls.Add(paginacionLbl, 1, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Size = new Size(666, 121);
+            tableLayoutPanel1.TabIndex = 6;
+            // 
+            // paginacionLbl
+            // 
+            paginacionLbl.Anchor = AnchorStyles.Top;
+            paginacionLbl.AutoSize = true;
+            paginacionLbl.Location = new Point(294, 30);
+            paginacionLbl.Margin = new Padding(3, 30, 3, 0);
+            paginacionLbl.Name = "paginacionLbl";
+            paginacionLbl.Size = new Size(77, 15);
+            paginacionLbl.TabIndex = 5;
+            paginacionLbl.Text = "Página 1 de 1";
+            paginacionLbl.TextAlign = ContentAlignment.MiddleCenter;
+            paginacionLbl.Click += paginacionLbl_Click;
+            // 
+            // panel3
+            // 
+            panel3.Controls.Add(panel2);
+            panel3.Controls.Add(panelPaginacion);
+            panel3.Dock = DockStyle.Fill;
+            panel3.Location = new Point(134, 0);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(666, 457);
+            panel3.TabIndex = 7;
             // 
             // ArticulosP
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(800, 450);
-            Controls.Add(panel2);
+            ClientSize = new Size(800, 457);
+            Controls.Add(panel3);
             Controls.Add(panel1);
             Name = "ArticulosP";
             Text = "ArticulosP";
@@ -205,6 +276,10 @@
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            panelPaginacion.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
+            panel3.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -221,6 +296,11 @@
         private TextBox BusquedaTxtBox;
         private Button StockActual;
         private Button BuscarArtBtn;
-        private Button BorrarBtn;
+        private Button siguienteBtn;
+        private Button anteriorBtn;
+        private Panel panelPaginacion;
+        private Panel panel3;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Label paginacionLbl;
     }
 }

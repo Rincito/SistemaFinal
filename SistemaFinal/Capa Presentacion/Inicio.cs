@@ -112,6 +112,7 @@ namespace SistemaFinal.Capa_Presentacion
         private void button8_Click(object sender, EventArgs e)
         {
             this.Close();
+
         }
 
         private void salidaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -129,7 +130,7 @@ namespace SistemaFinal.Capa_Presentacion
 
         }
 
-      
+
 
         private void ArtBtn_Click(object sender, EventArgs e)
         {
@@ -177,24 +178,15 @@ namespace SistemaFinal.Capa_Presentacion
             }
             if (e.KeyCode == Keys.F3)
             {
-                CompBtn.PerformClick();
+                VentBtn.PerformClick();
             }
             if (e.KeyCode == Keys.F4)
             {
-                VentBtn.PerformClick();
+                ConsVenBtn.PerformClick();
             }
         }
 
-        private void CompBtn_Click(object sender, EventArgs e)
-        {
-            panel2.Controls.Clear();
-            ComprasP formulario = new ComprasP();
-            formulario.TopLevel = false;
-            formulario.FormBorderStyle = FormBorderStyle.None;
-            formulario.Dock = DockStyle.Fill;
-            panel2.Controls.Add(formulario);
-            formulario.Show();
-        }
+
 
         private void VentBtn_Click(object sender, EventArgs e)
         {
@@ -243,6 +235,7 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void Inicio_Load(object sender, EventArgs e)
         {
+            ActualizarMenuNotificaciones();
             string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
             CajaL caja = new CajaL();
             if (!caja.CajaInicialExistente(fechaActual))
@@ -304,12 +297,92 @@ namespace SistemaFinal.Capa_Presentacion
         private void ventasPorVendedorToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+            using (VentasXVend ventasXVendForm = new VentasXVend())
+            {
+                if (ventasXVendForm.ShowDialog() == DialogResult.OK)
+                {
+                    string fechaInicio = ventasXVendForm.FechaInicio;
+                    string fechaFin = ventasXVendForm.FechaFin;
+                    string vendedorSeleccionado = ventasXVendForm.VendedorSeleccionado;
+
+                    // Se abre EL MISMO ResumenVentasFechas, pero filtrará automáticamente por ese vendedor
+                    ResumenVentasFechas formulario = new ResumenVentasFechas(fechaInicio, fechaFin, vendedorSeleccionado);
+
+                    panel2.Controls.Clear();
+                    formulario.TopLevel = false;
+                    formulario.FormBorderStyle = FormBorderStyle.None;
+                    formulario.Dock = DockStyle.Fill;
+                    panel2.Controls.Add(formulario);
+                    formulario.Show();
+                }
+            }
         }
 
         private void gestiónUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Usuarios formulario = new Usuarios(this);
             formulario.Show();
+        }
+        public void ActualizarMenuNotificaciones()
+        {
+            NotificacionL notifL = new NotificacionL();
+            int noLeidas = notifL.ObtenerCantidadNoLeidas();
+
+            // Reemplazá 'notificacionesToolStripMenuItem' por el Name real de tu menú padre de notificaciones
+            if (noLeidas > 0)
+            {
+                notificacionesToolStripMenuItem.Text = $"🔔 Notificaciones ({noLeidas})";
+                notificacionesToolStripMenuItem.ForeColor = System.Drawing.Color.Red;
+            }
+            else
+            {
+                notificacionesToolStripMenuItem.Text = "🔔 Notificaciones";
+                notificacionesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+            }
+        }
+
+        private void ventasConTarjetaDelDíaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResumenVentasFechas formulario = new ResumenVentasFechas(esModoTarjeta: true);
+            panel2.Controls.Clear();
+            formulario.TopLevel = false;
+            formulario.FormBorderStyle = FormBorderStyle.None;
+            formulario.Dock = DockStyle.Fill;
+            panel2.Controls.Add(formulario);
+            formulario.Show();
+        }
+
+        private void notificacionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void generalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PanelNotificaciones formNotif = new PanelNotificaciones("Todas");
+            formNotif.ShowDialog();
+            ActualizarMenuNotificaciones();
+        }
+
+        private void cajaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            PanelNotificaciones formNotif = new PanelNotificaciones("Caja");
+            formNotif.ShowDialog();
+            ActualizarMenuNotificaciones();
+        }
+
+        private void productosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PanelNotificaciones formNotif = new PanelNotificaciones("Productos");
+            formNotif.ShowDialog();
+            ActualizarMenuNotificaciones();
+        }
+
+        private void gastosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PanelNotificaciones formNotif = new PanelNotificaciones("Gastos");
+            formNotif.ShowDialog();
+            ActualizarMenuNotificaciones();
         }
     }
 }

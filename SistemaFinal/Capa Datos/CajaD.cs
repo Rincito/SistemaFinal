@@ -274,67 +274,6 @@ namespace SistemaFinal.Capa_Datos
             }
             return totalEfectivo.ToString("F2");
         }
-        public string ComprasEfect(string fechaActual)
-        {
-
-            decimal totalEfectivo = 0;
-
-            using (SQLiteConnection conn = new SQLiteConnection(connectionString))
-            {
-                conn.Open();
-
-                string query = @"
-                SELECT SUM(Total) 
-                FROM Detalles_Compra 
-                WHERE Metodo = 'Efectivo' 
-                AND Anulada = 1 
-                AND DATE(FechaHora) = DATE(@Fecha)";
-
-                using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Fecha", fechaActual);
-
-                    var result = cmd.ExecuteScalar();
-
-                    if (result != DBNull.Value)
-                    {
-                        totalEfectivo = Convert.ToDecimal(result);
-                    }
-                }
-            }
-
-
-            return totalEfectivo.ToString("F2");
-        }
-        public string PagosProvEfect(string fechaActual)
-        {
-            decimal totalEfectivo = 0;
-
-            using (SQLiteConnection conn = new SQLiteConnection(connectionString))
-            {
-                conn.Open();
-
-                string query = @"
-                SELECT SUM(Egreso) 
-                FROM Egresos 
-                WHERE Metodo = 'Efectivo' 
-                AND Detalle = 'Pago Proveedor'
-                AND DATE(Fecha) = DATE(@Fecha)";
-
-                using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Fecha", fechaActual);
-
-                    var result = cmd.ExecuteScalar();
-
-                    if (result != DBNull.Value)
-                    {
-                        totalEfectivo = Convert.ToDecimal(result);
-                    }
-                }
-            }
-            return totalEfectivo.ToString("F2");
-        }
         public string PagosVendEfect(string fechaActual)
         {
             decimal totalEfectivo = 0;
@@ -378,67 +317,6 @@ namespace SistemaFinal.Capa_Datos
                 WHERE Metodo = 'Efectivo' 
                 AND DATE(Fecha) = DATE(@Fecha)
                 AND Detalle NOT IN('Pago Vendedor', 'Pago Proveedor')";
-
-                using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Fecha", fechaActual);
-
-                    var result = cmd.ExecuteScalar();
-
-                    if (result != DBNull.Value)
-                    {
-                        totalEfectivo = Convert.ToDecimal(result);
-                    }
-                }
-            }
-            return totalEfectivo.ToString("F2");
-        }
-        public string ComprasTarj(string fechaActual)
-        {
-
-            decimal totalEfectivo = 0;
-
-            using (SQLiteConnection conn = new SQLiteConnection(connectionString))
-            {
-                conn.Open();
-
-                string query = @"
-                SELECT SUM(Total) 
-                FROM Detalles_Compra 
-                WHERE Metodo = 'Tarjeta' 
-                AND Anulada = 1 
-                AND DATE(FechaHora) = DATE(@Fecha)";
-
-                using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Fecha", fechaActual);
-
-                    var result = cmd.ExecuteScalar();
-
-                    if (result != DBNull.Value)
-                    {
-                        totalEfectivo = Convert.ToDecimal(result);
-                    }
-                }
-            }
-
-
-            return totalEfectivo.ToString("F2");
-        }
-        public string PagosProvTarj(string fechaActual)
-        {
-            decimal totalEfectivo = 0;
-
-            using (SQLiteConnection conn = new SQLiteConnection(connectionString))
-            {
-                conn.Open();
-
-                string query = @"
-                SELECT SUM(Egreso) 
-                FROM Egresos 
-                WHERE Metodo = 'Tarjeta' 
-                AND Detalle = 'Pago Proveedor'
-                AND DATE(Fecha) = DATE(@Fecha)";
 
                 using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                 {

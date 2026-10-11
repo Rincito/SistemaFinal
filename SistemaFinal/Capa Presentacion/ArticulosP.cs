@@ -13,15 +13,21 @@ namespace SistemaFinal.Capa_Presentacion
         private Dictionary<string, bool> ordenAscendente = new Dictionary<string, bool>();
         private List<Articulo> listaOriginal = new List<Articulo>();
         private bool buscarInactivos = false;
+
+        private int paginaActual = 1;
+        private int registrosPorPagina = 50;
+        private int totalPaginas = 1;
+
+
+
         public ArticulosP()
         {
             InitializeComponent();
             this.KeyPreview = true;
-            listaOriginal = new ArticuloL().ListarArticulos();
             BusquedaTxtBox.Visible = false;
             dataGridView1.Visible = true;
             dataGridView1.Show();
-            MostDgv();
+            CargarDatosPaginados();
 
         }
         private void button1_Click(object sender, EventArgs e)
@@ -64,15 +70,8 @@ namespace SistemaFinal.Capa_Presentacion
         }
         private void ActualizarDataGridView()
         {
-            ArticuloL datosL = new ArticuloL();
-            listaOriginal = datosL.ListarArticulos();
-
-            var articulosActivos = listaOriginal.Where(articulo => articulo.Activo == 1).ToList();
-
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = articulosActivos;
-
-            ConfigurarColumnasDataGridView();
+            paginaActual = 1;
+            CargarDatosPaginados();
         }
         private void BuscarArtBtn_Click(object sender, EventArgs e)
         {
@@ -173,8 +172,9 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void DadosBaja_Click(object sender, EventArgs e)
         {
-            MostDgvInactivos();
             buscarInactivos = true;
+            paginaActual = 1;
+            CargarDatosPaginados();
         }
 
         private void BusquedaTxtBox_Leave(object sender, EventArgs e)
@@ -189,24 +189,15 @@ namespace SistemaFinal.Capa_Presentacion
         private void MostDgv()
         {
             dataGridView1.Visible = true;
-            var articulosActivos = listaOriginal
-        .Where(articulo => articulo.Activo == 1)
-        .ToList();
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = articulosActivos;
-            ConfigurarColumnasDataGridView();
-
+            buscarInactivos = false;
+            CargarDatosPaginados();
 
         }
         private void MostDgvInactivos()
         {
             dataGridView1.Visible = true;
-            var articulosInactivos = listaOriginal
-        .Where(articulo => articulo.Activo != 1)
-        .ToList();
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = articulosInactivos;
-            ConfigurarColumnasDataGridView();
+            buscarInactivos = true;
+            CargarDatosPaginados();
         }
         protected override void OnKeyDown(KeyEventArgs e)
         {
@@ -242,8 +233,9 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void StockActual_Click(object sender, EventArgs e)
         {
-            ActualizarDataGridView();
             buscarInactivos = false;
+            paginaActual = 1;
+            CargarDatosPaginados();
         }
 
         private void BajaArtBtn_Click(object sender, EventArgs e)
@@ -371,6 +363,53 @@ namespace SistemaFinal.Capa_Presentacion
             }
         }
 
+        private void CargarDatosPaginados()
+        {
+            ArticuloL articuloL = new ArticuloL();
+
+            // 1. Contar total para saber cuántas páginas hay
+            int totalRegistros = articuloL.ObtenerTotalArticulos();
+            totalPaginas = (int)Math.Ceiling((double)totalRegistros / registrosPorPagina);
+            if (totalPaginas == 0) totalPaginas = 1;
+
+            if (paginaActual > totalPaginas) paginaActual = totalPaginas;
+            if (paginaActual < 1) paginaActual = 1;
+
+            // 2. Traer solo los 50 de esta página
+            listaOriginal = articuloL.ListarArticulosPaginados(paginaActual, registrosPorPagina);
+
+            AplicarFiltroVisual();
+            ActualizarControlesPaginacionUI();
+        }
+
+        private void AplicarFiltroVisual()
+        {
+            var listaBase = buscarInactivos
+                ? listaOriginal.Where(a => a.Activo != 1).ToList()
+                : listaOriginal.Where(a => a.Activo == 1).ToList();
+
+            string filtro = BusquedaTxtBox.Text.Trim();
+            if (!string.IsNullOrEmpty(filtro))
+            {
+                listaBase = listaBase.Where(a => a.Nombre.Contains(filtro, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = listaBase;
+            ConfigurarColumnasDataGridView();
+        }
+
+        private void ActualizarControlesPaginacionUI()
+        {
+            if (paginacionLbl != null)
+            {
+                paginacionLbl.Text = $"Página {paginaActual} de {totalPaginas}";
+            }
+
+            if (anteriorBtn != null) anteriorBtn.Enabled = (paginaActual > 1);
+            if (siguienteBtn != null) siguienteBtn.Enabled = (paginaActual < totalPaginas);
+        }
+
         private void ArticulosP_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -378,83 +417,35 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void BusquedaTxtBox_TextChanged(object sender, EventArgs e)
         {
-            string filtro = BusquedaTxtBox.Text.Trim();
-            var listaBase = buscarInactivos
-        ? listaOriginal.Where(articulo => articulo.Activo != 1).ToList()
-        : listaOriginal.Where(articulo => articulo.Activo == 1).ToList();
-            var articulosFiltrados = listaBase
-        .Where(articulo => articulo.Nombre.Contains(filtro, StringComparison.OrdinalIgnoreCase))
-        .ToList();
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = articulosFiltrados;
-            ConfigurarColumnasDataGridView();
+            AplicarFiltroVisual();
+        }
+
+        private void siguienteBtn_Click(object sender, EventArgs e)
+        {
+            if (paginaActual < totalPaginas)
+            {
+                paginaActual++;
+                CargarDatosPaginados();
+            }
+        }
+
+        private void anteriorBtn_Click(object sender, EventArgs e)
+        {
+            if (paginaActual > 1)
+            {
+                paginaActual--;
+                CargarDatosPaginados();
+            }
+        }
+
+        private void panelPaginacion_Paint(object sender, PaintEventArgs e)
+        {
 
         }
 
-        private void BorrarBtn_Click(object sender, EventArgs e)
+        private void paginacionLbl_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (dataGridView1.SelectedRows.Count > 0)
-                {
-                    DataGridViewRow filaSeleccionada = dataGridView1.SelectedRows[0];
-                    string codigo = filaSeleccionada.Cells["Codigo"].Value.ToString();
-                    string nombre = filaSeleccionada.Cells["Nombre"].Value.ToString();
 
-                    DialogResult confirmacion = MessageBox.Show(
-                        $"¿Está seguro de que desea eliminar el artículo '{nombre}' (Código: {codigo})? Esta acción no se puede deshacer.",
-                        "Confirmar eliminación",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Warning
-                    );
-
-                    if (confirmacion == DialogResult.Yes)
-                    {
-                        ArticuloL articuloL = new ArticuloL();
-                        bool exito = articuloL.BorrarArticulo(codigo);
-
-                        if (exito)
-                        {
-                            MessageBox.Show(
-                                $"El artículo '{nombre}' fue eliminado correctamente.",
-                                "Éxito",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information
-                            );
-                            ArticuloL datosL = new ArticuloL();
-                            listaOriginal = datosL.ListarArticulos().ToList();
-                            MostDgv();
-                        }
-                        else
-                        {
-                            MessageBox.Show(
-                                "No se pudo eliminar el artículo. Verifique la información.",
-                                "Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error
-                            );
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(
-                        "Debe seleccionar una fila para eliminar.",
-                        "Advertencia",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Algo ha salido mal: " + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-            }
         }
     }
 }

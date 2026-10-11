@@ -44,7 +44,6 @@ namespace SistemaFinal.Capa_Presentacion
             string rolTexto = ComboBoxRol.SelectedItem.ToString(); ;
             if (logica.ValidarIngreso(contra, rolTexto, out string error, out int rolNumero, out UsuarioDTO usuario))
             {
-                MessageBox.Show("¡Ingreso correcto!", "Bienvenido", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Redirección según el rol
                 if (rolNumero == 1)

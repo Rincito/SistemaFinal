@@ -52,14 +52,6 @@ namespace SistemaFinal.Capa_Logica
         {
             return CajaD.CCTarj(fecha);
         }
-        public string ComprasEfect(string fecha)
-        {
-            return CajaD.ComprasEfect(fecha);
-        }
-        public string PagosProvEfect(string fecha)
-        {
-            return CajaD.PagosProvEfect(fecha);
-        }
         public string PagosVendEfect(string fecha)
         {
             return CajaD.PagosVendEfect(fecha);
@@ -67,14 +59,6 @@ namespace SistemaFinal.Capa_Logica
         public string RetiroOtrosEfect(string fecha)
         {
             return CajaD.RetiroOtrosEfect(fecha);
-        }
-        public string ComprasTarj(string fecha)
-        {
-            return CajaD.ComprasTarj(fecha);
-        }
-        public string PagosProvTarj(string fecha)
-        {
-            return CajaD.PagosProvTarj(fecha);
         }
         public string PagosVendTarj(string fecha)
         {

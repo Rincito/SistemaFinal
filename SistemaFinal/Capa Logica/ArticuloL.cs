@@ -13,27 +13,19 @@ namespace SistemaFinal.Capa_Logica
         {
             return articuloD.ObtenerMarcas();
         }
-        public List<string> ObtenerListaProvs()
-        {
-            return articuloD.ObtenerProveedores();
-        }
-        public bool GuardarProducto(string codigo, string nombre, int stock, decimal costo, decimal precio, int stockCritico, decimal iva, decimal ganancia, string marca, string rubro, string proveedor)
+       
+        public bool GuardarProducto(string codigo, string nombre, int stock, decimal costo, decimal precio, int stockCritico, decimal iva, decimal ganancia, string marca, string rubro)
         {
             try
             {
 
-                int proveedorID = articuloD.ObtenerIDProveedorPorNombre(proveedor);
 
-                if (proveedorID == 0)
-                {
-                    throw new Exception("El proveedor seleccionado no existe.");
-                }
                 if (articuloD.ExisteArticulo(codigo, nombre))
                 {
                     throw new Exception("Ya existe un artículo con el mismo código o nombre.");
                 }
 
-                return articuloD.GuardarProducto(codigo, nombre, stock, costo, precio, stockCritico, iva, ganancia, marca, rubro, proveedorID);
+                return articuloD.GuardarProducto(codigo, nombre, stock, costo, precio, stockCritico, iva, ganancia, marca, rubro);
             }
             catch (Exception ex)
             {
@@ -43,6 +35,15 @@ namespace SistemaFinal.Capa_Logica
         public List<Articulo> ListarArticulos()
         {
             return articuloD.ListarArticulos();
+        }
+        public int ObtenerTotalArticulos()
+        {
+            return articuloD.ObtenerTotalArticulos();
+        }
+
+        public List<Articulo> ListarArticulosPaginados(int pagina, int registrosPorPagina)
+        {
+            return articuloD.ListarArticulosPaginados(pagina, registrosPorPagina);
         }
         public bool DarDeBajaArticulo(string codigo)
         {
@@ -97,18 +98,6 @@ namespace SistemaFinal.Capa_Logica
 
             return articuloD.ActualizarArticulo(articulo, codviejo);
 
-        }
-        public bool BorrarArticulo(string codigo)
-        {
-            try
-            {
-                ArticuloD articuloD = new ArticuloD();
-                return articuloD.BorrarArticulo(codigo);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al intentar eliminar el artículo.", ex);
-            }
         }
 
     }

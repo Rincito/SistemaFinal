@@ -84,6 +84,60 @@ namespace SistemaFinal.Capa_Datos
             return clientes;
         }
 
+        public int ObtenerTotalClientes()
+        {
+            int total = 0;
+            string query = "SELECT COUNT(*) FROM Clientes"; 
+
+            
+            using (var conexion = new SQLiteConnection(connectionString))
+            {
+                conexion.Open();
+                using (var comando = new SQLiteCommand(query, conexion))
+                {
+                    total = Convert.ToInt32(comando.ExecuteScalar());
+                }
+            }
+            return total;
+        }
+
+        public List<Cliente> ListarClientesPaginados(int paginaActual, int registrosPorPagina)
+        {
+            var lista = new List<Cliente>();
+            int offset = (paginaActual - 1) * registrosPorPagina;
+
+            // Consulta con paginación para SQLite
+            string query = "SELECT * FROM Clientes LIMIT @registros OFFSET @offset";
+
+            using (var conexion = new SQLiteConnection(connectionString))
+            {
+                conexion.Open();
+                using (var comando = new SQLiteCommand(query, conexion))
+                {
+                    comando.Parameters.AddWithValue("@registros", registrosPorPagina);
+                    comando.Parameters.AddWithValue("@offset", offset);
+
+                    using (var reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Cliente cliente = new Cliente
+                            {
+                                // Mapea las propiedades de tu objeto Cliente según las columnas de tu BD
+                                // Ejemplo:
+                                // Id = Convert.ToInt32(reader["Id"]),
+                                Nombre = reader["Nombre"].ToString(),
+                                CuenCo = Convert.ToDecimal(reader["CuenCo"])
+                                // ... demas propiedades
+                            };
+                            lista.Add(cliente);
+                        }
+                    }
+                }
+            }
+            return lista;
+        }
+
         public bool ActualizarCliente(Cliente cliente, string cuil)
         {
             try

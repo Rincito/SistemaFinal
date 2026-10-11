@@ -139,6 +139,7 @@
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Pago a Vendedor";
+            Load += PagoVendedores_Load;
             ResumeLayout(false);
             PerformLayout();
         }

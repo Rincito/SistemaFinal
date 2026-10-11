@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            AuMinTxtBox = new TextBox();
+            label14 = new Label();
             label13 = new Label();
             label12 = new Label();
             RubComBox = new ComboBox();
             MarcComBox = new ComboBox();
-            ProvComBox = new ComboBox();
             label11 = new Label();
             label10 = new Label();
-            label9 = new Label();
             IVATxtBox = new TextBox();
             GanTxtBox = new TextBox();
             label8 = new Label();
@@ -55,8 +55,6 @@
             label1 = new Label();
             CancelBtn = new Button();
             SaveBtn = new Button();
-            label14 = new Label();
-            AuMinTxtBox = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -69,10 +67,8 @@
             panel1.Controls.Add(label12);
             panel1.Controls.Add(RubComBox);
             panel1.Controls.Add(MarcComBox);
-            panel1.Controls.Add(ProvComBox);
             panel1.Controls.Add(label11);
             panel1.Controls.Add(label10);
-            panel1.Controls.Add(label9);
             panel1.Controls.Add(IVATxtBox);
             panel1.Controls.Add(GanTxtBox);
             panel1.Controls.Add(label8);
@@ -94,6 +90,25 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(492, 439);
             panel1.TabIndex = 3;
+            // 
+            // AuMinTxtBox
+            // 
+            AuMinTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            AuMinTxtBox.Location = new Point(12, 382);
+            AuMinTxtBox.Name = "AuMinTxtBox";
+            AuMinTxtBox.Size = new Size(116, 29);
+            AuMinTxtBox.TabIndex = 28;
+            AuMinTxtBox.Leave += AuMinTxtBox_Leave;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label14.Location = new Point(12, 337);
+            label14.Name = "label14";
+            label14.Size = new Size(113, 42);
+            label14.TabIndex = 27;
+            label14.Text = "Sumar/Restar\r\nStock\r\n";
             // 
             // label13
             // 
@@ -119,7 +134,7 @@
             // 
             RubComBox.Font = new Font("Segoe UI", 12F);
             RubComBox.FormattingEnabled = true;
-            RubComBox.Location = new Point(153, 382);
+            RubComBox.Location = new Point(153, 297);
             RubComBox.Name = "RubComBox";
             RubComBox.Size = new Size(186, 29);
             RubComBox.TabIndex = 24;
@@ -128,27 +143,16 @@
             // 
             MarcComBox.Font = new Font("Segoe UI", 12F);
             MarcComBox.FormattingEnabled = true;
-            MarcComBox.Location = new Point(153, 297);
+            MarcComBox.Location = new Point(153, 205);
             MarcComBox.Name = "MarcComBox";
             MarcComBox.Size = new Size(186, 29);
             MarcComBox.TabIndex = 23;
-            // 
-            // ProvComBox
-            // 
-            ProvComBox.Font = new Font("Segoe UI", 12F);
-            ProvComBox.FormattingEnabled = true;
-            ProvComBox.Location = new Point(153, 205);
-            ProvComBox.Name = "ProvComBox";
-            ProvComBox.Size = new Size(186, 29);
-            ProvComBox.TabIndex = 22;
-            ProvComBox.DisplayMemberChanged += ProvComBox_DisplayMemberChanged;
-            ProvComBox.ValueMemberChanged += ProvComBox_ValueMemberChanged;
             // 
             // label11
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.Location = new Point(153, 346);
+            label11.Location = new Point(154, 255);
             label11.Name = "label11";
             label11.Size = new Size(60, 21);
             label11.TabIndex = 21;
@@ -158,26 +162,16 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(153, 255);
+            label10.Location = new Point(153, 163);
             label10.Name = "label10";
             label10.Size = new Size(61, 21);
             label10.TabIndex = 20;
             label10.Text = "Marca:";
             // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(153, 163);
-            label9.Name = "label9";
-            label9.Size = new Size(94, 21);
-            label9.TabIndex = 19;
-            label9.Text = "Proveedor:";
-            // 
             // IVATxtBox
             // 
             IVATxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            IVATxtBox.Location = new Point(364, 382);
+            IVATxtBox.Location = new Point(154, 382);
             IVATxtBox.Name = "IVATxtBox";
             IVATxtBox.Size = new Size(116, 29);
             IVATxtBox.TabIndex = 18;
@@ -196,7 +190,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(364, 346);
+            label8.Location = new Point(154, 346);
             label8.Name = "label8";
             label8.Size = new Size(40, 21);
             label8.TabIndex = 16;
@@ -343,25 +337,6 @@
             SaveBtn.UseVisualStyleBackColor = true;
             SaveBtn.Click += SaveBtn_Click;
             // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.Location = new Point(12, 337);
-            label14.Name = "label14";
-            label14.Size = new Size(113, 42);
-            label14.TabIndex = 27;
-            label14.Text = "Sumar/Restar\r\nStock\r\n";
-            // 
-            // AuMinTxtBox
-            // 
-            AuMinTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            AuMinTxtBox.Location = new Point(12, 382);
-            AuMinTxtBox.Name = "AuMinTxtBox";
-            AuMinTxtBox.Size = new Size(116, 29);
-            AuMinTxtBox.TabIndex = 28;
-            AuMinTxtBox.Leave += AuMinTxtBox_Leave;
-            // 
             // ModificarArt
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -403,11 +378,9 @@
         private TextBox GanTxtBox;
         private Label label8;
         private Label label7;
-        private Label label9;
         private TextBox IVATxtBox;
         private ComboBox RubComBox;
         private ComboBox MarcComBox;
-        private ComboBox ProvComBox;
         private Label label11;
         private Label label10;
         private Label label12;

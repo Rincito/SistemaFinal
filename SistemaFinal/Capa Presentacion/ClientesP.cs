@@ -12,25 +12,24 @@ namespace SistemaFinal.Capa_Presentacion
         private Dictionary<string, bool> ordenAscendente = new Dictionary<string, bool>();
         private List<Cliente> listaOriginal = new List<Cliente>();
 
+        private int paginaActual = 1;
+        private int registrosPorPagina = 50;
+        private int totalPaginas = 1;
+
         public ClientesP()
         {
             InitializeComponent();
             this.KeyPreview = true;
-            listaOriginal = new ClienteL().ListarClientes();
             BusquedaTxtBox.Visible = false;
             dataGridView1.Visible = true;
             dataGridView1.Show();
-            MostDgv();
+            CargarDatosPaginados();
         }
         private void MostDgv()
         {
             dataGridView1.Visible = true;
-            var clientesActivos = listaOriginal
-        .Where(cliente => !string.IsNullOrEmpty(cliente.Nombre))
-        .ToList();
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = clientesActivos;
-            ConfigurarColumnasDataGridView();
+            paginaActual = 1;
+            CargarDatosPaginados();
 
         }
         protected override void OnKeyDown(KeyEventArgs e)
@@ -43,21 +42,15 @@ namespace SistemaFinal.Capa_Presentacion
         }
         private void ConfigurarColumnasDataGridView()
         {
-                dataGridView1.Columns["CuenCo"].HeaderText = "Deuda";
+            dataGridView1.Columns["CuenCo"].HeaderText = "Deuda";
             if (dataGridView1.Columns["CUILViejo"] != null)
                 dataGridView1.Columns["CUILViejo"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
         private void ActualizarDataGridView()
         {
-            ClienteL datosL = new ClienteL();
-            var clientesActivos = datosL.ListarClientes()
-                .Where(cliente => cliente.Nombre != null)
-                .ToList();
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = clientesActivos;
-            ConfigurarColumnasDataGridView();
-            listaOriginal = clientesActivos;
+            paginaActual = 1;
+            CargarDatosPaginados();
         }
         private void AgCliBtn_Click(object sender, EventArgs e)
         {
@@ -70,6 +63,52 @@ namespace SistemaFinal.Capa_Presentacion
             formulario.ActualizarDataGridViews += ActualizarDataGridView;
             formulario.FormularioCerrado += MostDgv;
             formulario.Show();
+        }
+        private void CargarDatosPaginados()
+        {
+            ClienteL clienteL = new ClienteL();
+
+            // 1. Obtener total de registros para calcular las páginas
+            int totalRegistros = clienteL.ObtenerTotalClientes(); // O tu método equivalente en ClienteL
+            totalPaginas = (int)Math.Ceiling((double)totalRegistros / registrosPorPagina);
+            if (totalPaginas == 0) totalPaginas = 1;
+
+            if (paginaActual > totalPaginas) paginaActual = totalPaginas;
+            if (paginaActual < 1) paginaActual = 1;
+
+            listaOriginal = clienteL.ListarClientesPaginados(paginaActual, registrosPorPagina);
+
+            AplicarFiltroVisual();
+            ActualizarControlesPaginacionUI();
+        }
+
+        private void AplicarFiltroVisual()
+        {
+            var listaBase = listaOriginal
+                .Where(cliente => !string.IsNullOrEmpty(cliente.Nombre))
+                .ToList();
+
+            string filtro = BusquedaTxtBox.Text.Trim();
+            if (!string.IsNullOrEmpty(filtro))
+            {
+                listaBase = listaBase.Where(cliente => cliente.Nombre.Contains(filtro, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = listaBase;
+            ConfigurarColumnasDataGridView();
+        }
+
+        private void ActualizarControlesPaginacionUI()
+        {
+            // Asumiendo que tenés la etiqueta y los botones con los mismos nombres
+            if (paginacionLbl != null)
+            {
+                paginacionLbl.Text = $"Página {paginaActual} de {totalPaginas}";
+            }
+
+            if (anteriorBtn != null) anteriorBtn.Enabled = (paginaActual > 1);
+            if (siguienteBtn != null) siguienteBtn.Enabled = (paginaActual < totalPaginas);
         }
 
         private void ModCliBtn_Click(object sender, EventArgs e)
@@ -127,7 +166,7 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 MessageBox.Show("Por favor, selecciona una fila antes de continuar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            
+
         }
 
         private void BusquedaTxtBox_TextChanged(object sender, EventArgs e)
@@ -186,7 +225,7 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-          
+
         }
 
         private void BusquedaTxtBox_KeyDown(object sender, KeyEventArgs e)
@@ -239,6 +278,24 @@ namespace SistemaFinal.Capa_Presentacion
             else
             {
                 MessageBox.Show("Por favor, selecciona una fila antes de continuar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void siguienteBtn_Click(object sender, EventArgs e)
+        {
+            if (paginaActual < totalPaginas)
+            {
+                paginaActual++;
+                CargarDatosPaginados();
+            }
+        }
+
+        private void anteriorBtn_Click(object sender, EventArgs e)
+        {
+            if (paginaActual > 1)
+            {
+                paginaActual--;
+                CargarDatosPaginados();
             }
         }
     }

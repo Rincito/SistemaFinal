@@ -201,33 +201,6 @@ namespace SistemaFinal.Capa_Datos
 
             return numeroDetalleVenta;
         }
-        public int ObtenerProximoNumeroDetalleCompra()
-        {
-            int numeroDetalleVenta = 1;
-            using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
-            {
-                try
-                {
-                    conexion.Open();
-                    string query = "SELECT MAX(IDCompra) FROM Detalles_Compra";
-
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
-                    {
-                        var resultado = cmd.ExecuteScalar();
-                        if (resultado != DBNull.Value && resultado != null)
-                        {
-                            numeroDetalleVenta = Convert.ToInt32(resultado) + 1;
-                        }
-                    }
-                }
-                catch (SQLiteException ex)
-                {
-                    MessageBox.Show($"Error al obtener el próximo número de detalle de venta: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
-            return numeroDetalleVenta;
-        }
 
 
         public void GuardarDetalleVenta(int numFactura, List<DetalleArticulo> detallesArticulos, string metodo, decimal total, string cuilCliente, string cuilVendedor)
@@ -281,26 +254,6 @@ namespace SistemaFinal.Capa_Datos
                         cmdActualizarStock.Parameters.AddWithValue("@Nombre", detalle.Nombre);
                         cmdActualizarStock.ExecuteNonQuery();
                     }
-                }
-            }
-        }
-
-        public void GuardarDetalleCompra(int numFactura, List<DetalleArticulo> detallesArticulos, string metodo, decimal total, DateTime fechahora, int idProveedor, int activa)
-        {
-            using (SQLiteConnection conn = new SQLiteConnection(connectionString))
-            {
-                conn.Open();
-                string detalleArticulosJson = System.Text.Json.JsonSerializer.Serialize(detallesArticulos);
-                string query = "INSERT INTO Detalles_Compra (NumFact, DetalleArticulos, Metodo, Total, FechaHora, IDProveedor, Anulada) " + "VALUES (@NumFact, @DetalleArticulos, @Metodo, @Total, @FechaHora, @IDProveedor, @Anulada)";
-                using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@NumFact", numFactura);
-                    cmd.Parameters.AddWithValue("@DetalleArticulos", detalleArticulosJson);
-                    cmd.Parameters.AddWithValue("@Metodo", metodo);
-                    cmd.Parameters.AddWithValue("@Total", total);
-                    cmd.Parameters.AddWithValue("@FechaHora", fechahora);
-                    cmd.Parameters.AddWithValue("@IDProveedor", idProveedor);
-                    cmd.Parameters.AddWithValue("@Anulada", activa); cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -378,115 +331,6 @@ namespace SistemaFinal.Capa_Datos
 
         }
 
-        public bool ActualizarStockCompra(string nombreArticulo, int cantidad)
-        {
-            using (SQLiteConnection conn = new SQLiteConnection(connectionString))
-            {
-                try
-                {
-                    conn.Open();
-                    string query = "UPDATE Articulos SET Stock = Stock + @Cantidad WHERE Nombre = @Nombre";
-
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@Cantidad", cantidad);
-                        cmd.Parameters.AddWithValue("@Nombre", nombreArticulo);
-
-                        cmd.ExecuteNonQuery();
-                        return true;
-                    }
-                }
-                catch (SQLiteException ex)
-                {
-                    Console.WriteLine($"Error al actualizar el stock: {ex.Message}");
-                    return false;
-                }
-            }
-        }
-
-        public List<Proveedor> ObtenerProveedor(string tabla)
-        {
-            List<Proveedor> proveedores = new List<Proveedor>();
-
-            using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
-            {
-                try
-                {
-                    conexion.Open();
-                    string query = "SELECT ID, Nombre FROM Proveedores WHERE Activo = 1";
-
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
-                    using (SQLiteDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            proveedores.Add(new Proveedor
-                            {
-                                ID = Convert.ToInt32(reader["ID"]),
-                                Nombre = reader["Nombre"].ToString()
-                            });
-                        }
-                    }
-                }
-                catch (SQLiteException ex)
-                {
-                    MessageBox.Show($"Error al obtener los proveedores: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
-            return proveedores;
-        }
-
-        public bool ActualizarDeuda(int idproveedor, decimal total)
-        {
-            using (SQLiteConnection conn = new SQLiteConnection(connectionString))
-            {
-                try
-                {
-                    conn.Open();
-                    string query = "UPDATE Proveedores SET Deuda = Deuda + @total WHERE ID = @idproveedor";
-
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@total", total);
-                        cmd.Parameters.AddWithValue("@idproveedor", idproveedor);
-
-                        cmd.ExecuteNonQuery();
-                        return true;
-                    }
-                }
-                catch (SQLiteException ex)
-                {
-                    Console.WriteLine($"Error al actualizar la deuda: {ex.Message}");
-                    return false;
-                }
-            }
-        }
-
-        public List<DetalleArticulo> ObtenerDetalleCompra(int numFactura)
-        {
-            List<DetalleArticulo> detalles = new List<DetalleArticulo>();
-            string query = "SELECT DetalleArticulos FROM Detalles_Compra WHERE NumFact = @numFactura";
-
-            using (var conn = new SQLiteConnection(connectionString))
-            {
-                conn.Open();
-                var cmd = new SQLiteCommand(query, conn);
-                cmd.Parameters.AddWithValue("@numFactura", numFactura);
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    // Se asume que 'DetalleArticulos' tiene la información en formato JSON o delimitado
-                    string detalleArticulos = reader["DetalleArticulos"].ToString();
-
-                    // Parsear los detalles del artículo
-                    var articulos = ParsearDetalleArticulos(detalleArticulos); // Método auxiliar para deserializar
-
-                    detalles.AddRange(articulos);
-                }
-            }
-            return detalles;
-        }
         public List<Venta> ObtenerVentasActivas()
         {
             List<Venta> ventas = new List<Venta>();
@@ -846,328 +690,7 @@ namespace SistemaFinal.Capa_Datos
 
             return metodos;
         }
-        public List<Venta> ObtenerComprasActivas()
-        {
-            List<Venta> ventas = new List<Venta>();
-
-            using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
-            {
-
-                conexion.Open();
-
-                string query = @"
-                SELECT 
-                    dv.NumFact, 
-                    dv.FechaHora, 
-                    p.Nombre AS ProveedorNombre,
-                    dv.Metodo,
-                    dv.Total
-                FROM 
-                    Detalles_Compra dv
-                INNER JOIN 
-                    Proveedores p ON dv.IDProveedor = p.ID
-                WHERE 
-                    dv.Anulada = 1";
-
-                using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
-                using (SQLiteDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        ventas.Add(new Venta
-                        {
-                            NumFactura = Convert.ToInt32(reader["NumFact"]),
-                            FechaHora = Convert.ToDateTime(reader["FechaHora"]),
-                            Cliente = reader["ProveedorNombre"].ToString(),
-                            Metodo = reader["Metodo"].ToString(),
-                            Total = Convert.ToDecimal(reader["Total"])
-                        });
-                    }
-                }
-
-
-                return ventas;
-            }
-        }
-        public List<Venta> ObtenerComprasAnuladas()
-        {
-            List<Venta> ventas = new List<Venta>();
-
-            using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
-            {
-                try
-                {
-                    conexion.Open();
-
-                    string query = @"
-                SELECT 
-                    dc.NumFact, 
-                    dc.FechaHora, 
-                    p.Nombre AS ProveedorNombre,
-                    dc.Metodo,
-                    dc.Total
-                FROM 
-                    Detalles_Compra dc
-                INNER JOIN 
-                   Proveedores p ON dc.IDProveedor = p.ID
-                WHERE 
-                    dc.Anulada = 0";
-
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
-                    using (SQLiteDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            ventas.Add(new Venta
-                            {
-                                NumFactura = Convert.ToInt32(reader["NumFact"]),
-                                FechaHora = Convert.ToDateTime(reader["FechaHora"]),
-                                Cliente = reader["ProveedorNombre"].ToString(),
-                                Metodo = reader["Metodo"].ToString(),
-                                Total = Convert.ToDecimal(reader["Total"])
-                            });
-                        }
-                    }
-                }
-                catch (SQLiteException ex)
-                {
-                    MessageBox.Show($"Error al obtener las compras anuladas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
-            return ventas;
-        }
-        public List<Venta> ObtenerComprasEfectivo()
-        {
-            List<Venta> ventas = new List<Venta>();
-
-            using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
-            {
-                try
-                {
-                    conexion.Open();
-
-                    string query = @"
-                SELECT 
-                    v.NumFact, 
-                    v.FechaHora, 
-                    c.Nombre AS ProveedorNombre,
-                    v.Metodo,
-                    v.Total
-                FROM 
-                    Detalles_Compra v
-                INNER JOIN 
-                    Proveedores c ON v.IDProveedor = c.ID
-                WHERE 
-                    v.Anulada = 1 AND v.Metodo = 'Efectivo'";
-
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
-                    using (SQLiteDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            ventas.Add(new Venta
-                            {
-                                NumFactura = Convert.ToInt32(reader["NumFact"]),
-                                FechaHora = Convert.ToDateTime(reader["FechaHora"]),
-                                Cliente = reader["ProveedorNombre"].ToString(),
-                                Metodo = reader["Metodo"].ToString(),
-                                Total = Convert.ToDecimal(reader["Total"])
-                            });
-                        }
-                    }
-                }
-                catch (SQLiteException ex)
-                {
-                    MessageBox.Show($"Error al obtener las compras en efectivo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
-            return ventas;
-        }
-        public List<Venta> ObtenerComprasTarjeta()
-        {
-            List<Venta> ventas = new List<Venta>();
-
-            using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
-            {
-                try
-                {
-                    conexion.Open();
-
-                    string query = @"
-                SELECT 
-                    v.NumFact, 
-                    v.FechaHora, 
-                    c.Nombre AS ProveedorNombre,
-                    v.Metodo,
-                    v.Total
-                FROM 
-                    Detalles_Compra v
-                INNER JOIN 
-                    Proveedores c ON v.IDProveedor = c.ID
-                WHERE 
-                    v.Anulada = 1 AND v.Metodo = 'Tarjeta'";
-
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
-                    using (SQLiteDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            ventas.Add(new Venta
-                            {
-                                NumFactura = Convert.ToInt32(reader["NumFact"]),
-                                FechaHora = Convert.ToDateTime(reader["FechaHora"]),
-                                Cliente = reader["ProveedorNombre"].ToString(),
-                                Metodo = reader["Metodo"].ToString(),
-                                Total = Convert.ToDecimal(reader["Total"])
-                            });
-                        }
-                    }
-                }
-                catch (SQLiteException ex)
-                {
-                    MessageBox.Show($"Error al obtener las compras con tarjeta: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
-            return ventas;
-        }
-        public bool AnularCompra(int numFactura)
-        {
-            using (SQLiteConnection conn = new SQLiteConnection(connectionString))
-            {
-                try
-                {
-                    conn.Open();
-                    string verificarQuery = "SELECT Anulada FROM Detalles_Compra WHERE NumFact = @NumFact";
-                    using (SQLiteCommand verificarCmd = new SQLiteCommand(verificarQuery, conn))
-                    {
-                        verificarCmd.Parameters.AddWithValue("@NumFact", numFactura);
-
-                        object resultado = verificarCmd.ExecuteScalar();
-                        if (resultado == null)
-                        {
-                            MessageBox.Show("La compra no existe.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return false;
-                        }
-
-                        int estadoAnulada = Convert.ToInt32(resultado);
-                        if (estadoAnulada == 0)
-                        {
-                            MessageBox.Show("Esta compra ya está anulada.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return false;
-                        }
-                    }
-                    string anularQuery = "UPDATE Detalles_Compra SET Anulada = 0 WHERE NumFact = @NumFact";
-                    using (SQLiteCommand anularCmd = new SQLiteCommand(anularQuery, conn))
-                    {
-                        anularCmd.Parameters.AddWithValue("@NumFact", numFactura);
-
-                        int filasAfectadas = anularCmd.ExecuteNonQuery();
-                        if (filasAfectadas > 0)
-                        {
-                            MessageBox.Show("La compra se anuló correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return true;
-                        }
-                        else
-                        {
-                            MessageBox.Show("No se pudo anular la compra.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
-                        }
-                    }
-                }
-                catch (SQLiteException ex)
-                {
-                    MessageBox.Show($"Error al anular la compra: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            }
-        }
-        public bool ReactivarCompra(int numFactura)
-        {
-            using (SQLiteConnection conn = new SQLiteConnection(connectionString))
-            {
-                try
-                {
-                    conn.Open();
-
-                    string verificarQuery = "SELECT Anulada FROM Detalles_Compra WHERE NumFact = @NumFact";
-                    using (SQLiteCommand verificarCmd = new SQLiteCommand(verificarQuery, conn))
-                    {
-                        verificarCmd.Parameters.AddWithValue("@NumFact", numFactura);
-
-                        object resultado = verificarCmd.ExecuteScalar();
-                        if (resultado == null)
-                        {
-                            MessageBox.Show("La compra no existe.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return false;
-                        }
-
-                        int estadoAnulada = Convert.ToInt32(resultado);
-                        if (estadoAnulada == 1)
-                        {
-                            MessageBox.Show("Esta compra ya está activa.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return false;
-                        }
-                    }
-
-                    // Reactivar la venta si está anulada
-                    string reactivarQuery = "UPDATE Detalles_Compra SET Anulada = 1 WHERE NumFact = @NumFact";
-                    using (SQLiteCommand reactivarCmd = new SQLiteCommand(reactivarQuery, conn))
-                    {
-                        reactivarCmd.Parameters.AddWithValue("@NumFact", numFactura);
-
-                        int filasAfectadas = reactivarCmd.ExecuteNonQuery();
-                        if (filasAfectadas > 0)
-                        {
-                            MessageBox.Show("La compra se reactivó correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return true;
-                        }
-                        else
-                        {
-                            MessageBox.Show("No se pudo reactivar la compra.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
-                        }
-                    }
-                }
-                catch (SQLiteException ex)
-                {
-                    MessageBox.Show($"Error al reactivar la compra: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            }
-        }
-        public Venta ObtenerDetalle_Compra(int numFactura)
-        {
-            Venta ventas = new Venta();
-            string query = @"SELECT
-                dv.Metodo, 
-                dv.Total, 
-                c.Nombre AS Proveedor,
-                dv.FechaHora 
-                FROM Detalles_Compra dv
-                INNER JOIN Proveedores c ON dv.IDProveedor = c.ID
-                WHERE dv.NumFact = @numFactura";
-
-            using (var conn = new SQLiteConnection(connectionString))
-            {
-                conn.Open();
-                var cmd = new SQLiteCommand(query, conn);
-                cmd.Parameters.AddWithValue("@numFactura", numFactura);
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-
-                    ventas.FechaHora = Convert.ToDateTime(reader["FechaHora"]);
-                    ventas.Cliente = reader["Proveedor"].ToString();
-                    ventas.Metodo = reader["Metodo"].ToString();
-                    ventas.Total = Convert.ToDecimal(reader["Total"]);
-
-                }
-            }
-            return ventas;
-        }
+        
         public Dictionary<string, List<VentaDetalle>> CargarResumen(string fechaInicio, string fechaFin)
         {
             Dictionary<string, List<VentaDetalle>> resumenPorFecha = new Dictionary<string, List<VentaDetalle>>();
@@ -1228,5 +751,62 @@ namespace SistemaFinal.Capa_Datos
             return resumenPorFecha;
         }
 
+        public Dictionary<string, List<VentaDetalle>> CargarResumenTarjetasDelDia(string fecha)
+        {
+            Dictionary<string, List<VentaDetalle>> resumenPorTarjeta = new Dictionary<string, List<VentaDetalle>>();
+
+            using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
+            {
+                conexion.Open();
+
+                
+                string query = @"
+            SELECT 
+                vt.Tarjeta AS NombreTarjeta,
+                dv.NumFact,
+                dv.DetalleArticulos,
+                dv.Metodo,
+                dv.Total,
+                dv.NomVen
+            FROM Detalles_Venta dv
+            INNER JOIN Ventas v ON dv.NumFact = v.NumFact
+            INNER JOIN VentasTarjeta vt ON v.NumFact = vt.NumFact
+            WHERE v.Anulada = 1
+              AND DATE(v.FechaHora) = DATE(@Fecha)
+            ORDER BY vt.Tarjeta, dv.NumFact";
+
+                using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@Fecha", fecha);
+
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string tarjeta = reader["NombreTarjeta"].ToString();
+
+                            VentaDetalle detalle = new VentaDetalle
+                            {
+                                NumFactura = Convert.ToInt32(reader["NumFact"]),
+                                DetalleArticulos = reader["DetalleArticulos"].ToString(),
+                                Metodo = reader["Metodo"].ToString(),
+                                Total = Convert.ToDecimal(reader["Total"]),
+                                NombreVendedor = reader["NomVen"].ToString()
+                            };
+
+                            
+                            if (!resumenPorTarjeta.ContainsKey(tarjeta))
+                            {
+                                resumenPorTarjeta[tarjeta] = new List<VentaDetalle>();
+                            }
+                            resumenPorTarjeta[tarjeta].Add(detalle);
+                        }
+                    }
+                }
+            }
+
+            return resumenPorTarjeta;
+        }
     }
+
 }

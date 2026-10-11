@@ -42,34 +42,9 @@ namespace SistemaFinal.Capa_Logica
         {
             return ventaD.ObtenerVenta(factura);
         }
-        public List<Proveedor> ObtenerProveedores(string a)
-        {
-            return ventaD.ObtenerProveedor(a);
-        }
         public int ObtenerProximoDetalleVenta()
         {
             return ventaD.ObtenerProximoNumeroDetalleVenta();
-        }
-        public void GuardarCompra(int numFactura, List<DetalleArticulo> detallesArticulos, string metodo, decimal total, DateTime fechahora, int idProveedor, int activa)
-        {
-            ventaD.GuardarDetalleCompra(numFactura, detallesArticulos, metodo, total, fechahora, idProveedor, activa);
-        }
-
-        public int ObtenerProximoDetalleCompra()
-        {
-            return ventaD.ObtenerProximoNumeroDetalleCompra();
-        }
-        public bool ActualizarStock(string nombreArticulo, int cantidad)
-        {
-            return ventaD.ActualizarStockCompra(nombreArticulo, cantidad);
-        }
-        public bool ActualizarDeuda(int idproveedor, decimal total)
-        {
-            return ventaD.ActualizarDeuda(idproveedor, total);
-        }
-        public List<DetalleArticulo> ObtenerDetalleCompra (int numFact)
-        {
-            return ventaD.ObtenerDetalleCompra(numFact);
         }
         public List<Venta> ObtenerVentasActivas()
         {
@@ -103,37 +78,16 @@ namespace SistemaFinal.Capa_Logica
         {
             return ventaD.ObtenerTarjeta(); 
         }
-        public List<Venta> ObtenerComprasActivas()
-        {
-            return ventaD.ObtenerComprasActivas();
-        }
-        public List<Venta> ObtenerComprasAnuladas()
-        {
-            return ventaD.ObtenerComprasAnuladas();
-        }
-        public List<Venta> ObtenerComprasEfectivo()
-        {
-            return ventaD.ObtenerComprasEfectivo();
-        }
-        public List<Venta> ObtenerComprasTarjeta()
-        {
-            return ventaD.ObtenerComprasTarjeta();
-        }
-        public bool AnularCompra(int numFactura)
-        {
-            return ventaD.AnularCompra(numFactura);
-        }
-        public bool ReactivarCompra(int numFactura)
-        {
-            return ventaD.ReactivarCompra(numFactura);
-        }
-        public Venta ObtenerDetalle_Compra(int numFact)
-        {
-            return ventaD.ObtenerDetalle_Compra(numFact);
-        }
+        
         public Dictionary<string, List<VentaDetalle>> CargarResumen(string fechaInicio, string fechaFin)
         {
             return ventaD.CargarResumen(fechaInicio, fechaFin);
+        }
+
+        public Dictionary<string, List<VentaDetalle>> CargarResumenTarjetasDelDia(string fecha)
+        {
+            VentasD ventasD = new VentasD();
+            return ventasD.CargarResumenTarjetasDelDia(fecha);
         }
     }
 }
