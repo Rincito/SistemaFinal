@@ -11,68 +11,33 @@ namespace SistemaFinal.Capa_Presentacion
     {
         private System.Windows.Forms.Timer timer;
         private HttpClient httpClient;
-        private System.Windows.Forms.Timer inactividadTimer;
-        private DateTime ultimaInteraccion;
         private Form loginForm;
+        private int rolUsuario;
+        private bool cerrarAplicacionPorCompleto = true;
 
-        public Inicio(Form login)
+        public Inicio(Form login, int rol)
         {
             InitializeComponent();
+            ActualizarMenuNotificaciones();
+            ComprobarNotificacionesNuevas();
+            System.Windows.Forms.Timer timerNotis = new System.Windows.Forms.Timer();
+            timerNotis.Interval = 60000;
+            timerNotis.Tick += new EventHandler(timerNotis_Tick);
+            timerNotis.Start();
+
             httpClient = new HttpClient();
             this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(Inicio_KeyDown);
+
             timer = new System.Windows.Forms.Timer();
             UpdateDollarPriceAsync();
-            this.loginForm = login;
-
-        }
-        private void ConfigurarTemporizadorReloj()
-        {
-            timer = new System.Windows.Forms.Timer
-            {
-                Interval = 1000 // 1 segundo
-            };
-            timer.Tick += Timer_Tick;
             timer.Start();
+            this.loginForm = login;
+            this.rolUsuario = rol;
+            ConfigurarPermisosPorRol();
+
         }
 
-        private void ConfigurarTemporizadorInactividad()
-        {
-            ultimaInteraccion = DateTime.Now;
-
-            inactividadTimer = new System.Windows.Forms.Timer
-            {
-                Interval = 5 * 60 * 1000 // 5 minutos
-            };
-            inactividadTimer.Tick += InactividadTimer_Tick;
-            inactividadTimer.Start();
-
-            // Asignar eventos de interacción
-            this.MouseMove += RegistrarInteraccion;
-            this.KeyDown += RegistrarInteraccion;
-            this.Click += RegistrarInteraccion;
-        }
-
-        private void RegistrarInteraccion(object sender, EventArgs e)
-        {
-
-            if ((DateTime.Now - ultimaInteraccion).TotalSeconds >= 1)
-            {
-                ReiniciarTemporizador();
-            }
-
-            ultimaInteraccion = DateTime.Now;
-        }
-
-        private void ReiniciarTemporizador()
-        {
-            inactividadTimer.Stop();
-            inactividadTimer.Start();
-        }
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            Fecha.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss");
-        }
         private async void UpdateDollarPriceAsync()
         {
             try
@@ -111,13 +76,14 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void button8_Click(object sender, EventArgs e)
         {
+            cerrarAplicacionPorCompleto = true;
             this.Close();
 
         }
 
         private void salidaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            cerrarAplicacionPorCompleto = true;
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -380,9 +346,88 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void gastosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PanelNotificaciones formNotif = new PanelNotificaciones("Gastos");
+            PanelNotificaciones formNotif = new PanelNotificaciones("Gasto");
             formNotif.ShowDialog();
             ActualizarMenuNotificaciones();
+        }
+
+        private void exportarBaseDeDatosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportarSistemaL.ExportarTodoAExcel();
+        }
+
+        private void importarArtículosDeExcelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportarSistemaL.ImportarArticulosDesdeExcel();
+        }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            if (cerrarAplicacionPorCompleto)
+            {
+                Application.Exit();
+            }
+        }
+        private void ConfigurarPermisosPorRol()
+        {
+            if (rolUsuario == 0)
+            {
+
+                gestiónUsuariosToolStripMenuItem.Visible = false;
+                exportarBaseDeDatosToolStripMenuItem.Visible = false;
+                importarArtículosDeExcelToolStripMenuItem.Visible = false;
+                administracipToolStripMenuItem.Visible = false;
+                vendedoresToolStripMenuItem.Visible = false;
+                ClientBtn.Visible = false;
+            }
+
+        }
+
+        private void cambiarUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cerrarAplicacionPorCompleto = false;
+            panel2.Controls.Clear();
+            if (loginForm != null && !loginForm.IsDisposed)
+            {
+                loginForm.Show();
+
+            }
+            else
+            {
+                Login nuevoLogin = new Login();
+                nuevoLogin.Show();
+            }
+
+            this.Close();
+        }
+
+        private void timerNotis_Tick(object sender, EventArgs e)
+        {
+            ComprobarNotificacionesNuevas();
+        }
+
+        private void ComprobarNotificacionesNuevas()
+        {
+            try
+            {
+                NotificacionL notiLogica = new NotificacionL();
+                int cantidadNuevas = notiLogica.ObtenerCantidadNoLeidas();
+
+                if (cantidadNuevas > 0)
+                {
+                    notificacionesToolStripMenuItem.ForeColor = Color.Red;
+                    notificacionesToolStripMenuItem.Text = $"🔔 Notificaciones ({cantidadNuevas})";
+                }
+                else
+                {
+                    notificacionesToolStripMenuItem.ForeColor = Color.Black;
+                    notificacionesToolStripMenuItem.Text = "🔔 Notificaciones";
+                }
+            }
+            catch (Exception)
+            {
+                
+            }
         }
     }
 }

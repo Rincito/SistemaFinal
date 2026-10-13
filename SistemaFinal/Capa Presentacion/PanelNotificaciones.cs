@@ -44,17 +44,17 @@ namespace SistemaFinal.Capa_Presentacion
             flowLayoutPanel1.WrapContents = false;
             flowLayoutPanel1.AutoScroll = true;
 
-            // Verificar si hay notificaciones sin leer en esta categoría
+            
             bool hayNoLeidas = lista.Exists(n => n.Leido == 0);
 
-            // Si no hay sin leer, agregamos un cartel informativo arriba
+            
             if (!hayNoLeidas)
             {
                 Label lblEstado = new Label
                 {
                     Text = "✔ No hay notificaciones pendientes.",
                     Font = new Font("Segoe UI", 9.5f, FontStyle.Italic),
-                    TextAlign = ContentAlignment.MiddleLeft, // Alineado a la izquierda
+                    TextAlign = ContentAlignment.MiddleLeft, 
                     AutoSize = false,
                     Width = flowLayoutPanel1.ClientSize.Width - 25,
                     Height = 30,

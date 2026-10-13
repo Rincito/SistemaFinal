@@ -24,10 +24,7 @@ namespace SistemaFinal.Capa_Presentacion
         public ResumenVentasFechas(string fechaInicio, string fechaFin, string vendedorFiltro)
         {
             InitializeComponent();
-            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            flowLayoutPanel1.Dock = DockStyle.None;
-            flowLayoutPanel1.Anchor = AnchorStyles.Top;
-            flowLayoutPanel1.Left = (this.ClientSize.Width - flowLayoutPanel1.Width) / 2;
+            ConfigurarDiseño();
 
             this.fechaInicio = fechaInicio;
             this.fechaFin = fechaFin;
@@ -60,21 +57,25 @@ namespace SistemaFinal.Capa_Presentacion
         private void ConfigurarDiseño()
         {
             this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            flowLayoutPanel1.Dock = DockStyle.None;
-            flowLayoutPanel1.Anchor = AnchorStyles.Top;
-            flowLayoutPanel1.Left = (this.ClientSize.Width - flowLayoutPanel1.Width) / 2;
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.AutoScroll = true;
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Clear();
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.RowCount = 0;
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            label1.TextAlign = ContentAlignment.MiddleCenter;
         }
 
         private void CargarResumen()
         {
             VentasL ventas = new VentasL();
             Dictionary<string, List<VentaDetalle>> resumenPorFecha = ventas.CargarResumen(fechaInicio, fechaFin);
-
-            flowLayoutPanel1.Controls.Clear();
-            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel1.WrapContents = false;
-            flowLayoutPanel1.AutoScroll = true;
-
+            tableLayoutPanel1.Controls.Clear();
+            tableLayoutPanel1.RowStyles.Clear();
+            tableLayoutPanel1.RowCount = 0;
+            int filaActual = 0;
 
             foreach (var fecha in resumenPorFecha.Keys)
             {
@@ -88,48 +89,126 @@ namespace SistemaFinal.Capa_Presentacion
                 }
 
                 if (listaVentas.Count == 0) continue;
-                // Label para la fecha
+
+                tableLayoutPanel1.RowCount++;
+                tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+
                 Label lblFecha = new Label
                 {
                     Text = $"Fecha: {fecha}",
                     Font = new Font("Arial", 14, FontStyle.Bold),
                     TextAlign = ContentAlignment.MiddleCenter,
-                    AutoSize = false,
-                    Height = 35,
-                    Width = flowLayoutPanel1.ClientSize.Width - 60,
+                    Dock = DockStyle.Fill,
                     BackColor = Color.DarkGray,
                     ForeColor = Color.White,
-                    Margin = new Padding(0, 10, 0, 10),
-                    Anchor = AnchorStyles.Top
+                    Margin = new Padding(5, 10, 5, 5),
+                    
                 };
-                flowLayoutPanel1.Controls.Add(lblFecha);
 
-                // Labels para las facturas
-                foreach (var venta in listaVentas)
+                tableLayoutPanel1.Controls.Add(lblFecha, 0, filaActual);
+                tableLayoutPanel1.SetColumnSpan(lblFecha, 2);
+                filaActual++;
+
+                for (int i = 0; i < listaVentas.Count; i += 2)
                 {
-                    string articulosFormateados = FormatearArticulos(venta.DetalleArticulos);
+                    tableLayoutPanel1.RowCount++;
+                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 135F));
 
-                    Label lblVenta = new Label
+                    // Columna Izquierda
+                    var ventaIzq = listaVentas[i];
+                    string articulosIzq = FormatearArticulos(ventaIzq.DetalleArticulos);
+                    Label lblVentaIzq = CrearTarjetaVenta($"Factura #{ventaIzq.NumFactura}\nArtículos:\n{articulosIzq}\nMétodo: {ventaIzq.Metodo}  |  Total: ${ventaIzq.Total:F2}  |  Vendedor: {ventaIzq.NombreVendedor}");
+                    tableLayoutPanel1.Controls.Add(lblVentaIzq, 0, filaActual);
+
+                    // Columna Derecha (Si existe)
+                    if (i + 1 < listaVentas.Count)
                     {
-                        Text = $"Factura #{venta.NumFactura}\n" +
-                               $"Artículos:\n{articulosFormateados}\n" +
-                               $"Método: {venta.Metodo}  |  Total: ${venta.Total:F2}  |  Vendedor: {venta.NombreVendedor}",
-                        Font = new Font("Arial", 10, FontStyle.Regular),
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        AutoSize = false,
-                        Height = 120,
-                        BackColor = Color.LightSteelBlue,
-                        ForeColor = Color.Black,
-                        BorderStyle = BorderStyle.FixedSingle,
-                        Padding = new Padding(10),
-                        Margin = new Padding(0, 5, 0, 5),
-                        Width = flowLayoutPanel1.ClientSize.Width - 20,
-                        Anchor = AnchorStyles.Top
-                    };
+                        var ventaDer = listaVentas[i + 1];
+                        string articulosDer = FormatearArticulos(ventaDer.DetalleArticulos);
+                        Label lblVentaDer = CrearTarjetaVenta($"Factura #{ventaDer.NumFactura}\nArtículos:\n{articulosDer}\nMétodo: {ventaDer.Metodo}  |  Total: ${ventaDer.Total:F2}  |  Vendedor: {ventaDer.NombreVendedor}");
+                        tableLayoutPanel1.Controls.Add(lblVentaDer, 1, filaActual);
+                    }
 
-                    flowLayoutPanel1.Controls.Add(lblVenta);
+                    filaActual++;
                 }
             }
+        }
+
+        public void CargarResumenTarjetas(string fechaHoy)
+        {
+            VentasL ventas = new VentasL();
+            Dictionary<string, List<VentaDetalle>> resumenPorTarjeta = ventas.CargarResumenTarjetasDelDia(fechaHoy);
+
+            label1.Text = $"Ventas con Tarjeta del Día ({fechaHoy})";
+
+            tableLayoutPanel1.Controls.Clear();
+            tableLayoutPanel1.RowStyles.Clear();
+            tableLayoutPanel1.RowCount = 0;
+            int filaActual = 0;
+
+            foreach (var tarjeta in resumenPorTarjeta.Keys)
+            {
+                
+                tableLayoutPanel1.RowCount++;
+                tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+
+                Label lblTarjeta = new Label
+                {
+                    Text = $"💳 Tarjeta: {tarjeta}",
+                    Font = new Font("Arial", 14, FontStyle.Bold),
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    BackColor = Color.DarkSlateBlue,
+                    ForeColor = Color.White,
+                    Margin = new Padding(5, 10, 5, 5)
+                };
+
+                tableLayoutPanel1.Controls.Add(lblTarjeta, 0, filaActual);
+                tableLayoutPanel1.SetColumnSpan(lblTarjeta, 2);
+                filaActual++;
+
+                var listaVentas = resumenPorTarjeta[tarjeta];
+
+                
+                for (int i = 0; i < listaVentas.Count; i += 2)
+                {
+                    tableLayoutPanel1.RowCount++;
+                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 130F));
+
+                    
+                    var ventaIzq = listaVentas[i];
+                    string articulosIzq = FormatearArticulos(ventaIzq.DetalleArticulos);
+                    Label lblVentaIzq = CrearTarjetaVenta($"Factura #{ventaIzq.NumFactura}\nArtículos:\n{articulosIzq}\nTotal: ${ventaIzq.Total:F2}  |  Vendedor: {ventaIzq.NombreVendedor}");
+                    tableLayoutPanel1.Controls.Add(lblVentaIzq, 0, filaActual);
+
+                    
+                    if (i + 1 < listaVentas.Count)
+                    {
+                        var ventaDer = listaVentas[i + 1];
+                        string articulosDer = FormatearArticulos(ventaDer.DetalleArticulos);
+                        Label lblVentaDer = CrearTarjetaVenta($"Factura #{ventaDer.NumFactura}\nArtículos:\n{articulosDer}\nTotal: ${ventaDer.Total:F2}  |  Vendedor: {ventaDer.NombreVendedor}");
+                        tableLayoutPanel1.Controls.Add(lblVentaDer, 1, filaActual);
+                    }
+
+                    filaActual++;
+                }
+            }
+        }
+
+        private Label CrearTarjetaVenta(string textoContenido)
+        {
+            return new Label
+            {
+                Text = textoContenido,
+                Font = new Font("Arial", 12, FontStyle.Regular),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Dock = DockStyle.Fill, // Obliga a ocupar toda la celda simétricamente
+                BackColor = Color.LightSteelBlue,
+                ForeColor = Color.Black,
+                BorderStyle = BorderStyle.FixedSingle,
+                Padding = new Padding(5),
+                Margin = new Padding(5)
+            };
         }
 
         private string FormatearArticulos(string detalleArticulos)
@@ -154,64 +233,6 @@ namespace SistemaFinal.Capa_Presentacion
             catch
             {
                 return detalleArticulos;
-            }
-        }
-
-        public void CargarResumenTarjetas(string fechaHoy)
-        {
-            VentasL ventas = new VentasL();
-            Dictionary<string, List<VentaDetalle>> resumenPorTarjeta = ventas.CargarResumenTarjetasDelDia(fechaHoy);
-
-            label1.Text = $"Ventas con Tarjeta del Día ({fechaHoy})";
-
-            flowLayoutPanel1.Controls.Clear();
-            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel1.WrapContents = false;
-            flowLayoutPanel1.AutoScroll = true;
-
-            foreach (var tarjeta in resumenPorTarjeta.Keys)
-            {
-                // Header de la Tarjeta
-                Label lblTarjeta = new Label
-                {
-                    Text = $"💳 Tarjeta: {tarjeta}",
-                    Font = new Font("Arial", 14, FontStyle.Bold),
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    AutoSize = false,
-                    Height = 35,
-                    Width = flowLayoutPanel1.ClientSize.Width - 60,
-                    BackColor = Color.DarkSlateBlue,
-                    ForeColor = Color.White,
-                    Margin = new Padding(0, 10, 0, 10),
-                    Anchor = AnchorStyles.Top
-                };
-                flowLayoutPanel1.Controls.Add(lblTarjeta);
-
-                // Tarjetas de facturas agrupadas
-                foreach (var venta in resumenPorTarjeta[tarjeta])
-                {
-                    string articulosFormateados = FormatearArticulos(venta.DetalleArticulos);
-
-                    Label lblVenta = new Label
-                    {
-                        Text = $"Factura #{venta.NumFactura}\n" +
-                               $"Artículos:\n{articulosFormateados}\n" +
-                               $"Total: ${venta.Total:F2}  |  Vendedor: {venta.NombreVendedor}",
-                        Font = new Font("Arial", 10, FontStyle.Regular),
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        AutoSize = false,
-                        Height = 110,
-                        BackColor = Color.LightSteelBlue,
-                        ForeColor = Color.Black,
-                        BorderStyle = BorderStyle.FixedSingle,
-                        Padding = new Padding(10),
-                        Margin = new Padding(0, 5, 0, 5),
-                        Width = flowLayoutPanel1.ClientSize.Width - 20,
-                        Anchor = AnchorStyles.Top
-                    };
-
-                    flowLayoutPanel1.Controls.Add(lblVenta);
-                }
             }
         }
 

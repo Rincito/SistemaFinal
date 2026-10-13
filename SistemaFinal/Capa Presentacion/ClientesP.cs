@@ -68,15 +68,13 @@ namespace SistemaFinal.Capa_Presentacion
         {
             ClienteL clienteL = new ClienteL();
 
-            // 1. Obtener total de registros para calcular las páginas
-            int totalRegistros = clienteL.ObtenerTotalClientes(); // O tu método equivalente en ClienteL
+            int totalRegistros = clienteL.ObtenerTotalClientes(); 
             totalPaginas = (int)Math.Ceiling((double)totalRegistros / registrosPorPagina);
             if (totalPaginas == 0) totalPaginas = 1;
 
             if (paginaActual > totalPaginas) paginaActual = totalPaginas;
             if (paginaActual < 1) paginaActual = 1;
-
-            listaOriginal = clienteL.ListarClientesPaginados(paginaActual, registrosPorPagina);
+            listaOriginal = clienteL.ListarClientesPaginados(paginaActual, registrosPorPagina).Where(c => c.CUIL != "1").ToList();
 
             AplicarFiltroVisual();
             ActualizarControlesPaginacionUI();
@@ -101,7 +99,7 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void ActualizarControlesPaginacionUI()
         {
-            // Asumiendo que tenés la etiqueta y los botones con los mismos nombres
+            
             if (paginacionLbl != null)
             {
                 paginacionLbl.Text = $"Página {paginaActual} de {totalPaginas}";
@@ -115,8 +113,7 @@ namespace SistemaFinal.Capa_Presentacion
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                DataGridViewRow filaSeleccionada = dataGridView1.SelectedRows[0];
-                var clienteSeleccionado = filaSeleccionada.DataBoundItem as Cliente;
+                Cliente clienteSeleccionado = dataGridView1.SelectedRows[0].DataBoundItem as Cliente;
 
                 if (clienteSeleccionado != null)
                 {

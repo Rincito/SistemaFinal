@@ -62,7 +62,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(666, 336);
+            dataGridView1.Size = new Size(666, 360);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentDoubleClick += dataGridView1_CellContentDoubleClick;
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
@@ -170,7 +170,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(666, 336);
+            panel2.Size = new Size(666, 360);
             panel2.TabIndex = 2;
             panel2.PreviewKeyDown += panel2_PreviewKeyDown;
             // 
@@ -213,9 +213,9 @@
             panelPaginacion.BackColor = SystemColors.GradientActiveCaption;
             panelPaginacion.Controls.Add(tableLayoutPanel1);
             panelPaginacion.Dock = DockStyle.Bottom;
-            panelPaginacion.Location = new Point(0, 336);
+            panelPaginacion.Location = new Point(0, 360);
             panelPaginacion.Name = "panelPaginacion";
-            panelPaginacion.Size = new Size(666, 121);
+            panelPaginacion.Size = new Size(666, 97);
             panelPaginacion.TabIndex = 6;
             panelPaginacion.Paint += panelPaginacion_Paint;
             // 
@@ -233,7 +233,7 @@
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(666, 121);
+            tableLayoutPanel1.Size = new Size(666, 97);
             tableLayoutPanel1.TabIndex = 6;
             // 
             // paginacionLbl

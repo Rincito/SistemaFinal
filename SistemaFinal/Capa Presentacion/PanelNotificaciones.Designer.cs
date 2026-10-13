@@ -46,6 +46,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(flowLayoutPanel1);
             Name = "PanelNotificaciones";
+            ShowInTaskbar = false;
             Text = "PanelNotificaciones";
             Load += PanelNotificaciones_Load;
             ResumeLayout(false);

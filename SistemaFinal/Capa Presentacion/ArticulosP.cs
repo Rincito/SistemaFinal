@@ -15,7 +15,7 @@ namespace SistemaFinal.Capa_Presentacion
         private bool buscarInactivos = false;
 
         private int paginaActual = 1;
-        private int registrosPorPagina = 50;
+        private int registrosPorPagina = 34;
         private int totalPaginas = 1;
 
 

@@ -24,10 +24,10 @@ namespace SistemaFinal.Capa_Logica
             VendedorD datos = new VendedorD();
             return datos.ReactVendedor(cuil, activo);
         }
-        public bool ActualizarVendedor(string cuil, string nombre, string apellido, string telefono, string domicilio)
+        public bool ActualizarVendedor(string cuil, string nombre, string apellido, string telefono, string domicilio, string email)
         {
             VendedorD datos = new VendedorD();
-            return datos.ActualizarVendedor(cuil, nombre, apellido, telefono, domicilio);
+            return datos.ActualizarVendedor(cuil, nombre, apellido, telefono, domicilio, email);
         }
     }
 }

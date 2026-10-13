@@ -30,9 +30,8 @@ namespace SistemaFinal.Capa_Presentacion
         private void MostDgv()
         {
             VendedorL datosL = new VendedorL();
-
-            // Asignar los datos al DataGridView
-            dataGridView1.DataSource = datosL.ListarVendedores();
+            var listaVendedores = datosL.ListarVendedores().Where(v => v.CUIL != "1").ToList();
+            dataGridView1.DataSource = listaVendedores;
             if (dataGridView1.Columns["Activo"] != null)
             {
                 dataGridView1.Columns["Activo"].Visible = false;
@@ -45,13 +44,11 @@ namespace SistemaFinal.Capa_Presentacion
             var fila = dataGridView1.Rows[e.RowIndex].DataBoundItem;
             if (fila != null)
             {
-                // Usa reflexión o una conversión directa para acceder al valor de "Activo".
                 var tipoFila = fila.GetType();
                 var valorActivo = tipoFila.GetProperty("Activo")?.GetValue(fila)?.ToString();
 
                 if (!string.IsNullOrEmpty(valorActivo))
                 {
-                    // Aplicar colores en función del valor de "Activo".
                     if (valorActivo == "1")
                     {
                         dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(204, 255, 255);
@@ -75,6 +72,7 @@ namespace SistemaFinal.Capa_Presentacion
                 string apellido = ApeTxtBox.Text.Trim();
                 string telefono = TelTxtBox.Text.Trim();
                 string domicilio = DomTxtBox.Text.Trim();
+                string email = emailTxtBox.Text.Trim();
 
 
                 if (string.IsNullOrEmpty(cuil))
@@ -100,17 +98,18 @@ namespace SistemaFinal.Capa_Presentacion
                     Apellido = apellido,
                     Telefono = telefono,
                     Domicilio = domicilio,
+                    Email = email,
                     Activo = 1
                 }))
                 {
                     MessageBox.Show("Datos guardados correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
 
                     CUILTxtBox.Text = "";
                     NomVenTxtBox.Text = "";
                     ApeTxtBox.Text = "";
                     TelTxtBox.Text = "";
                     DomTxtBox.Text = "";
+                    emailTxtBox.Text = "";
                     datosModificados = false;
                     CUILTxtBox.Focus();
                     cerrarPorPerderFoco = true;
@@ -319,6 +318,7 @@ namespace SistemaFinal.Capa_Presentacion
             string apellido = ApeTxtBox.Text.Trim();
             string telefono = TelTxtBox.Text.Trim();
             string domicilio = DomTxtBox.Text.Trim();
+            string email = emailTxtBox.Text.Trim();
             if (string.IsNullOrEmpty(nombre))
             {
                 MessageBox.Show("El nombre no puede estar vacío.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -340,7 +340,7 @@ namespace SistemaFinal.Capa_Presentacion
                 return;
             }
             VendedorL datosL = new VendedorL();
-            if (datosL.ActualizarVendedor(cuil, nombre, apellido, telefono, domicilio))
+            if (datosL.ActualizarVendedor(cuil, nombre, apellido, telefono, domicilio, email))
             {
                 MessageBox.Show("Datos actualizados correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -350,6 +350,7 @@ namespace SistemaFinal.Capa_Presentacion
                 TelTxtBox.Text = "";
                 DomTxtBox.Text = "";
                 CUILTxtBox.Text = "";
+                emailTxtBox.Text = "";
                 datosModificados = false;
                 cerrarPorPerderFoco = true;
                 MostDgv();
@@ -372,6 +373,7 @@ namespace SistemaFinal.Capa_Presentacion
                 TelTxtBox.Text = row.Cells["Telefono"].Value.ToString();
                 DomTxtBox.Text = row.Cells["Domicilio"].Value.ToString();
                 CUILTxtBox.Text = row.Cells["CUIL"].Value.ToString();
+                emailTxtBox.Text = row.Cells["Email"].Value.ToString();
             }
         }
     }

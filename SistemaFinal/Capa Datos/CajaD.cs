@@ -1,4 +1,5 @@
-﻿using SistemaFinal.Capa_Presentacion;
+﻿using SistemaFinal.Capa_Logica;
+using SistemaFinal.Capa_Presentacion;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -487,11 +488,11 @@ namespace SistemaFinal.Capa_Datos
                 string query = "INSERT INTO Notificaciones (Tema, Titulo, FechayHora, Descripcion) VALUES (@Tema, @Titulo, @Fecha, @Desc)";
                 using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                 {
-                    string fecha = DateTime.Now.ToString("yyyy-MM-dd");
+                   
                     cmd.Parameters.AddWithValue("@Tema", "Caja");
                     cmd.Parameters.AddWithValue("@Titulo", "Caja Modificada");
-                    cmd.Parameters.AddWithValue("@Fecha", fecha);
-                    cmd.Parameters.AddWithValue("@Desc", $"La caja ha sido modificada. El monto inicial era: ${CajaInicio}. Y ha cambiado a: ${CajaNueva}");
+                    cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@Desc", $"El usuario {SesionActual.NombreCompleto} ha modificado la caja inicial. El monto era: ${CajaInicio}. Y cambió a: ${CajaNueva}");
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -507,7 +508,7 @@ namespace SistemaFinal.Capa_Datos
                 string query = "SELECT COUNT(*) FROM Caja_Diaria WHERE Fecha = @Fecha";
                 using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Fecha", fecha);
+                    cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
 
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
                     return count > 0;
@@ -526,10 +527,8 @@ namespace SistemaFinal.Capa_Datos
                     string fecha = DateTime.Now.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@Tema", "Caja");
                     cmd.Parameters.AddWithValue("@Titulo", "Cierre de Caja");
-                    cmd.Parameters.AddWithValue("@Fecha", fecha);
-                    cmd.Parameters.AddWithValue("@Desc", $"La caja ha sido cerrada. El monto inicial era: ${Inicio}. El total en tarjeta " +
-                        $"fue de: ${totalTarj}. El total en efectivo fue de: ${totalEfect}. El total del día fue de: ${totalDia}. Al cierre de caja " +
-                        $"había ${Cierre} en efectivo.");
+                    cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@Desc", $"El usuario {SesionActual.NombreCompleto} realizó el cierre de caja. Monto inicial: {Inicio}. Tarjeta: ${totalTarj}, Efectivo: ${totalEfect}, Total día: ${totalDia}. Efectivo al cierre: ${Cierre}.");
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -547,8 +546,8 @@ namespace SistemaFinal.Capa_Datos
                     string fecha = DateTime.Now.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@Tema", "Caja");
                     cmd.Parameters.AddWithValue("@Titulo", "Retiro de caja");
-                    cmd.Parameters.AddWithValue("@Fecha", fecha);
-                    cmd.Parameters.AddWithValue("@Desc", $"Hubo un retiro de: ${monto}.");
+                    cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@Desc", $"El usuario {SesionActual.NombreCompleto} hizo un retiro de: ${monto}.");
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -563,10 +562,10 @@ namespace SistemaFinal.Capa_Datos
                 using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                 {
                     string fecha = DateTime.Now.ToString("yyyy-MM-dd");
-                    cmd.Parameters.AddWithValue("@Tema", "Caja");
+                    cmd.Parameters.AddWithValue("@Tema", "Gasto");
                     cmd.Parameters.AddWithValue("@Titulo", "Gasto en caja");
-                    cmd.Parameters.AddWithValue("@Fecha", fecha);
-                    cmd.Parameters.AddWithValue("@Desc", $"Hubo un gasto de: ${monto} en la caja, se realizó con {formapago} y fue para {detalle}.");
+                    cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@Desc", $"El usuario {SesionActual.NombreCompleto} hizo un gasto de: ${monto} en la caja, se realizó con {formapago} y fue para {detalle}.");
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -583,8 +582,8 @@ namespace SistemaFinal.Capa_Datos
                     string fecha = DateTime.Now.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@Tema", "Caja");
                     cmd.Parameters.AddWithValue("@Titulo", "Ingreso en caja");
-                    cmd.Parameters.AddWithValue("@Fecha", fecha);
-                    cmd.Parameters.AddWithValue("@Desc", $"Hubo un ingreso de: ${monto} en la caja, se realizó con {formapago}.");
+                    cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@Desc", $"El usuario {SesionActual.NombreCompleto} hizo un ingreso de: ${monto} en la caja, se realizó con {formapago}.");
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -601,8 +600,8 @@ namespace SistemaFinal.Capa_Datos
                     string fecha = DateTime.Now.ToString("yyyy-MM-dd");
                     cmd.Parameters.AddWithValue("@Tema", "Pagos");
                     cmd.Parameters.AddWithValue("@Titulo", "Pago a vendedor");
-                    cmd.Parameters.AddWithValue("@Fecha", fecha);
-                    cmd.Parameters.AddWithValue("@Desc", $"Se ha pagado ${pago} a {vendedor}. El pago se realizó con {formapago}");
+                    cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@Desc", $"El usuario {SesionActual.NombreCompleto} le ha pagado ${pago} a {vendedor}. El pago se realizó con {formapago}");
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -616,8 +615,7 @@ namespace SistemaFinal.Capa_Datos
                 string query = "INSERT INTO Egresos (Fecha, Egreso, Metodo, Detalle) VALUES (@Fecha, @Egreso, @Metodo, @Detalle)";
                 using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                 {
-                    string fecha = DateTime.Now.ToString("yyyy-MM-dd");
-                    cmd.Parameters.AddWithValue("@Fecha", fecha);
+                    cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
                     cmd.Parameters.AddWithValue("@Egreso", pago);
                     cmd.Parameters.AddWithValue("@Metodo", formapago);
                     cmd.Parameters.AddWithValue("@Detalle", "Pago Vendedor");

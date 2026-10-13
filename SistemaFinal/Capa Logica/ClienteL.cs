@@ -16,13 +16,6 @@ namespace SistemaFinal.Capa_Logica
             return ClienteD.Guardar(cliente);
         }
 
-        public List<Cliente> ListarClientes()
-        {
-
-            return ClienteD.ListarClientes();
-
-        }
-
         public int ObtenerTotalClientes()
         {
             return ClienteD.ObtenerTotalClientes();
@@ -30,7 +23,7 @@ namespace SistemaFinal.Capa_Logica
 
         public List<Cliente> ListarClientesPaginados(int paginaActual, int registrosPorPagina)
         {
-            // Validaciones de seguridad opcionales
+            
             if (paginaActual < 1) paginaActual = 1;
             if (registrosPorPagina < 1) registrosPorPagina = 50;
 

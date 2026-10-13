@@ -56,7 +56,7 @@ namespace SistemaFinal.Capa_Logica
             return usuarioD.ModificarUsuario(idUsuario, email, rol, nuevaContraHash);
         }
 
-        private string GenerarHashSHA256(string texto)
+        public string GenerarHashSHA256(string texto)
         {
             using (SHA256 sha256 = SHA256.Create())
             {

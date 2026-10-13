@@ -106,7 +106,7 @@ namespace SistemaFinal.Capa_Datos
             var lista = new List<Cliente>();
             int offset = (paginaActual - 1) * registrosPorPagina;
 
-            // Consulta con paginación para SQLite
+            
             string query = "SELECT * FROM Clientes LIMIT @registros OFFSET @offset";
 
             using (var conexion = new SQLiteConnection(connectionString))
@@ -123,12 +123,15 @@ namespace SistemaFinal.Capa_Datos
                         {
                             Cliente cliente = new Cliente
                             {
-                                // Mapea las propiedades de tu objeto Cliente según las columnas de tu BD
-                                // Ejemplo:
-                                // Id = Convert.ToInt32(reader["Id"]),
-                                Nombre = reader["Nombre"].ToString(),
-                                CuenCo = Convert.ToDecimal(reader["CuenCo"])
-                                // ... demas propiedades
+
+                                CUIL = reader["CUIL"] != DBNull.Value ? reader["CUIL"].ToString() : string.Empty,
+                                Nombre = reader["Nombre"] != DBNull.Value ? reader["Nombre"].ToString() : string.Empty,
+                                Apellido = reader["Apellido"] != DBNull.Value ? reader["Apellido"].ToString() : string.Empty,
+                                Telefono = reader["Telefono"] != DBNull.Value ? reader["Telefono"].ToString() : string.Empty,
+                                Domicilio = reader["Domicilio"] != DBNull.Value ? reader["Domicilio"].ToString() : string.Empty,
+                                Email = reader["Email"] != DBNull.Value ? reader["Email"].ToString() : string.Empty,
+                                CuenCo = reader["CuenCo"] != DBNull.Value ? Convert.ToDecimal(reader["CuenCo"]) : 0m
+
                             };
                             lista.Add(cliente);
                         }

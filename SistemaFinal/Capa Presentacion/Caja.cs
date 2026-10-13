@@ -17,6 +17,11 @@ namespace SistemaFinal.Capa_Presentacion
         public Caja()
         {
             InitializeComponent();
+            if (SesionActual.Rol == 0) 
+            {
+                button6.Enabled = false;
+            }
+
             cargarCaja();
         }
         private void cargarCaja()

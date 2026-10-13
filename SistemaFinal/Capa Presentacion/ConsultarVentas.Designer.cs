@@ -60,6 +60,7 @@
             // 
             // PanelVentas
             // 
+            PanelVentas.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             PanelVentas.BackColor = SystemColors.Control;
             PanelVentas.Controls.Add(ReactivarBtn);
             PanelVentas.Controls.Add(TarjetaBtn);
@@ -77,6 +78,7 @@
             // 
             // ReactivarBtn
             // 
+            ReactivarBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ReactivarBtn.BackgroundImageLayout = ImageLayout.Center;
             ReactivarBtn.ImageAlign = ContentAlignment.MiddleLeft;
             ReactivarBtn.Location = new Point(1061, 86);
@@ -109,6 +111,7 @@
             // 
             // AnularVenta
             // 
+            AnularVenta.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             AnularVenta.BackgroundImageLayout = ImageLayout.Center;
             AnularVenta.ImageAlign = ContentAlignment.MiddleLeft;
             AnularVenta.Location = new Point(1061, 147);
@@ -121,6 +124,7 @@
             // 
             // SalirBtn
             // 
+            SalirBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             SalirBtn.Location = new Point(1061, 214);
             SalirBtn.Name = "SalirBtn";
             SalirBtn.Size = new Size(129, 40);
@@ -131,6 +135,7 @@
             // 
             // ImprimBtn
             // 
+            ImprimBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ImprimBtn.BackgroundImageLayout = ImageLayout.Center;
             ImprimBtn.ImageAlign = ContentAlignment.MiddleLeft;
             ImprimBtn.Location = new Point(1061, 21);
@@ -139,6 +144,7 @@
             ImprimBtn.TabIndex = 3;
             ImprimBtn.Text = "Imprimir";
             ImprimBtn.UseVisualStyleBackColor = true;
+            ImprimBtn.Click += ImprimBtn_Click;
             // 
             // AnuladosBtn
             // 
@@ -164,6 +170,7 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.GridColor = SystemColors.ControlDarkDark;
             dataGridView1.Location = new Point(12, 21);
@@ -181,6 +188,7 @@
             // 
             // PanelDetalles
             // 
+            PanelDetalles.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             PanelDetalles.BackColor = SystemColors.Control;
             PanelDetalles.Controls.Add(TxtBoxTotal);
             PanelDetalles.Controls.Add(label4);
@@ -202,6 +210,7 @@
             // 
             // TxtBoxTotal
             // 
+            TxtBoxTotal.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             TxtBoxTotal.BorderStyle = BorderStyle.FixedSingle;
             TxtBoxTotal.Enabled = false;
             TxtBoxTotal.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold);
@@ -216,6 +225,7 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label4.AutoSize = true;
             label4.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.Location = new Point(843, 73);
@@ -228,6 +238,7 @@
             // 
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.AllowUserToDeleteRows = false;
+            dataGridView2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2.Enabled = false;
             dataGridView2.GridColor = SystemColors.ControlDarkDark;
@@ -266,6 +277,7 @@
             // 
             // TxtBoxCondPago
             // 
+            TxtBoxCondPago.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TxtBoxCondPago.BorderStyle = BorderStyle.FixedSingle;
             TxtBoxCondPago.Enabled = false;
             TxtBoxCondPago.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold);
@@ -280,6 +292,7 @@
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label5.AutoSize = true;
             label5.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.Location = new Point(431, 73);
@@ -290,6 +303,7 @@
             // 
             // TxtBoxFecha
             // 
+            TxtBoxFecha.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             TxtBoxFecha.BorderStyle = BorderStyle.FixedSingle;
             TxtBoxFecha.Enabled = false;
             TxtBoxFecha.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold);
@@ -305,6 +319,7 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
             label3.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.Location = new Point(843, 14);
@@ -315,6 +330,7 @@
             // 
             // TxtBoxVendedor
             // 
+            TxtBoxVendedor.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TxtBoxVendedor.BorderStyle = BorderStyle.FixedSingle;
             TxtBoxVendedor.Enabled = false;
             TxtBoxVendedor.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold);
@@ -329,6 +345,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label2.AutoSize = true;
             label2.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(431, 12);

@@ -69,45 +69,93 @@ namespace SistemaFinal.Capa_Datos
 
             public bool ActualizarEstadoUsuario(int idUsuario, int activo)
             {
-                using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
+            using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
+            {
+                conexion.Open();
+                using (SQLiteTransaction transaction = conexion.BeginTransaction())
                 {
-                    conexion.Open();
-                    string query = "UPDATE Usuarios SET Activo = @activo WHERE ID = @idUsuario";
-
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
+                    try
                     {
-                        cmd.Parameters.AddWithValue("@activo", activo);
-                        cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                        string queryUsuario = "UPDATE Usuarios SET Activo = @activo WHERE ID = @idUsuario";
+                        using (SQLiteCommand cmdU = new SQLiteCommand(queryUsuario, conexion, transaction))
+                        {
+                            cmdU.Parameters.AddWithValue("@activo", activo);
+                            cmdU.Parameters.AddWithValue("@idUsuario", idUsuario);
+                            cmdU.ExecuteNonQuery();
+                        }
 
-                        int filasAfectadas = cmd.ExecuteNonQuery();
-                        return filasAfectadas > 0;
+                        string queryVendedor = @"UPDATE Vendedores SET Activo = @activo WHERE Email = (SELECT Email FROM Usuarios WHERE ID = @idUsuario)";
+                        using (SQLiteCommand cmdV = new SQLiteCommand(queryVendedor, conexion, transaction))
+                        {
+                            cmdV.Parameters.AddWithValue("@activo", activo);
+                            cmdV.Parameters.AddWithValue("@idUsuario", idUsuario);
+                            cmdV.ExecuteNonQuery();
+                        }
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
                     }
                 }
             }
+        }
 
         public bool ModificarUsuario(int idUsuario, string email, int rol, string nuevaContraHash = null)
         {
             using (SQLiteConnection conexion = new SQLiteConnection(connectionString))
             {
                 conexion.Open();
-
-                // Consulta dinámica: si viene una contraseña nueva la cambia, si no, solo cambia Email y Rol
-                string query = string.IsNullOrEmpty(nuevaContraHash)
-                    ? "UPDATE Usuarios SET Email = @email, Rol = @rol WHERE ID = @id"
-                    : "UPDATE Usuarios SET Email = @email, Rol = @rol, ContraHash = @hash WHERE ID = @id";
-
-                using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
+                using (SQLiteTransaction transaction = conexion.BeginTransaction())
                 {
-                    cmd.Parameters.AddWithValue("@email", email);
-                    cmd.Parameters.AddWithValue("@rol", rol);
-                    cmd.Parameters.AddWithValue("@id", idUsuario);
-
-                    if (!string.IsNullOrEmpty(nuevaContraHash))
+                    try
                     {
-                        cmd.Parameters.AddWithValue("@hash", nuevaContraHash);
-                    }
+                        string emailViejo = "";
+                        string querySelect = "SELECT Email FROM Usuarios WHERE ID = @id";
+                        using (SQLiteCommand cmdS = new SQLiteCommand(querySelect, conexion, transaction))
+                        {
+                            cmdS.Parameters.AddWithValue("@id", idUsuario);
+                            emailViejo = cmdS.ExecuteScalar()?.ToString();
+                        }
 
-                    return cmd.ExecuteNonQuery() > 0;
+                        string queryUsuario = string.IsNullOrEmpty(nuevaContraHash)
+                            ? "UPDATE Usuarios SET Email = @email, Rol = @rol WHERE ID = @id"
+                            : "UPDATE Usuarios SET Email = @email, Rol = @rol, ContraHash = @hash WHERE ID = @id";
+
+                        using (SQLiteCommand cmdU = new SQLiteCommand(queryUsuario, conexion, transaction))
+                        {
+                            cmdU.Parameters.AddWithValue("@email", email);
+                            cmdU.Parameters.AddWithValue("@rol", rol);
+                            cmdU.Parameters.AddWithValue("@id", idUsuario);
+
+                            if (!string.IsNullOrEmpty(nuevaContraHash))
+                            {
+                                cmdU.Parameters.AddWithValue("@hash", nuevaContraHash);
+                            }
+
+                            cmdU.ExecuteNonQuery();
+                        }
+
+                        if (!string.IsNullOrEmpty(emailViejo))
+                        {
+                            string queryVendedor = "UPDATE Vendedores SET Email = @emailNuevo WHERE Email = @emailViejo";
+                            using (SQLiteCommand cmdV = new SQLiteCommand(queryVendedor, conexion, transaction))
+                            {
+                                cmdV.Parameters.AddWithValue("@emailNuevo", email);
+                                cmdV.Parameters.AddWithValue("@emailViejo", emailViejo);
+                                cmdV.ExecuteNonQuery();
+                            }
+                        }
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
             }
         }

@@ -82,7 +82,7 @@ namespace SistemaFinal.Capa_Datos
             return lista;
         }
 
-        // 3. Cantidad de no leídas para el Badge/Círculo rojo
+        
         public int ObtenerCantidadNoLeidas()
         {
             using (SQLiteConnection conn = new SQLiteConnection(connectionString))
@@ -96,7 +96,7 @@ namespace SistemaFinal.Capa_Datos
             }
         }
 
-        // 4. Marcar todas como leídas
+      
         public void MarcarTodasComoLeidas()
         {
             using (SQLiteConnection conn = new SQLiteConnection(connectionString))

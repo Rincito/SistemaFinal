@@ -45,6 +45,8 @@
             label6 = new Label();
             ApeTxtBox = new TextBox();
             CUILTxtBox = new TextBox();
+            emailTxtBox = new TextBox();
+            label7 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -216,6 +218,24 @@
             CUILTxtBox.TabIndex = 20;
             CUILTxtBox.TextChanged += CUILTxtBox_TextChanged;
             // 
+            // emailTxtBox
+            // 
+            emailTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            emailTxtBox.Location = new Point(239, 182);
+            emailTxtBox.Name = "emailTxtBox";
+            emailTxtBox.Size = new Size(183, 29);
+            emailTxtBox.TabIndex = 22;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Location = new Point(239, 158);
+            label7.Name = "label7";
+            label7.Size = new Size(51, 21);
+            label7.TabIndex = 21;
+            label7.Text = "Email:";
+            // 
             // AgregarVendedor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -223,6 +243,8 @@
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(630, 528);
             ControlBox = false;
+            Controls.Add(emailTxtBox);
+            Controls.Add(label7);
             Controls.Add(CUILTxtBox);
             Controls.Add(ApeTxtBox);
             Controls.Add(label6);
@@ -269,5 +291,7 @@
         private Label label6;
         private TextBox ApeTxtBox;
         private TextBox CUILTxtBox;
+        private TextBox emailTxtBox;
+        private Label label7;
     }
 }

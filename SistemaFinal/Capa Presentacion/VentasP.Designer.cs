@@ -104,6 +104,7 @@
             // 
             // CliComBox
             // 
+            CliComBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             CliComBox.DropDownStyle = ComboBoxStyle.DropDownList;
             CliComBox.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold);
             CliComBox.FormattingEnabled = true;
@@ -114,6 +115,7 @@
             // 
             // label10
             // 
+            label10.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label10.AutoSize = true;
             label10.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label10.Location = new Point(400, 120);
@@ -138,6 +140,7 @@
             // 
             // panel3
             // 
+            panel3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             panel3.Controls.Add(PrecBtn);
             panel3.Controls.Add(CantBtn);
             panel3.Controls.Add(SenaBtn);
@@ -197,6 +200,7 @@
             // 
             // AceptBtn
             // 
+            AceptBtn.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             AceptBtn.Font = new Font("Trebuchet MS", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             AceptBtn.Location = new Point(961, 576);
             AceptBtn.Name = "AceptBtn";
@@ -208,6 +212,7 @@
             // 
             // SalirBtn
             // 
+            SalirBtn.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             SalirBtn.Font = new Font("Trebuchet MS", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             SalirBtn.Location = new Point(1089, 576);
             SalirBtn.Name = "SalirBtn";
@@ -219,6 +224,7 @@
             // 
             // TxtBoxTotal
             // 
+            TxtBoxTotal.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             TxtBoxTotal.BorderStyle = BorderStyle.FixedSingle;
             TxtBoxTotal.Enabled = false;
             TxtBoxTotal.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold);
@@ -230,6 +236,7 @@
             // 
             // label9
             // 
+            label9.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label9.AutoSize = true;
             label9.BackColor = Color.Transparent;
             label9.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -241,6 +248,7 @@
             // 
             // RecTxtBox
             // 
+            RecTxtBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             RecTxtBox.BorderStyle = BorderStyle.FixedSingle;
             RecTxtBox.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold);
             RecTxtBox.Location = new Point(1085, 114);
@@ -251,6 +259,7 @@
             // 
             // DescTxtBox
             // 
+            DescTxtBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             DescTxtBox.BorderStyle = BorderStyle.FixedSingle;
             DescTxtBox.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold);
             DescTxtBox.Location = new Point(835, 113);
@@ -274,6 +283,7 @@
             // 
             // panel2
             // 
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel2.Controls.Add(PanelArts);
             panel2.Controls.Add(DGVCarrito);
             panel2.Location = new Point(33, 156);
@@ -293,8 +303,8 @@
             // 
             // DGVArts
             // 
+            DGVArts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DGVArts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DGVArts.Dock = DockStyle.Fill;
             DGVArts.Location = new Point(0, 0);
             DGVArts.MultiSelect = false;
             DGVArts.Name = "DGVArts";
@@ -303,14 +313,15 @@
             DGVArts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             DGVArts.Size = new Size(862, 324);
             DGVArts.TabIndex = 0;
+            DGVArts.CellContentClick += DGVArts_CellContentClick;
             DGVArts.CellContentDoubleClick += DGVArts_CellContentDoubleClick;
             DGVArts.KeyDown += DGVArts_KeyDown;
             // 
             // DGVCarrito
             // 
+            DGVCarrito.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DGVCarrito.BackgroundColor = SystemColors.ControlLight;
             DGVCarrito.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DGVCarrito.Dock = DockStyle.Fill;
             DGVCarrito.GridColor = SystemColors.InactiveCaptionText;
             DGVCarrito.Location = new Point(0, 0);
             DGVCarrito.Name = "DGVCarrito";
@@ -334,6 +345,7 @@
             // 
             // label7
             // 
+            label7.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label7.AutoSize = true;
             label7.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.Location = new Point(996, 115);
@@ -344,6 +356,7 @@
             // 
             // label6
             // 
+            label6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label6.AutoSize = true;
             label6.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.Location = new Point(748, 116);
@@ -354,6 +367,7 @@
             // 
             // CondPagoComBox
             // 
+            CondPagoComBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             CondPagoComBox.DropDownStyle = ComboBoxStyle.DropDownList;
             CondPagoComBox.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold);
             CondPagoComBox.FormattingEnabled = true;
@@ -364,6 +378,7 @@
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label5.AutoSize = true;
             label5.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.Location = new Point(625, 66);
@@ -384,6 +399,7 @@
             // 
             // TxtBoxFecha
             // 
+            TxtBoxFecha.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             TxtBoxFecha.BorderStyle = BorderStyle.FixedSingle;
             TxtBoxFecha.Enabled = false;
             TxtBoxFecha.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold);
@@ -399,6 +415,7 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
             label3.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.Location = new Point(937, 9);
@@ -419,6 +436,7 @@
             // 
             // VendComBox
             // 
+            VendComBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             VendComBox.DropDownStyle = ComboBoxStyle.DropDownList;
             VendComBox.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold);
             VendComBox.FormattingEnabled = true;
@@ -430,6 +448,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label2.AutoSize = true;
             label2.Font = new Font("Trebuchet MS", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(423, 15);

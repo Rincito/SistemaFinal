@@ -44,20 +44,32 @@ namespace SistemaFinal.Capa_Presentacion
             string rolTexto = ComboBoxRol.SelectedItem.ToString(); ;
             if (logica.ValidarIngreso(contra, rolTexto, out string error, out int rolNumero, out UsuarioDTO usuario))
             {
+                SesionActual.Email = usuario.Email;
+                SesionActual.Rol = rolNumero;
+                VendedorL vendedorL = new VendedorL();
+                var vendedorAsociado = vendedorL.ListarVendedores().FirstOrDefault(v => v.Email.Equals(usuario.Email, StringComparison.OrdinalIgnoreCase));
 
-                // Redirección según el rol
+                if (vendedorAsociado != null)
+                {
+                    SesionActual.NombreCompleto = $"{vendedorAsociado.Nombre} {vendedorAsociado.Apellido}";
+                }
+                else
+                {
+                    SesionActual.NombreCompleto = "Administrador Principal";
+                }
+
                 if (rolNumero == 1)
                 {
-                    Inicio formAdmin = new Inicio(this);
+                    Inicio formAdmin = new Inicio(this, rolNumero);
                     formAdmin.Show();
                 }
                 else if (rolNumero == 0)
                 {
-                    //FormVendedor formVendedor = new FormVendedor();
-                    //formVendedor.Show();
+                    Inicio formVend = new Inicio(this, rolNumero);
+                    formVend.Show();
                 }
                 ContraTxtBox.Clear();
-                this.Hide(); // Oculta la pantalla de Login
+                this.Hide(); 
             }
             else
             {
@@ -69,18 +81,12 @@ namespace SistemaFinal.Capa_Presentacion
         {
             if (ContraTxtBox.PasswordChar == '*')
             {
-                // Revelamos la contraseña (carácter nulo)
                 ContraTxtBox.PasswordChar = '\0';
-
-                // Cambiamos al icono del ojo abierto
                 pictureBox1.BackgroundImage = Properties.Resources.hide;
             }
             else
             {
-                // Volvemos a ocultar la contraseña con asterisco
                 ContraTxtBox.PasswordChar = '*';
-
-                // Cambiamos al icono del ojo cerrado
                 pictureBox1.BackgroundImage = Properties.Resources.view;
             }
         }

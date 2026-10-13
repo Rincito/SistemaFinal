@@ -10,6 +10,7 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
         public VentasP()
         {
             InitializeComponent();
+            this.KeyPress += new KeyPressEventHandler(VentasP_KeyPress);
             TxtBoxFecha.Text = DateTime.Now.ToString("d");
             TxtBoxTotal.Text = "$0,00";
             this.KeyPreview = true;
@@ -148,18 +149,10 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
             base.OnKeyDown(e);
             if (e.KeyCode == Keys.F5)
             {
-                TxtBoxBusq_Click(e, e);
-            }
-            if (e.KeyCode == Keys.Oem2)
-            {
-                CambiarPrecioFilaSeleccionada();
+                TxtBoxBusq_Click(this, EventArgs.Empty);
                 e.Handled = true;
             }
-            if (e.KeyCode == Keys.Oem8)
-            {
-                ModificarCantidadFilaCarrito();
-                e.Handled = true;
-            }
+
             base.OnKeyDown(e);
 
 
@@ -220,10 +213,10 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
         private void TxtBoxBusq_Click(object sender, EventArgs e)
         {
             TxtBoxBusq.Clear();
-            PanelArts.Visible = !PanelArts.Visible;
-            DGVArts.Visible = !DGVArts.Visible;
-            TxtBoxBusq.Focus();
+            PanelArts.Visible = true;
+            DGVArts.Visible = true;
             MostDgv();
+            TxtBoxBusq.Focus();
         }
 
         private void PanelArts_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -450,16 +443,6 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
 
         private void DGVCarrito_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Oem2)
-            {
-                CambiarPrecioFilaSeleccionada();
-                e.Handled = true;
-            }
-            if (e.KeyCode == Keys.Oem8)
-            {
-                ModificarCantidadFilaCarrito();
-                e.Handled = true;
-            }
 
         }
 
@@ -637,6 +620,7 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
                                 if (detallesArticulos.Any())
                                 {
                                     ventasL.GuardarDetalleVenta(numFactura, detallesArticulos, metodoPago, totalVenta, cuilCliente, vendedor);
+                                    VerificarYNotificarStockBajo();
                                     MessageBox.Show("Venta registrada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     Completo = true;
                                 }
@@ -689,6 +673,7 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
                             if (detallesArticulos.Any())
                             {
                                 ventasL.GuardarDetalleVenta(numFactura, detallesArticulos, metodoPago, totalVenta, cuilCliente, vendedor);
+                                VerificarYNotificarStockBajo();
                                 MessageBox.Show("Venta registrada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 Completo = true;
                             }
@@ -733,6 +718,7 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
                             if (detallesArticulos.Any())
                             {
                                 ventasL.GuardarDetalleVenta(numFactura, detallesArticulos, metodoPago, totalVenta, cuilCliente, vendedor);
+                                VerificarYNotificarStockBajo();
                                 MessageBox.Show("Venta registrada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 Completo = true;
                             }
@@ -776,9 +762,69 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
                         });
                     }
                 }
-                FactPresupuesto fact = new FactPresupuesto (numFactura, fechaHora, totalVenta, detallesArticulos);
+                FactPresupuesto fact = new FactPresupuesto(numFactura, fechaHora, totalVenta, detallesArticulos);
                 fact.Show();
             }
+        }
+        private void VentasP_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            if (e.KeyChar == '*')
+            {
+                ModificarCantidadFilaCarrito();
+                e.Handled = true;
+            }
+
+            else if (e.KeyChar == '/')
+            {
+                CambiarPrecioFilaSeleccionada();
+                e.Handled = true;
+            }
+        }
+        private void VerificarYNotificarStockBajo()
+        {
+            try
+            {
+                NotificacionL notiLogica = new NotificacionL();
+                ArticuloL artLogica = new ArticuloL();
+                var listaArticulosDb = artLogica.ListarArticulos();
+
+                foreach (DataGridViewRow fila in DGVCarrito.Rows)
+                {
+                    if (fila.Cells["Nombre"]?.Value != null &&
+                        int.TryParse(fila.Cells["Cantidad"]?.Value?.ToString(), out int cantidadVendida))
+                    {
+                        string nombreArticulo = fila.Cells["Nombre"].Value.ToString();
+
+                        
+                        var articuloDb = listaArticulosDb.FirstOrDefault(a => a.Nombre.Equals(nombreArticulo, StringComparison.OrdinalIgnoreCase));
+
+                        if (articuloDb != null)
+                        {
+                            
+                            int stockRestante = articuloDb.Stock - cantidadVendida;
+
+                            if (stockRestante <= articuloDb.StockMin)
+                            {
+                                notiLogica.RegistrarNotificacion(
+                                    tema: "Productos",
+                                    titulo: "Stock Mínimo Alcanzado",
+                                    descripcion: $"El artículo '{nombreArticulo}' cuenta con {stockRestante} unidades disponibles."
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                
+            }
+        }
+
+        private void DGVArts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

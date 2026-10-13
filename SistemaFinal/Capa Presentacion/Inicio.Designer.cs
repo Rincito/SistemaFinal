@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inicio));
             menuStrip1 = new MenuStrip();
             vendedoresToolStripMenuItem = new ToolStripMenuItem();
@@ -53,8 +54,11 @@
             cajaToolStripMenuItem1 = new ToolStripMenuItem();
             gastosToolStripMenuItem = new ToolStripMenuItem();
             gestiónUsuariosToolStripMenuItem = new ToolStripMenuItem();
+            cambiarUsuarioToolStripMenuItem = new ToolStripMenuItem();
             ayudaToolStripMenuItem = new ToolStripMenuItem();
             manualDelSistemaToolStripMenuItem = new ToolStripMenuItem();
+            exportarBaseDeDatosToolStripMenuItem = new ToolStripMenuItem();
+            importarArtículosDeExcelToolStripMenuItem = new ToolStripMenuItem();
             salidaToolStripMenuItem = new ToolStripMenuItem();
             BtnSalidaSalir = new ToolStripMenuItem();
             ArtBtn = new Button();
@@ -68,15 +72,18 @@
             Dolar = new ToolStripStatusLabel();
             panel2 = new Panel();
             panel3 = new Panel();
+            panel4 = new Panel();
+            timerNotis = new System.Windows.Forms.Timer(components);
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
             statusStrip1.SuspendLayout();
             panel3.SuspendLayout();
+            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { vendedoresToolStripMenuItem, cajaToolStripMenuItem, reportesToolStripMenuItem, administracipToolStripMenuItem, notificacionesToolStripMenuItem, gestiónUsuariosToolStripMenuItem, ayudaToolStripMenuItem, salidaToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { vendedoresToolStripMenuItem, cajaToolStripMenuItem, reportesToolStripMenuItem, administracipToolStripMenuItem, notificacionesToolStripMenuItem, gestiónUsuariosToolStripMenuItem, cambiarUsuarioToolStripMenuItem, ayudaToolStripMenuItem, salidaToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(960, 24);
@@ -207,28 +214,28 @@
             // generalToolStripMenuItem
             // 
             generalToolStripMenuItem.Name = "generalToolStripMenuItem";
-            generalToolStripMenuItem.Size = new Size(180, 22);
+            generalToolStripMenuItem.Size = new Size(128, 22);
             generalToolStripMenuItem.Text = "General";
             generalToolStripMenuItem.Click += generalToolStripMenuItem_Click;
             // 
             // productosToolStripMenuItem
             // 
             productosToolStripMenuItem.Name = "productosToolStripMenuItem";
-            productosToolStripMenuItem.Size = new Size(180, 22);
+            productosToolStripMenuItem.Size = new Size(128, 22);
             productosToolStripMenuItem.Text = "Productos";
             productosToolStripMenuItem.Click += productosToolStripMenuItem_Click;
             // 
             // cajaToolStripMenuItem1
             // 
             cajaToolStripMenuItem1.Name = "cajaToolStripMenuItem1";
-            cajaToolStripMenuItem1.Size = new Size(180, 22);
+            cajaToolStripMenuItem1.Size = new Size(128, 22);
             cajaToolStripMenuItem1.Text = "Caja";
             cajaToolStripMenuItem1.Click += cajaToolStripMenuItem1_Click;
             // 
             // gastosToolStripMenuItem
             // 
             gastosToolStripMenuItem.Name = "gastosToolStripMenuItem";
-            gastosToolStripMenuItem.Size = new Size(180, 22);
+            gastosToolStripMenuItem.Size = new Size(128, 22);
             gastosToolStripMenuItem.Text = "Gastos";
             gastosToolStripMenuItem.Click += gastosToolStripMenuItem_Click;
             // 
@@ -239,9 +246,16 @@
             gestiónUsuariosToolStripMenuItem.Text = "Gestión Usuarios";
             gestiónUsuariosToolStripMenuItem.Click += gestiónUsuariosToolStripMenuItem_Click;
             // 
+            // cambiarUsuarioToolStripMenuItem
+            // 
+            cambiarUsuarioToolStripMenuItem.Name = "cambiarUsuarioToolStripMenuItem";
+            cambiarUsuarioToolStripMenuItem.Size = new Size(107, 20);
+            cambiarUsuarioToolStripMenuItem.Text = "Cambiar Usuario";
+            cambiarUsuarioToolStripMenuItem.Click += cambiarUsuarioToolStripMenuItem_Click;
+            // 
             // ayudaToolStripMenuItem
             // 
-            ayudaToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { manualDelSistemaToolStripMenuItem });
+            ayudaToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { manualDelSistemaToolStripMenuItem, exportarBaseDeDatosToolStripMenuItem, importarArtículosDeExcelToolStripMenuItem });
             ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
             ayudaToolStripMenuItem.Size = new Size(53, 20);
             ayudaToolStripMenuItem.Text = "Ayuda";
@@ -249,8 +263,22 @@
             // manualDelSistemaToolStripMenuItem
             // 
             manualDelSistemaToolStripMenuItem.Name = "manualDelSistemaToolStripMenuItem";
-            manualDelSistemaToolStripMenuItem.Size = new Size(176, 22);
+            manualDelSistemaToolStripMenuItem.Size = new Size(215, 22);
             manualDelSistemaToolStripMenuItem.Text = "Manual del sistema";
+            // 
+            // exportarBaseDeDatosToolStripMenuItem
+            // 
+            exportarBaseDeDatosToolStripMenuItem.Name = "exportarBaseDeDatosToolStripMenuItem";
+            exportarBaseDeDatosToolStripMenuItem.Size = new Size(215, 22);
+            exportarBaseDeDatosToolStripMenuItem.Text = "Exportar Base de Datos";
+            exportarBaseDeDatosToolStripMenuItem.Click += exportarBaseDeDatosToolStripMenuItem_Click;
+            // 
+            // importarArtículosDeExcelToolStripMenuItem
+            // 
+            importarArtículosDeExcelToolStripMenuItem.Name = "importarArtículosDeExcelToolStripMenuItem";
+            importarArtículosDeExcelToolStripMenuItem.Size = new Size(215, 22);
+            importarArtículosDeExcelToolStripMenuItem.Text = "Importar Artículos de Excel";
+            importarArtículosDeExcelToolStripMenuItem.Click += importarArtículosDeExcelToolStripMenuItem_Click;
             // 
             // salidaToolStripMenuItem
             // 
@@ -366,9 +394,9 @@
             // 
             panel2.AutoSize = true;
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(140, 24);
+            panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(820, 643);
+            panel2.Size = new Size(820, 606);
             panel2.TabIndex = 3;
             panel2.PreviewKeyDown += panel2_PreviewKeyDown;
             // 
@@ -376,11 +404,27 @@
             // 
             panel3.Controls.Add(statusStrip1);
             panel3.Dock = DockStyle.Bottom;
-            panel3.Location = new Point(140, 630);
+            panel3.Location = new Point(0, 606);
             panel3.MaximumSize = new Size(0, 37);
             panel3.Name = "panel3";
             panel3.Size = new Size(820, 37);
             panel3.TabIndex = 4;
+            // 
+            // panel4
+            // 
+            panel4.Controls.Add(panel2);
+            panel4.Controls.Add(panel3);
+            panel4.Dock = DockStyle.Fill;
+            panel4.Location = new Point(140, 24);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(820, 643);
+            panel4.TabIndex = 5;
+            // 
+            // timerNotis
+            // 
+            timerNotis.Enabled = true;
+            timerNotis.Interval = 60000;
+            timerNotis.Tick += timerNotis_Tick;
             // 
             // Inicio
             // 
@@ -388,8 +432,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(960, 667);
-            Controls.Add(panel3);
-            Controls.Add(panel2);
+            Controls.Add(panel4);
             Controls.Add(panel1);
             Controls.Add(menuStrip1);
             DoubleBuffered = true;
@@ -407,6 +450,8 @@
             statusStrip1.PerformLayout();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -452,5 +497,10 @@
         private ToolStripMenuItem pagoAVendedorToolStripMenuItem;
         private ToolStripMenuItem ventasPorVendedorToolStripMenuItem;
         private ToolStripMenuItem gestiónUsuariosToolStripMenuItem;
+        private ToolStripMenuItem exportarBaseDeDatosToolStripMenuItem;
+        private ToolStripMenuItem importarArtículosDeExcelToolStripMenuItem;
+        private ToolStripMenuItem cambiarUsuarioToolStripMenuItem;
+        private Panel panel4;
+        private System.Windows.Forms.Timer timerNotis;
     }
 }

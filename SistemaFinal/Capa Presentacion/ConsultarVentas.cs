@@ -1,4 +1,5 @@
-﻿using SistemaFinal.Capa_Logica;
+﻿using SistemaFinal.Capa_Datos;
+using SistemaFinal.Capa_Logica;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,18 +34,7 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 VentasL logica = new VentasL();
                 var ventas = logica.ObtenerVentasActivas();
-                
-
-                dataGridView1.DataSource = ventas.Select(v => new
-                {
-                    v.NumFactura,
-                    v.FechaHora,
-                    v.Cliente,
-                    v.Metodo,
-                    v.Total
-                }).ToList();
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[0];
+                MostrarVentasFiltradas(ventas);
 
             }
             catch (Exception ex)
@@ -58,16 +48,7 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 VentasL logica = new VentasL();
                 var ventas = logica.ObtenerVentasAnuladas();
-                dataGridView1.DataSource = ventas.Select(v => new
-                {
-                    v.NumFactura,
-                    v.FechaHora,
-                    v.Cliente,
-                    v.Metodo,
-                    v.Total
-                }).ToList();
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[0];
+                MostrarVentasFiltradas(ventas);
             }
             catch (Exception ex)
             {
@@ -86,16 +67,7 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 VentasL logica = new VentasL();
                 var ventas = logica.ObtenerVentasEfectivo();
-                dataGridView1.DataSource = ventas.Select(v => new
-                {
-                    v.NumFactura,
-                    v.FechaHora,
-                    v.Cliente,
-                    v.Metodo,
-                    v.Total
-                }).ToList();
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[0];
+                MostrarVentasFiltradas(ventas);
             }
             catch (Exception ex)
             {
@@ -109,20 +81,34 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 VentasL logica = new VentasL();
                 var ventas = logica.ObtenerVentasTarjeta();
-                dataGridView1.DataSource = ventas.Select(v => new
+                MostrarVentasFiltradas(ventas);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar las ventas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void MostrarVentasFiltradas(List<Venta> ventas)
+        {
+            var ventasFiltradas = ventas
+                .Where(v => v.FechaHora >= DateTime.Now.AddDays(-2))
+                .Select(v => new
                 {
                     v.NumFactura,
                     v.FechaHora,
                     v.Cliente,
                     v.Metodo,
                     v.Total
-                }).ToList();
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[0];
-            }
-            catch (Exception ex)
+                })
+                .ToList();
+
+            dataGridView1.DataSource = ventasFiltradas;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            if (dataGridView1.Rows.Count > 0)
             {
-                MessageBox.Show($"Error al cargar las ventas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[0];
             }
         }
 
@@ -215,7 +201,61 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void ImprimBtn_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(TxtBoxFact.Text))
+            {
+                MessageBox.Show("Seleccione una venta para imprimir el comprobante.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                int numFactura = Convert.ToInt32(TxtBoxFact.Text);
+
+                DateTime fechaHora = DateTime.TryParse(TxtBoxFecha.Text, out DateTime parsedDate) ? parsedDate : DateTime.Now;
+
+                decimal totalVenta = decimal.Parse(TxtBoxTotal.Text.Replace("$", "").Trim(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture);
+
+                List<DetalleArticulo> detallesArticulos = new List<DetalleArticulo>();
+
+                
+                foreach (DataGridViewRow fila in dataGridView2.Rows)
+                {
+                    if (fila.Cells["Nombre"]?.Value != null &&
+                        fila.Cells["Cantidad"]?.Value != null &&
+                        fila.Cells["Precio"]?.Value != null &&
+                        int.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out int cantidad) &&
+                        decimal.TryParse(fila.Cells["Precio"].Value?.ToString(), out decimal precio))
+                    {
+                        string nombreArticulo = fila.Cells["Nombre"].Value.ToString();
+
+                       
+                        decimal subtotal = (fila.Cells["Subtotal"]?.Value != null &&
+                                            decimal.TryParse(fila.Cells["Subtotal"].Value.ToString(), out decimal sub))
+                                            ? sub
+                                            : (cantidad * precio);
+
+                        detallesArticulos.Add(new DetalleArticulo
+                        {
+                            Nombre = nombreArticulo,
+                            Cantidad = cantidad,
+                            Precio = precio,
+                            Subtotal = subtotal
+                        });
+                    }
+                }
+
+                FactPresupuesto fact = new FactPresupuesto(numFactura, fechaHora, totalVenta, detallesArticulos);
+                fact.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el comprobante: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
