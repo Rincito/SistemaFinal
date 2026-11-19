@@ -40,6 +40,7 @@ namespace SistemaFinal.Capa_Presentacion
             }
 
             CargarResumen();
+            Estilos.Tema.AplicarEstiloResumenVentas(this);
         }
 
         public ResumenVentasFechas(bool esModoTarjeta)
@@ -49,7 +50,7 @@ namespace SistemaFinal.Capa_Presentacion
 
             if (esModoTarjeta)
             {
-                string fechaHoy = DateTime.Now.ToString("yyyy-MM-dd");
+                string fechaHoy = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                 label1.Text = $"💳 Ventas con Tarjeta del Día ({fechaHoy})";
                 CargarResumenTarjetas(fechaHoy);
             }
@@ -57,15 +58,27 @@ namespace SistemaFinal.Capa_Presentacion
         private void ConfigurarDiseño()
         {
             this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.AutoScroll = true;
-            tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Clear();
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowCount = 0;
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            this.BackColor = Estilos.Tema.FondoMenuOscuro;
+
+            if (label1 != null)
+            {
+                label1.ForeColor = Color.White;
+                label1.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+                label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+                label1.TextAlign = ContentAlignment.MiddleCenter;
+            }
+
+            if (tableLayoutPanel1 != null)
+            {
+                tableLayoutPanel1.Dock = DockStyle.Fill;
+                tableLayoutPanel1.AutoScroll = true;
+                tableLayoutPanel1.ColumnCount = 2;
+                tableLayoutPanel1.ColumnStyles.Clear();
+                tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                tableLayoutPanel1.RowCount = 0;
+                tableLayoutPanel1.BackColor = Estilos.Tema.FondoMenuOscuro;
+            }
         }
 
         private void CargarResumen()
@@ -95,14 +108,14 @@ namespace SistemaFinal.Capa_Presentacion
 
                 Label lblFecha = new Label
                 {
-                    Text = $"Fecha: {fecha}",
-                    Font = new Font("Arial", 14, FontStyle.Bold),
+                    Text = $"📅 Fecha: {fecha}",
+                    Font = new Font("Segoe UI", 12F, FontStyle.Bold),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
-                    BackColor = Color.DarkGray,
+                    BackColor = Estilos.Tema.TealAuriculares,
                     ForeColor = Color.White,
-                    Margin = new Padding(5, 10, 5, 5),
-                    
+                    Margin = new Padding(5, 10, 5, 5)
+
                 };
 
                 tableLayoutPanel1.Controls.Add(lblFecha, 0, filaActual);
@@ -139,7 +152,7 @@ namespace SistemaFinal.Capa_Presentacion
             VentasL ventas = new VentasL();
             Dictionary<string, List<VentaDetalle>> resumenPorTarjeta = ventas.CargarResumenTarjetasDelDia(fechaHoy);
 
-            label1.Text = $"Ventas con Tarjeta del Día ({fechaHoy})";
+            label1.Text = $"💳 Ventas con Tarjeta del Día ({fechaHoy})";
 
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel1.RowStyles.Clear();
@@ -155,10 +168,10 @@ namespace SistemaFinal.Capa_Presentacion
                 Label lblTarjeta = new Label
                 {
                     Text = $"💳 Tarjeta: {tarjeta}",
-                    Font = new Font("Arial", 14, FontStyle.Bold),
+                    Font = new Font("Segoe UI", 12F, FontStyle.Bold),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Dock = DockStyle.Fill,
-                    BackColor = Color.DarkSlateBlue,
+                    BackColor = Color.FromArgb(70, 130, 180), // Steel Blue elegante
                     ForeColor = Color.White,
                     Margin = new Padding(5, 10, 5, 5)
                 };
@@ -203,10 +216,10 @@ namespace SistemaFinal.Capa_Presentacion
                 Font = new Font("Arial", 12, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Dock = DockStyle.Fill, // Obliga a ocupar toda la celda simétricamente
-                BackColor = Color.LightSteelBlue,
-                ForeColor = Color.Black,
+                BackColor = Color.FromArgb(33, 37, 41),
+                ForeColor = Color.White,
                 BorderStyle = BorderStyle.FixedSingle,
-                Padding = new Padding(5),
+                Padding = new Padding(8),
                 Margin = new Padding(5)
             };
         }

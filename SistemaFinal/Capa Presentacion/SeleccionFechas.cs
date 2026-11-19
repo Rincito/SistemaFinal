@@ -17,6 +17,7 @@ namespace SistemaFinal.Capa_Presentacion
         public SeleccionFechas()
         {
             InitializeComponent();
+            Estilos.Tema.AplicarEstiloVentasXVend(this);
         }
 
         private void SaveBtn_Click(object sender, EventArgs e)

@@ -70,7 +70,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.DarkSlateGray;
+            panel1.BackColor = Color.FromArgb(26, 29, 32);
             panel1.Controls.Add(BuscarArtBtn);
             panel1.Controls.Add(StockActual);
             panel1.Controls.Add(DadosBaja);
@@ -86,81 +86,98 @@
             // 
             // BuscarArtBtn
             // 
+            BuscarArtBtn.BackColor = Color.White;
             BuscarArtBtn.Dock = DockStyle.Top;
+            BuscarArtBtn.FlatStyle = FlatStyle.Flat;
             BuscarArtBtn.Location = new Point(0, 330);
             BuscarArtBtn.Name = "BuscarArtBtn";
             BuscarArtBtn.Size = new Size(134, 55);
             BuscarArtBtn.TabIndex = 6;
             BuscarArtBtn.Text = "Buscar x Nombre - F5";
-            BuscarArtBtn.UseVisualStyleBackColor = true;
+            BuscarArtBtn.UseVisualStyleBackColor = false;
             BuscarArtBtn.Click += BuscarArtBtn_Click_1;
             BuscarArtBtn.KeyDown += BuscarArtBtn_KeyDown_1;
             // 
             // StockActual
             // 
+            StockActual.BackColor = Color.FromArgb(0, 188, 212);
             StockActual.Dock = DockStyle.Top;
+            StockActual.FlatStyle = FlatStyle.Flat;
+            StockActual.ForeColor = SystemColors.Control;
             StockActual.Location = new Point(0, 275);
             StockActual.Name = "StockActual";
             StockActual.Size = new Size(134, 55);
             StockActual.TabIndex = 5;
             StockActual.Text = "Stock Actual (Activos)";
-            StockActual.UseVisualStyleBackColor = true;
+            StockActual.UseVisualStyleBackColor = false;
             StockActual.Click += StockActual_Click;
             // 
             // DadosBaja
             // 
+            DadosBaja.BackColor = Color.FromArgb(220, 53, 69);
             DadosBaja.Dock = DockStyle.Top;
+            DadosBaja.FlatStyle = FlatStyle.Flat;
             DadosBaja.Location = new Point(0, 220);
             DadosBaja.Name = "DadosBaja";
             DadosBaja.Size = new Size(134, 55);
             DadosBaja.TabIndex = 4;
             DadosBaja.Text = "Ver Dados de Baja";
-            DadosBaja.UseVisualStyleBackColor = true;
+            DadosBaja.UseVisualStyleBackColor = false;
             DadosBaja.Click += DadosBaja_Click;
             // 
             // ReactArtBtn
             // 
+            ReactArtBtn.BackColor = Color.FromArgb(0, 188, 212);
             ReactArtBtn.Dock = DockStyle.Top;
+            ReactArtBtn.FlatStyle = FlatStyle.Flat;
+            ReactArtBtn.ForeColor = SystemColors.Control;
             ReactArtBtn.Location = new Point(0, 165);
             ReactArtBtn.Name = "ReactArtBtn";
             ReactArtBtn.Size = new Size(134, 55);
             ReactArtBtn.TabIndex = 3;
             ReactArtBtn.Text = "Reactivar";
-            ReactArtBtn.UseVisualStyleBackColor = true;
+            ReactArtBtn.UseVisualStyleBackColor = false;
             ReactArtBtn.Click += BuscarArtBtn_Click;
             ReactArtBtn.KeyDown += BuscarArtBtn_KeyDown;
             // 
             // BajaArtBtn
             // 
+            BajaArtBtn.BackColor = Color.FromArgb(220, 53, 69);
             BajaArtBtn.Dock = DockStyle.Top;
+            BajaArtBtn.FlatStyle = FlatStyle.Flat;
             BajaArtBtn.Location = new Point(0, 110);
             BajaArtBtn.Name = "BajaArtBtn";
             BajaArtBtn.Size = new Size(134, 55);
             BajaArtBtn.TabIndex = 2;
             BajaArtBtn.Text = "Dar de Baja ";
-            BajaArtBtn.UseVisualStyleBackColor = true;
+            BajaArtBtn.UseVisualStyleBackColor = false;
             BajaArtBtn.Click += BajaArtBtn_Click;
             // 
             // ModArtBtn
             // 
+            ModArtBtn.BackColor = Color.FromArgb(0, 188, 212);
             ModArtBtn.Dock = DockStyle.Top;
+            ModArtBtn.FlatStyle = FlatStyle.Flat;
+            ModArtBtn.ForeColor = SystemColors.Control;
             ModArtBtn.Location = new Point(0, 55);
             ModArtBtn.Name = "ModArtBtn";
             ModArtBtn.Size = new Size(134, 55);
             ModArtBtn.TabIndex = 1;
             ModArtBtn.Text = "Modificar";
-            ModArtBtn.UseVisualStyleBackColor = true;
+            ModArtBtn.UseVisualStyleBackColor = false;
             ModArtBtn.Click += ModArtBtn_Click;
             // 
             // AgArtBtn
             // 
+            AgArtBtn.BackColor = Color.FromArgb(255, 214, 0);
             AgArtBtn.Dock = DockStyle.Top;
+            AgArtBtn.FlatStyle = FlatStyle.Flat;
             AgArtBtn.Location = new Point(0, 0);
             AgArtBtn.Name = "AgArtBtn";
             AgArtBtn.Size = new Size(134, 55);
             AgArtBtn.TabIndex = 0;
             AgArtBtn.Text = "Agregar";
-            AgArtBtn.UseVisualStyleBackColor = true;
+            AgArtBtn.UseVisualStyleBackColor = false;
             AgArtBtn.Click += button1_Click;
             // 
             // panel2
@@ -176,7 +193,7 @@
             // 
             // BusquedaTxtBox
             // 
-            BusquedaTxtBox.Location = new Point(33, 139);
+            BusquedaTxtBox.Location = new Point(158, 3);
             BusquedaTxtBox.Name = "BusquedaTxtBox";
             BusquedaTxtBox.Size = new Size(323, 23);
             BusquedaTxtBox.TabIndex = 1;

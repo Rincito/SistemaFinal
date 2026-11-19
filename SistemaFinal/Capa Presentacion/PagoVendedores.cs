@@ -49,6 +49,7 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 MessageBox.Show($"No se encontraron datos en la tabla {vendedores}.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            Estilos.Tema.AplicarEstiloPagoVendedores(this);
         }
 
         private void button1_Click(object sender, EventArgs e)

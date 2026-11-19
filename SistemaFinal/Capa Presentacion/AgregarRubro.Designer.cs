@@ -36,7 +36,9 @@
             BajaRubroBtn = new Button();
             dataGridView1 = new DataGridView();
             ReactRubBtn = new Button();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // AgRubBtn
@@ -125,6 +127,22 @@
             ReactRubBtn.UseVisualStyleBackColor = true;
             ReactRubBtn.Click += ReactRubBtn_Click;
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(ReactRubBtn);
+            panel1.Controls.Add(dataGridView1);
+            panel1.Controls.Add(BajaRubroBtn);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(NomRubTxtBox);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(CancelBtn);
+            panel1.Controls.Add(AgRubBtn);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(482, 503);
+            panel1.TabIndex = 9;
+            // 
             // AgregarRubro
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -132,21 +150,15 @@
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(482, 503);
             ControlBox = false;
-            Controls.Add(ReactRubBtn);
-            Controls.Add(dataGridView1);
-            Controls.Add(BajaRubroBtn);
-            Controls.Add(label2);
-            Controls.Add(NomRubTxtBox);
-            Controls.Add(label1);
-            Controls.Add(CancelBtn);
-            Controls.Add(AgRubBtn);
+            Controls.Add(panel1);
             Name = "AgregarRubro";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "AgregarRubro";
             Load += AgregarRubro_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -159,5 +171,6 @@
         private Button BajaRubroBtn;
         private DataGridView dataGridView1;
         private Button ReactRubBtn;
+        private Panel panel1;
     }
 }

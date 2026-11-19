@@ -58,7 +58,8 @@
             // 
             // SaveBtn
             // 
-            SaveBtn.Location = new Point(855, 569);
+            SaveBtn.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            SaveBtn.Location = new Point(845, 569);
             SaveBtn.Name = "SaveBtn";
             SaveBtn.Size = new Size(108, 50);
             SaveBtn.TabIndex = 0;
@@ -68,6 +69,7 @@
             // 
             // CancelBtn
             // 
+            CancelBtn.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             CancelBtn.Location = new Point(969, 569);
             CancelBtn.Name = "CancelBtn";
             CancelBtn.Size = new Size(108, 50);
@@ -79,7 +81,9 @@
             // panel1
             // 
             panel1.Controls.Add(label13);
+            panel1.Controls.Add(CancelBtn);
             panel1.Controls.Add(CostTxtBox);
+            panel1.Controls.Add(SaveBtn);
             panel1.Controls.Add(label12);
             panel1.Controls.Add(StockCritTxtBox);
             panel1.Controls.Add(label11);
@@ -100,14 +104,15 @@
             panel1.Controls.Add(label2);
             panel1.Controls.Add(CodTxtBox);
             panel1.Controls.Add(label1);
-            panel1.Dock = DockStyle.Top;
+            panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1088, 563);
+            panel1.Size = new Size(1088, 631);
             panel1.TabIndex = 2;
             // 
             // label13
             // 
+            label13.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             label13.Location = new Point(668, 107);
@@ -118,6 +123,7 @@
             // 
             // CostTxtBox
             // 
+            CostTxtBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             CostTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             CostTxtBox.Location = new Point(398, 344);
             CostTxtBox.Name = "CostTxtBox";
@@ -127,6 +133,7 @@
             // 
             // label12
             // 
+            label12.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label12.Location = new Point(398, 303);
@@ -137,6 +144,7 @@
             // 
             // StockCritTxtBox
             // 
+            StockCritTxtBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             StockCritTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             StockCritTxtBox.Location = new Point(756, 235);
             StockCritTxtBox.Name = "StockCritTxtBox";
@@ -145,6 +153,7 @@
             // 
             // label11
             // 
+            label11.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label11.Location = new Point(756, 191);
@@ -155,6 +164,7 @@
             // 
             // label10
             // 
+            label10.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 18F, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline, GraphicsUnit.Point, 0);
             label10.Location = new Point(398, 20);
@@ -165,6 +175,7 @@
             // 
             // GananciaTxtBox
             // 
+            GananciaTxtBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             GananciaTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             GananciaTxtBox.Location = new Point(756, 405);
             GananciaTxtBox.Name = "GananciaTxtBox";
@@ -174,6 +185,7 @@
             // 
             // label9
             // 
+            label9.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label9.Location = new Point(756, 363);
@@ -184,6 +196,7 @@
             // 
             // IVATxtBox
             // 
+            IVATxtBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             IVATxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             IVATxtBox.Location = new Point(756, 318);
             IVATxtBox.Name = "IVATxtBox";
@@ -193,6 +206,7 @@
             // 
             // label8
             // 
+            label8.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.Location = new Point(756, 277);
@@ -221,6 +235,7 @@
             // 
             // StockTxtBox
             // 
+            StockTxtBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             StockTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             StockTxtBox.Location = new Point(398, 261);
             StockTxtBox.Name = "StockTxtBox";
@@ -229,6 +244,7 @@
             // 
             // PrecTxtBox
             // 
+            PrecTxtBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             PrecTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             PrecTxtBox.Location = new Point(398, 431);
             PrecTxtBox.Name = "PrecTxtBox";
@@ -248,6 +264,7 @@
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.Location = new Point(398, 389);
@@ -258,6 +275,7 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.Location = new Point(398, 217);
@@ -279,6 +297,7 @@
             // 
             // NomTxtBox
             // 
+            NomTxtBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             NomTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             NomTxtBox.Location = new Point(398, 175);
             NomTxtBox.Name = "NomTxtBox";
@@ -287,6 +306,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(398, 127);
@@ -321,8 +341,6 @@
             BackColor = SystemColors.ButtonShadow;
             ClientSize = new Size(1088, 631);
             Controls.Add(panel1);
-            Controls.Add(CancelBtn);
-            Controls.Add(SaveBtn);
             Name = "AgregarArt";
             Text = "Agregar Artículo";
             Load += AgregarArt_Load;

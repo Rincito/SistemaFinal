@@ -17,6 +17,7 @@ namespace SistemaFinal.Capa_Presentacion
         public ConsultarVentas()
         {
             InitializeComponent();
+            Estilos.Tema.AplicarEstiloConsultarVentas(this);
         }
 
         private void ConsultarVentas_Load(object sender, EventArgs e)
@@ -217,6 +218,7 @@ namespace SistemaFinal.Capa_Presentacion
                 int numFactura = Convert.ToInt32(TxtBoxFact.Text);
 
                 DateTime fechaHora = DateTime.TryParse(TxtBoxFecha.Text, out DateTime parsedDate) ? parsedDate : DateTime.Now;
+                string fechaParaGuardar = fechaHora.ToString("dd/MM/yyyy HH:mm");
 
                 decimal totalVenta = decimal.Parse(TxtBoxTotal.Text.Replace("$", "").Trim(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture);
 
@@ -249,7 +251,7 @@ namespace SistemaFinal.Capa_Presentacion
                     }
                 }
 
-                FactPresupuesto fact = new FactPresupuesto(numFactura, fechaHora, totalVenta, detallesArticulos);
+                FactPresupuesto fact = new FactPresupuesto(numFactura, fechaParaGuardar, totalVenta, detallesArticulos);
                 fact.Show();
             }
             catch (Exception ex)

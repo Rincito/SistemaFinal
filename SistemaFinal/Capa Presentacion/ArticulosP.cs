@@ -1,5 +1,6 @@
 ﻿using SistemaFinal.Capa_Datos;
 using SistemaFinal.Capa_Logica;
+using SistemaFinal.Estilos;
 using System.Data;
 
 namespace SistemaFinal.Capa_Presentacion
@@ -15,7 +16,7 @@ namespace SistemaFinal.Capa_Presentacion
         private bool buscarInactivos = false;
 
         private int paginaActual = 1;
-        private int registrosPorPagina = 34;
+        private int registrosPorPagina = 29;
         private int totalPaginas = 1;
 
 
@@ -28,7 +29,7 @@ namespace SistemaFinal.Capa_Presentacion
             dataGridView1.Visible = true;
             dataGridView1.Show();
             CargarDatosPaginados();
-
+            Tema.AplicarEstructura(this, esFormHijo: true);
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -193,12 +194,7 @@ namespace SistemaFinal.Capa_Presentacion
             CargarDatosPaginados();
 
         }
-        private void MostDgvInactivos()
-        {
-            dataGridView1.Visible = true;
-            buscarInactivos = true;
-            CargarDatosPaginados();
-        }
+       
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
@@ -221,11 +217,11 @@ namespace SistemaFinal.Capa_Presentacion
 
                     if (valorActivo == "1")
                     {
-                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(204, 255, 255);
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Tema.FilaActiva;
                     }
                     else
                     {
-                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255, 182, 182);
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Tema.FilaInactiva;
                     }
                 }
             }

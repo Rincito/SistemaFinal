@@ -342,17 +342,19 @@
             // 
             // ExitBtn
             // 
+            ExitBtn.BackColor = Color.White;
             ExitBtn.Dock = DockStyle.Top;
             ExitBtn.Location = new Point(0, 292);
             ExitBtn.Name = "ExitBtn";
             ExitBtn.Size = new Size(140, 69);
             ExitBtn.TabIndex = 8;
             ExitBtn.Text = "Salir";
-            ExitBtn.UseVisualStyleBackColor = true;
+            ExitBtn.UseVisualStyleBackColor = false;
             ExitBtn.Click += button8_Click;
             // 
             // panel1
             // 
+            panel1.BackColor = Color.FromArgb(33, 33, 33);
             panel1.Controls.Add(ExitBtn);
             panel1.Controls.Add(ConsVenBtn);
             panel1.Controls.Add(VentBtn);
@@ -393,6 +395,7 @@
             // panel2
             // 
             panel2.AutoSize = true;
+            panel2.BackColor = Color.FromArgb(33, 33, 33);
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";

@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using SistemaFinal.Capa_Logica;
+using System.Configuration;
 using System.Data.SQLite;
 
 namespace SistemaFinal.Capa_Datos
@@ -191,6 +192,49 @@ namespace SistemaFinal.Capa_Datos
                 comando.Parameters.AddWithValue("@CUIL", cuil);
                 comando.ExecuteNonQuery();
 
+            }
+        }
+
+        public bool AplicarInteresAGlobal(decimal porcentaje)
+        {
+            using (var conexion = new SQLiteConnection(connectionString))
+            {
+                conexion.Open();
+                using (var transaction = conexion.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1. Aplicar el aumento del porcentaje a las cuentas corrientes (ej: 1.05 para un 5%)
+                        string queryUpdate = "UPDATE Clientes SET CuenCo = CuenCo * @Porcentaje WHERE CuenCo > 0 AND CUIL <> '1'";
+                        using (var cmdU = new SQLiteCommand(queryUpdate, conexion, transaction))
+                        {
+                            cmdU.Parameters.AddWithValue("@Porcentaje", porcentaje);
+                            cmdU.ExecuteNonQuery();
+                        }
+
+                        // 2. Registrar la notificación indicando quién realizó la acción
+                        string operador = SesionActual.NombreCompleto ?? "Administrador";
+                        string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+
+                        string queryNoti = "INSERT INTO Notificaciones (Tema, Titulo, FechayHora, Descripcion) VALUES (@Tema, @Titulo, @Fecha, @Desc)";
+                        using (var cmdN = new SQLiteCommand(queryNoti, conexion, transaction))
+                        {
+                            cmdN.Parameters.AddWithValue("@Tema", "Clientes");
+                            cmdN.Parameters.AddWithValue("@Titulo", "Recargo en Cuentas Corrientes");
+                            cmdN.Parameters.AddWithValue("@Fecha", fecha);
+                            cmdN.Parameters.AddWithValue("@Desc", $"El usuario {operador} aplicó un recargo porcentual del {((porcentaje - 1) * 100)}% a todas las cuentas corrientes activas.");
+                            cmdN.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
             }
         }
     }

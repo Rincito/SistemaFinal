@@ -36,7 +36,9 @@
             ReactMarBtn = new Button();
             CancelBtn = new Button();
             label1 = new Label();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // NomMarcaTxtBox
@@ -124,6 +126,22 @@
             label1.TabIndex = 3;
             label1.Text = "Nombre de la Marca:";
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(CancelBtn);
+            panel1.Controls.Add(ReactMarBtn);
+            panel1.Controls.Add(BajaMarcaBtn);
+            panel1.Controls.Add(dataGridView1);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(AgMarBtn);
+            panel1.Controls.Add(NomMarcaTxtBox);
+            panel1.Controls.Add(label1);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(482, 503);
+            panel1.TabIndex = 12;
+            // 
             // AgregarMarca
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -131,21 +149,15 @@
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(482, 503);
             ControlBox = false;
-            Controls.Add(CancelBtn);
-            Controls.Add(ReactMarBtn);
-            Controls.Add(BajaMarcaBtn);
-            Controls.Add(dataGridView1);
-            Controls.Add(label2);
-            Controls.Add(AgMarBtn);
-            Controls.Add(NomMarcaTxtBox);
-            Controls.Add(label1);
+            Controls.Add(panel1);
             Name = "AgregarMarca";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "AgregarMarca";
             Load += AgregarMarca_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -157,5 +169,6 @@
         private Button ReactMarBtn;
         private Button CancelBtn;
         private Label label1;
+        private Panel panel1;
     }
 }

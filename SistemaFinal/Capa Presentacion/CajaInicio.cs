@@ -23,7 +23,7 @@ namespace SistemaFinal.Capa_Presentacion
             if (decimal.TryParse(TxtBoxFact.Text, out decimal montoInicial))
             {
                 CajaL cajaL = new CajaL();
-                string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+                string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
                 cajaL.GuardarMontoInicial(fechaActual, montoInicial);
                 MessageBox.Show($"Caja inicial configurada con ${montoInicial}.");
                 this.Close();

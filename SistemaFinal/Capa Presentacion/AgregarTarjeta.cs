@@ -1,4 +1,5 @@
 ﻿using SistemaFinal.Capa_Logica;
+using SistemaFinal.Estilos;
 using System.Data;
 using static SistemaFinal.Capa_Datos.MarcaD;
 
@@ -12,6 +13,7 @@ namespace SistemaFinal.Capa_Presentacion
         public AgregarTarjeta(Form padre)
         {
             InitializeComponent();
+            Tema.AplicarEstructura(this, esFormHijo: false);
             this.Owner = padre;
             datosModificados = false;
             this.ShowInTaskbar = false;

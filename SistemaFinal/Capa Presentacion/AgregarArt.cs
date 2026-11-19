@@ -1,4 +1,5 @@
 ﻿using SistemaFinal.Capa_Logica;
+using SistemaFinal.Estilos;
 
 namespace SistemaFinal.Capa_Presentacion
 {
@@ -7,6 +8,7 @@ namespace SistemaFinal.Capa_Presentacion
         public AgregarArt()
         {
             InitializeComponent();
+            Tema.AplicarEstructura(this, esFormHijo: false);
             CostTxtBox.TextChanged += CostTxtBox_TextChanged;
             IVATxtBox.TextChanged += IVATxtBox_TextChanged;
             PrecTxtBox.TextChanged += PrecTxtBox_TextChanged;

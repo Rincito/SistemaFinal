@@ -31,6 +31,7 @@
             SaveBtn = new Button();
             CancelBtn = new Button();
             panel1 = new Panel();
+            ApeTxtBox = new TextBox();
             label13 = new Label();
             DomTxtBox = new TextBox();
             label11 = new Label();
@@ -44,12 +45,12 @@
             label2 = new Label();
             CUILTxtBox = new TextBox();
             label1 = new Label();
-            ApeTxtBox = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // SaveBtn
             // 
+            SaveBtn.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             SaveBtn.Location = new Point(855, 569);
             SaveBtn.Name = "SaveBtn";
             SaveBtn.Size = new Size(108, 50);
@@ -60,6 +61,7 @@
             // 
             // CancelBtn
             // 
+            CancelBtn.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             CancelBtn.Location = new Point(969, 569);
             CancelBtn.Name = "CancelBtn";
             CancelBtn.Size = new Size(108, 50);
@@ -84,14 +86,25 @@
             panel1.Controls.Add(label2);
             panel1.Controls.Add(CUILTxtBox);
             panel1.Controls.Add(label1);
-            panel1.Dock = DockStyle.Top;
+            panel1.Controls.Add(CancelBtn);
+            panel1.Controls.Add(SaveBtn);
+            panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1088, 563);
+            panel1.Size = new Size(1088, 631);
             panel1.TabIndex = 2;
+            // 
+            // ApeTxtBox
+            // 
+            ApeTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ApeTxtBox.Location = new Point(13, 309);
+            ApeTxtBox.Name = "ApeTxtBox";
+            ApeTxtBox.Size = new Size(248, 29);
+            ApeTxtBox.TabIndex = 28;
             // 
             // label13
             // 
+            label13.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             label13.Location = new Point(728, 178);
@@ -121,6 +134,7 @@
             // 
             // label10
             // 
+            label10.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 18F, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline, GraphicsUnit.Point, 0);
             label10.Location = new Point(398, 20);
@@ -131,6 +145,7 @@
             // 
             // EmailTxtBox
             // 
+            EmailTxtBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             EmailTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             EmailTxtBox.Location = new Point(398, 451);
             EmailTxtBox.Name = "EmailTxtBox";
@@ -139,6 +154,7 @@
             // 
             // label8
             // 
+            label8.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.Location = new Point(398, 385);
@@ -149,6 +165,7 @@
             // 
             // TelTxtBox
             // 
+            TelTxtBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             TelTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             TelTxtBox.Location = new Point(398, 309);
             TelTxtBox.Name = "TelTxtBox";
@@ -157,6 +174,7 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.Location = new Point(398, 252);
@@ -178,6 +196,7 @@
             // 
             // NomTxtBox
             // 
+            NomTxtBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             NomTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             NomTxtBox.Location = new Point(398, 175);
             NomTxtBox.Name = "NomTxtBox";
@@ -186,6 +205,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(398, 127);
@@ -212,14 +232,6 @@
             label1.TabIndex = 4;
             label1.Text = "CUIL";
             // 
-            // ApeTxtBox
-            // 
-            ApeTxtBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            ApeTxtBox.Location = new Point(13, 309);
-            ApeTxtBox.Name = "ApeTxtBox";
-            ApeTxtBox.Size = new Size(248, 29);
-            ApeTxtBox.TabIndex = 28;
-            // 
             // AgregarCli
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -227,8 +239,6 @@
             BackColor = SystemColors.ButtonShadow;
             ClientSize = new Size(1088, 631);
             Controls.Add(panel1);
-            Controls.Add(CancelBtn);
-            Controls.Add(SaveBtn);
             Name = "AgregarCli";
             Text = "Agregar Cliente";
             Load += AgregarArt_Load;

@@ -17,6 +17,7 @@ namespace SistemaFinal.Capa_Presentacion
         public Recuperacion()
         {
             InitializeComponent();
+            Estilos.Tema.AplicarEstiloRecuperacion(this);
         }
 
         private void label1_Click(object sender, EventArgs e)

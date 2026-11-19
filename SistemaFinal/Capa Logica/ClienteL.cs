@@ -41,5 +41,10 @@ namespace SistemaFinal.Capa_Logica
         {
             ClienteD.PagoCC(cuilCli, total);
         }
+        public bool AplicarInteresCuentaCorriente(decimal porcentaje)
+        {
+            ClienteD clienteD = new ClienteD();
+            return clienteD.AplicarInteresAGlobal(porcentaje);
+        }
     }
 }

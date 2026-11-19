@@ -33,6 +33,7 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 MessageBox.Show($"No se encontraron datos en la tabla {metodos}.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            Estilos.Tema.AplicarEstiloPagoVendedores(this);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -40,7 +41,7 @@ namespace SistemaFinal.Capa_Presentacion
             if (decimal.TryParse(TxtBoxFact.Text, out decimal montoInicial))
             {
                 CajaL cajaL = new CajaL();
-                string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+                string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
                 string formapago = comboBox1.SelectedValue.ToString();
                 cajaL.GuardarIngreso(fechaActual, montoInicial, formapago);
                 cajaL.NotifiIngreso(montoInicial, formapago);

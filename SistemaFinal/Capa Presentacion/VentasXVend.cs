@@ -16,6 +16,7 @@ namespace SistemaFinal.Capa_Presentacion
         public VentasXVend()
         {
             InitializeComponent();
+            Estilos.Tema.AplicarEstiloVentasXVend(this);
         }
         public string FechaInicio { get; private set; }
         public string FechaFin { get; private set; }

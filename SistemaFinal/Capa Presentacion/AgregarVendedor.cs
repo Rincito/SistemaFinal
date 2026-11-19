@@ -13,6 +13,7 @@ namespace SistemaFinal.Capa_Presentacion
         {
             this.Owner = padre;
             InitializeComponent();
+            Estilos.Tema.AplicarEstiloAgregarVendedor(this);
             datosModificados = false;
             this.ShowInTaskbar = false;
             NomVenTxtBox.TextChanged += NomProvTxtBox_TextChanged;

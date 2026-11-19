@@ -24,6 +24,7 @@ namespace SistemaFinal.Capa_Presentacion
             dataGridView1.Visible = true;
             dataGridView1.Show();
             CargarDatosPaginados();
+            Estilos.Tema.AplicarEstiloClientesP(this);
         }
         private void MostDgv()
         {
@@ -68,7 +69,7 @@ namespace SistemaFinal.Capa_Presentacion
         {
             ClienteL clienteL = new ClienteL();
 
-            int totalRegistros = clienteL.ObtenerTotalClientes(); 
+            int totalRegistros = clienteL.ObtenerTotalClientes();
             totalPaginas = (int)Math.Ceiling((double)totalRegistros / registrosPorPagina);
             if (totalPaginas == 0) totalPaginas = 1;
 
@@ -99,7 +100,7 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void ActualizarControlesPaginacionUI()
         {
-            
+
             if (paginacionLbl != null)
             {
                 paginacionLbl.Text = $"Página {paginaActual} de {totalPaginas}";
@@ -293,6 +294,40 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 paginaActual--;
                 CargarDatosPaginados();
+            }
+        }
+
+        private void AumentoCC_Click(object sender, EventArgs e)
+        {
+            var resultado = MessageBox.Show(
+            "¿Estás seguro de aplicar un 5% de recargo a todas las cuentas corrientes con deuda?",
+            "Confirmar Recargo",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question);
+
+            if (resultado == DialogResult.Yes)
+            {
+                try
+                {
+                    ClienteL clienteL = new ClienteL();
+                    // 1.05 representa el 100% + 5% de recargo
+                    bool exito = clienteL.AplicarInteresCuentaCorriente(1.05m);
+
+                    if (exito)
+                    {
+                        MessageBox.Show("Recargo aplicado correctamente y registrado en las notificaciones.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                       
+                        CargarDatosPaginados();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudieron actualizar las cuentas corrientes.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ocurrió un error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

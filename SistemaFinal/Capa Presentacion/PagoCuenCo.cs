@@ -39,6 +39,7 @@ namespace SistemaFinal.Capa_Presentacion
             }
             TxtBoxCli.Text = cliente.Nombre;
             CUIL = cliente.CUIL;
+            Estilos.Tema.AplicarEstiloModalCliente(this);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -47,7 +48,7 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 ClienteL c = new ClienteL();
                 CajaL cajaL = new CajaL();
-                string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+                string fechaActual = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                 string formapago = comboBox1.SelectedValue.ToString();
                 decimal cobro = Decimal.Parse(TxtBoxFact.Text);
                 c.PagoCC(CUIL, pagoCC);

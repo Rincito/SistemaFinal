@@ -19,6 +19,7 @@ namespace SistemaFinal.Capa_Presentacion
             this.ShowInTaskbar = false;
             this.Deactivate += ModificarArt_Deactivate;
             CargarDatosCliente(cliente);
+            Estilos.Tema.AplicarEstiloModalCliente(this);
         }
 
         private void CancelBtn_Click(object sender, EventArgs e)

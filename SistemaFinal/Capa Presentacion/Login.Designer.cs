@@ -44,7 +44,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(190, 41);
+            label2.Location = new Point(74, 39);
             label2.Name = "label2";
             label2.Size = new Size(553, 45);
             label2.TabIndex = 8;
@@ -56,7 +56,7 @@
             ComboBoxRol.DropDownStyle = ComboBoxStyle.DropDownList;
             ComboBoxRol.Font = new Font("Trebuchet MS", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ComboBoxRol.FormattingEnabled = true;
-            ComboBoxRol.Location = new Point(330, 184);
+            ComboBoxRol.Location = new Point(209, 173);
             ComboBoxRol.Name = "ComboBoxRol";
             ComboBoxRol.Size = new Size(283, 43);
             ComboBoxRol.TabIndex = 11;
@@ -65,7 +65,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(346, 124);
+            label1.Location = new Point(230, 125);
             label1.Name = "label1";
             label1.Size = new Size(250, 45);
             label1.TabIndex = 12;
@@ -75,7 +75,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(371, 248);
+            label3.Location = new Point(256, 240);
             label3.Name = "label3";
             label3.Size = new Size(197, 45);
             label3.TabIndex = 13;
@@ -85,7 +85,7 @@
             // 
             ContraTxtBox.BorderStyle = BorderStyle.FixedSingle;
             ContraTxtBox.Font = new Font("Trebuchet MS", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            ContraTxtBox.Location = new Point(330, 309);
+            ContraTxtBox.Location = new Point(209, 309);
             ContraTxtBox.Name = "ContraTxtBox";
             ContraTxtBox.PasswordChar = '*';
             ContraTxtBox.Size = new Size(283, 39);
@@ -95,7 +95,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(143, 514);
+            label4.Location = new Point(35, 516);
             label4.Name = "label4";
             label4.Size = new Size(655, 45);
             label4.TabIndex = 21;
@@ -105,7 +105,7 @@
             // 
             linkLabel1.AutoSize = true;
             linkLabel1.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            linkLabel1.Location = new Point(246, 570);
+            linkLabel1.Location = new Point(173, 572);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(444, 45);
             linkLabel1.TabIndex = 22;
@@ -116,7 +116,7 @@
             // button1
             // 
             button1.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
-            button1.Location = new Point(381, 396);
+            button1.Location = new Point(265, 399);
             button1.Name = "button1";
             button1.Size = new Size(178, 58);
             button1.TabIndex = 23;
@@ -129,7 +129,7 @@
             pictureBox1.BackColor = Color.White;
             pictureBox1.BackgroundImage = Properties.Resources.view;
             pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.Location = new Point(619, 309);
+            pictureBox1.Location = new Point(498, 309);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(39, 39);
             pictureBox1.TabIndex = 24;
@@ -140,9 +140,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = Properties.Resources.descargar;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(960, 667);
+            ClientSize = new Size(738, 667);
             Controls.Add(pictureBox1);
             Controls.Add(button1);
             Controls.Add(linkLabel1);

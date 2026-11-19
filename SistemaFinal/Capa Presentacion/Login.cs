@@ -20,6 +20,7 @@ namespace SistemaFinal.Capa_Presentacion
         public Login()
         {
             InitializeComponent();
+            Estilos.Tema.AplicarEstiloLogin(this);
         }
 
         private void label2_Click(object sender, EventArgs e)

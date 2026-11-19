@@ -1,4 +1,5 @@
 ﻿using SistemaFinal.Capa_Logica;
+using SistemaFinal.Estilos;
 using System.Data;
 using static SistemaFinal.Capa_Datos.MarcaD;
 
@@ -13,6 +14,7 @@ namespace SistemaFinal.Capa_Presentacion
         {
             this.Owner = padre;
             InitializeComponent();
+            Tema.AplicarEstructura(this, esFormHijo: false);
             datosModificados = false;
             this.ShowInTaskbar = false;
             this.Deactivate += FormSecundario_Deactivate;

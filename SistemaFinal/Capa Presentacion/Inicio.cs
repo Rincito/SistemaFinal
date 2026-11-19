@@ -21,7 +21,7 @@ namespace SistemaFinal.Capa_Presentacion
             ActualizarMenuNotificaciones();
             ComprobarNotificacionesNuevas();
             System.Windows.Forms.Timer timerNotis = new System.Windows.Forms.Timer();
-            timerNotis.Interval = 60000;
+            timerNotis.Interval = 30000;
             timerNotis.Tick += new EventHandler(timerNotis_Tick);
             timerNotis.Start();
 
@@ -202,7 +202,7 @@ namespace SistemaFinal.Capa_Presentacion
         private void Inicio_Load(object sender, EventArgs e)
         {
             ActualizarMenuNotificaciones();
-            string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+            string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
             CajaL caja = new CajaL();
             if (!caja.CajaInicialExistente(fechaActual))
             {

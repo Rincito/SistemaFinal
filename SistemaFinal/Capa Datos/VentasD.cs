@@ -153,7 +153,7 @@ namespace SistemaFinal.Capa_Datos
 
             return numeroFactura;
         }
-        public bool GuardarVenta(int numFactura, DateTime fechaHora, string vendedor, string cliente, string metodo, decimal total)
+        public bool GuardarVenta(int numFactura, string fechaHora, string vendedor, string cliente, string metodo, decimal total)
         {
             using (SQLiteConnection conn = new SQLiteConnection(connectionString))
             {

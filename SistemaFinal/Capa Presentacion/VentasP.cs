@@ -11,10 +11,10 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
         {
             InitializeComponent();
             this.KeyPress += new KeyPressEventHandler(VentasP_KeyPress);
-            TxtBoxFecha.Text = DateTime.Now.ToString("d");
+            TxtBoxFecha.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
             TxtBoxTotal.Text = "$0,00";
             this.KeyPreview = true;
-
+            SistemaFinal.Estilos.Tema.AplicarEstiloVentasP(this);
         }
         private List<Articulo> listaActual = new List<Articulo>();
 
@@ -571,7 +571,7 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
             try
             {
                 int numFactura = Convert.ToInt32(TxtBoxFact.Text);
-                DateTime fechaHora = DateTime.Now;
+                string fechaHora = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                 string vendedor = (VendComBox.SelectedItem as Vendedor)?.Nombre;
                 string cuilCliente = (CliComBox.SelectedItem as Cliente)?.CUIL;
                 string metodoPago = CondPagoComBox.SelectedItem?.ToString();
@@ -738,7 +738,7 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
         private void SenaBtn_Click(object sender, EventArgs e)
         {
             int numFactura = Convert.ToInt32(TxtBoxFact.Text);
-            DateTime fechaHora = DateTime.Now;
+            string fechaHora = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
             decimal totalVenta = decimal.Parse(TxtBoxTotal.Text, System.Globalization.NumberStyles.Currency);
             if (DGVCarrito.Rows.Count > 0)
             {

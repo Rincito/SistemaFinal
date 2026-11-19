@@ -20,11 +20,11 @@ namespace SistemaFinal.Capa_Presentacion
         {
             InitializeComponent();
             this.categoriaFiltro = categoria;
+            Estilos.Tema.AplicarEstiloPanelNotificaciones(this);
         }
 
         private void PanelNotificaciones_Load(object sender, EventArgs e)
         {
-            
             this.Width = 350;
             this.Height = Screen.PrimaryScreen.WorkingArea.Height;
             int x = Screen.PrimaryScreen.WorkingArea.Width - this.Width;
@@ -32,7 +32,6 @@ namespace SistemaFinal.Capa_Presentacion
             this.Location = new Point(x, y);
             
             CargarNotificaciones(categoriaFiltro);
-
             notifL.MarcarTodasComoLeidas();
         }
         public void CargarNotificaciones(string categoria)
@@ -58,7 +57,7 @@ namespace SistemaFinal.Capa_Presentacion
                     AutoSize = false,
                     Width = flowLayoutPanel1.ClientSize.Width - 25,
                     Height = 30,
-                    ForeColor = Color.DarkGray,
+                    ForeColor = Color.FromArgb(170, 180, 190),
                     Margin = new Padding(5, 5, 5, 10)
                 };
                 flowLayoutPanel1.Controls.Add(lblEstado);
@@ -70,10 +69,9 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 bool esNueva = (item.Leido == 0);
 
-                
-                Color colorFondo = esNueva ? Color.AliceBlue : Color.FromArgb(245, 245, 245); 
-                Color colorTexto = esNueva ? Color.FromArgb(30, 30, 30) : Color.DimGray;       
-                Color colorBorde = esNueva ? Color.SteelBlue : Color.LightGray;               
+                Color colorFondo = esNueva ? Color.FromArgb(40, 45, 52) : Color.FromArgb(28, 31, 35);
+                Color colorTexto = esNueva ? Color.White : Color.FromArgb(160, 170, 185);
+                Color colorAcento = esNueva ? Estilos.Tema.TealAuriculares : Color.FromArgb(70, 75, 85);
                 FontStyle estiloFuente = esNueva ? FontStyle.Bold : FontStyle.Regular;
 
                 int anchoTarjeta = flowLayoutPanel1.ClientSize.Width - 25;

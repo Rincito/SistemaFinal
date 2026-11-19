@@ -42,6 +42,7 @@
             siguienteBtn = new Button();
             anteriorBtn = new Button();
             paginacionLbl = new Label();
+            AumentoCC = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -52,6 +53,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(AumentoCC);
             panel1.Controls.Add(BuscCliBtn);
             panel1.Controls.Add(CliActBtn);
             panel1.Controls.Add(ModCliBtn);
@@ -120,7 +122,7 @@
             // 
             // BusquedaTxtBox
             // 
-            BusquedaTxtBox.Location = new Point(181, 218);
+            BusquedaTxtBox.Location = new Point(167, 0);
             BusquedaTxtBox.Name = "BusquedaTxtBox";
             BusquedaTxtBox.Size = new Size(323, 23);
             BusquedaTxtBox.TabIndex = 2;
@@ -219,6 +221,17 @@
             paginacionLbl.Text = "Página 1 de 1";
             paginacionLbl.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // AumentoCC
+            // 
+            AumentoCC.Dock = DockStyle.Top;
+            AumentoCC.Location = new Point(0, 220);
+            AumentoCC.Name = "AumentoCC";
+            AumentoCC.Size = new Size(134, 55);
+            AumentoCC.TabIndex = 8;
+            AumentoCC.Text = "Aplicar Recargo (5%)";
+            AumentoCC.UseVisualStyleBackColor = true;
+            AumentoCC.Click += AumentoCC_Click;
+            // 
             // ClientesP
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -258,5 +271,6 @@
         private Button siguienteBtn;
         private Button anteriorBtn;
         private Label paginacionLbl;
+        private Button AumentoCC;
     }
 }

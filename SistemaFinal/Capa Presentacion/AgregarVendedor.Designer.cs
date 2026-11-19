@@ -47,7 +47,9 @@
             CUILTxtBox = new TextBox();
             emailTxtBox = new TextBox();
             label7 = new Label();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -236,6 +238,33 @@
             label7.TabIndex = 21;
             label7.Text = "Email:";
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(AgVenBtn);
+            panel1.Controls.Add(ModVenBtn);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(dataGridView1);
+            panel1.Controls.Add(BajaVenBtn);
+            panel1.Controls.Add(ReactVenBtn);
+            panel1.Controls.Add(CancelBtn);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(ApeTxtBox);
+            panel1.Controls.Add(CUILTxtBox);
+            panel1.Controls.Add(label7);
+            panel1.Controls.Add(emailTxtBox);
+            panel1.Controls.Add(DomTxtBox);
+            panel1.Controls.Add(TelTxtBox);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(NomVenTxtBox);
+            panel1.Controls.Add(label1);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(630, 528);
+            panel1.TabIndex = 23;
+            // 
             // AgregarVendedor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -243,33 +272,16 @@
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(630, 528);
             ControlBox = false;
-            Controls.Add(emailTxtBox);
-            Controls.Add(label7);
-            Controls.Add(CUILTxtBox);
-            Controls.Add(ApeTxtBox);
-            Controls.Add(label6);
-            Controls.Add(label5);
-            Controls.Add(CancelBtn);
-            Controls.Add(ReactVenBtn);
-            Controls.Add(BajaVenBtn);
-            Controls.Add(dataGridView1);
-            Controls.Add(label4);
-            Controls.Add(ModVenBtn);
-            Controls.Add(AgVenBtn);
-            Controls.Add(label3);
-            Controls.Add(DomTxtBox);
-            Controls.Add(TelTxtBox);
-            Controls.Add(label2);
-            Controls.Add(NomVenTxtBox);
-            Controls.Add(label1);
+            Controls.Add(panel1);
             Name = "AgregarVendedor";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Agregar Vendedor";
             Deactivate += AgregarProveedor_Deactivate;
             Load += AgregarVendedor_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -293,5 +305,6 @@
         private TextBox CUILTxtBox;
         private TextBox emailTxtBox;
         private Label label7;
+        private Panel panel1;
     }
 }

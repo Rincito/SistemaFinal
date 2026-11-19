@@ -26,6 +26,7 @@ namespace SistemaFinal.Capa_Datos
         {
             using (SQLiteConnection conn = new SQLiteConnection(connectionString))
             {
+                string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                 conn.Open();
                 string query = @"INSERT INTO Notificaciones (Tema, Titulo, FechayHora, Descripcion, Leido) 
                                 VALUES (@Tema, @Titulo, @FechayHora, @Descripcion, 0)";
@@ -34,7 +35,7 @@ namespace SistemaFinal.Capa_Datos
                 {
                     cmd.Parameters.AddWithValue("@Tema", tema);
                     cmd.Parameters.AddWithValue("@Titulo", titulo);
-                    cmd.Parameters.AddWithValue("@FechayHora", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@FechayHora", fecha);
                     cmd.Parameters.AddWithValue("@Descripcion", descripcion);
 
                     return cmd.ExecuteNonQuery() > 0;

@@ -18,6 +18,7 @@ namespace SistemaFinal.Capa_Presentacion
         public Retiro(string fecha)
         {
             InitializeComponent();
+            Estilos.Tema.AplicarEstiloPagoVendedores(this);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -25,7 +26,7 @@ namespace SistemaFinal.Capa_Presentacion
             if (decimal.TryParse(TxtBoxFact.Text, out decimal montoInicial))
             {
                 CajaL cajaL = new CajaL();
-                string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+                string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
                 cajaL.GuardarRetiro(fechaActual, montoInicial);
                 cajaL.NotifiRetiro(montoInicial);
                 DatosGuardados?.Invoke();

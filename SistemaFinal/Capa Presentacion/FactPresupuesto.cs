@@ -7,13 +7,13 @@ namespace SistemaFinal.Capa_Presentacion
     public partial class FactPresupuesto : Form
     {
         
-        public FactPresupuesto(int numFactura, DateTime FechaHora, decimal Total, List<DetalleArticulo> detalleArticulos)
+        public FactPresupuesto(int numFactura, string FechaHora, decimal Total, List<DetalleArticulo> detalleArticulos)
         {
             InitializeComponent();
             CargarFactura(numFactura, FechaHora, Total, detalleArticulos);
         }
 
-        private void CargarFactura(int numFactura, DateTime FechaHora, decimal Total, List<DetalleArticulo> detalleArticulos)
+        private void CargarFactura(int numFactura, string FechaHora, decimal Total, List<DetalleArticulo> detalleArticulos)
         {
 
             label1.Text = "Factura #: " + numFactura.ToString();
@@ -21,7 +21,7 @@ namespace SistemaFinal.Capa_Presentacion
             label3.Text = "Razón Social: Salomón Zaga";
             label4.Text = "Total: " + Total.ToString("C");
             label5.Text = "";
-            label6.Text = "Fecha de Emisión: " + FechaHora.ToString("dd/MM/yyyy HH:mm");
+            label6.Text = "Fecha de Emisión: " + FechaHora;
 
             panelDetalles.Controls.Clear();
 

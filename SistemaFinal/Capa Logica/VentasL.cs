@@ -26,7 +26,7 @@ namespace SistemaFinal.Capa_Logica
         {
             return ventaD.ObtenerProximoNumeroFactura();
         }
-        public bool GuardarVenta(int numFactura, DateTime fechaHora, string vendedor, string cliente, string metodo, decimal total)
+        public bool GuardarVenta(int numFactura, string fechaHora, string vendedor, string cliente, string metodo, decimal total)
         {
             return ventaD.GuardarVenta(numFactura, fechaHora, vendedor, cliente, metodo, total);
         }

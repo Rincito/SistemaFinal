@@ -8,6 +8,7 @@ namespace SistemaFinal.Capa_Presentacion
         public AgregarCli()
         {
             InitializeComponent();
+            Estilos.Tema.AplicarEstiloModalCliente(this);
         }
 
         public event Action FormularioCerrado;

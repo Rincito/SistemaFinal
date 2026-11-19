@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SistemaFinal.Capa_Logica;
+using SistemaFinal.Estilos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SistemaFinal.Capa_Logica;
 
 namespace SistemaFinal.Capa_Presentacion
 {
@@ -21,6 +22,7 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 button6.Enabled = false;
             }
+            Estilos.Tema.AplicarEstiloCaja(this);
 
             cargarCaja();
         }
@@ -28,7 +30,7 @@ namespace SistemaFinal.Capa_Presentacion
         {
 
 
-            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
+            string fecha = DateTime.Now.ToString("dd/MM/yyyy");
             if (caja.CajaCerrada(fecha))
             {
                 CajaInicioTxtBox.Text = "$0,00";
@@ -115,7 +117,7 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+            string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
             Ingreso form = new Ingreso(fechaActual);
             form.DatosGuardados += cargarCaja;
             form.ShowDialog();
@@ -123,7 +125,7 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+            string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
             Gasto form = new Gasto(fechaActual);
             form.DatosGuardados += cargarCaja;
             form.ShowDialog();
@@ -131,7 +133,7 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+            string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
             Retiro form = new Retiro(fechaActual);
             form.DatosGuardados += cargarCaja;
             form.ShowDialog();
@@ -139,7 +141,7 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void button5_Click(object sender, EventArgs e)
         {
-            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
+            string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
             if (caja.CajaCerrada(fecha))
             {
                 MessageBox.Show("Ya se realizó un cierre de caja con anterioridad. Puedes verlo a detalle en el panel de notificaciones.");
