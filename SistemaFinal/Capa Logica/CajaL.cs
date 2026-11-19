@@ -65,6 +65,11 @@ namespace SistemaFinal.Capa_Logica
             return CajaD.PagosVendTarj(fecha);
         }
 
+        public void ReabrirCaja(string fecha, string motivo = "Emergencia / salida de empleado")
+        {
+            CajaD datos = new CajaD();
+            datos.ReabrirCaja(fecha, motivo);
+        }
         public void GuardarIngreso(string fecha, decimal ingreso, string formapago)
         {
             CajaD.GuardarIngreso(fecha, ingreso, formapago);

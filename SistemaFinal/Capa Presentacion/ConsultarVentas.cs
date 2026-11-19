@@ -117,8 +117,14 @@ namespace SistemaFinal.Capa_Presentacion
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                int numFactura = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["NumFactura"].Value);
-                DialogResult resultado = MessageBox.Show("¿Está seguro de que desea anular esta venta?", "Confirmar Anulación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                var fila = dataGridView1.SelectedRows[0];
+                if (!ValidarReglaOperacion(fila, "anularse")) return;
+
+                int numFactura = Convert.ToInt32(fila.Cells["NumFactura"].Value);
+                DialogResult resultado = MessageBox.Show("¿Está seguro de que desea anular esta venta?",
+                                                               "Confirmar Anulación",
+                                                               MessageBoxButtons.YesNo,
+                                                               MessageBoxIcon.Question);
                 if (resultado == DialogResult.Yes)
                 {
                     VentasL logica = new VentasL();
@@ -143,8 +149,14 @@ namespace SistemaFinal.Capa_Presentacion
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                int numFactura = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["NumFactura"].Value);
-                DialogResult resultado = MessageBox.Show("¿Está seguro de que desea reactivar esta venta?", "Confirmar Reactivación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                var fila = dataGridView1.SelectedRows[0];
+                if (!ValidarReglaOperacion(fila, "reactivarse")) return;
+
+                int numFactura = Convert.ToInt32(fila.Cells["NumFactura"].Value);
+                DialogResult resultado = MessageBox.Show("¿Está seguro de que desea reactivar esta venta?",
+                                                               "Confirmar Reactivación",
+                                                               MessageBoxButtons.YesNo,
+                                                               MessageBoxIcon.Question);
                 if (resultado == DialogResult.Yes)
                 {
                     VentasL logica = new VentasL();
@@ -158,6 +170,58 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 MessageBox.Show("Seleccione una venta para reactivar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+        private bool ValidarReglaOperacion(DataGridViewRow fila, string accion)
+        {
+            int numFactura = Convert.ToInt32(fila.Cells["NumFactura"].Value);
+
+            DateTime fechaVenta;
+            if (fila.Cells["FechaHora"]?.Value != null &&
+                DateTime.TryParse(fila.Cells["FechaHora"].Value.ToString(), out DateTime fechaFila))
+            {
+                fechaVenta = fechaFila;
+            }
+            else
+            {
+                var detalle = new VentasL().ObtenerDetalle_Venta(numFactura);
+                fechaVenta = detalle.FechaHora;
+            }
+
+            string metodo = fila.Cells["Metodo"]?.Value?.ToString()?.Trim() ?? "";
+            if (string.IsNullOrEmpty(metodo))
+            {
+                var detalle = new VentasL().ObtenerDetalle_Venta(numFactura);
+                metodo = detalle.Metodo?.Trim() ?? "";
+            }
+
+            double diasTranscurridos = (DateTime.Now.Date - fechaVenta.Date).TotalDays;
+
+            if (metodo.Equals("Cuenta Corriente", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show($"Las ventas en Cuenta Corriente no pueden {accion} desde este apartado.",
+                                "Operación no permitida", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            else if (metodo.Equals("Tarjeta", StringComparison.OrdinalIgnoreCase))
+            {
+                if (diasTranscurridos > 0)
+                {
+                    MessageBox.Show($"Las ventas con Tarjeta solo pueden {accion} en el mismo día en que se realizaron.",
+                                    "Fuera de plazo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+            else if (metodo.Equals("Efectivo", StringComparison.OrdinalIgnoreCase))
+            {
+                if (diasTranscurridos > 1)
+                {
+                    MessageBox.Show($"Las ventas en Efectivo solo pueden {accion} como máximo 1 día después de realizada la venta.",
+                                    "Fuera de plazo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -218,7 +282,7 @@ namespace SistemaFinal.Capa_Presentacion
                 int numFactura = Convert.ToInt32(TxtBoxFact.Text);
 
                 DateTime fechaHora = DateTime.TryParse(TxtBoxFecha.Text, out DateTime parsedDate) ? parsedDate : DateTime.Now;
-                string fechaParaGuardar = fechaHora.ToString("dd/MM/yyyy HH:mm");
+                string fechaParaGuardar = fechaHora.ToString("yyyy-MM-dd");
 
                 decimal totalVenta = decimal.Parse(TxtBoxTotal.Text.Replace("$", "").Trim(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture);
 

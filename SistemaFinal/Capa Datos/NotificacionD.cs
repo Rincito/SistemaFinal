@@ -26,7 +26,7 @@ namespace SistemaFinal.Capa_Datos
         {
             using (SQLiteConnection conn = new SQLiteConnection(connectionString))
             {
-                string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
                 conn.Open();
                 string query = @"INSERT INTO Notificaciones (Tema, Titulo, FechayHora, Descripcion, Leido) 
                                 VALUES (@Tema, @Titulo, @FechayHora, @Descripcion, 0)";
@@ -57,7 +57,7 @@ namespace SistemaFinal.Capa_Datos
                     query += "WHERE Tema = @Categoria ";
                 }
 
-                query += "ORDER BY FechayHora DESC LIMIT 50";
+                query += "ORDER BY FechayHora DESC LIMIT 15";
 
                 using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                 {

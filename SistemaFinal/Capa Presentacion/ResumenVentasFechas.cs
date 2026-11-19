@@ -50,7 +50,7 @@ namespace SistemaFinal.Capa_Presentacion
 
             if (esModoTarjeta)
             {
-                string fechaHoy = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                string fechaHoy = DateTime.Now.ToString("yyyy-MM-dd");
                 label1.Text = $"💳 Ventas con Tarjeta del Día ({fechaHoy})";
                 CargarResumenTarjetas(fechaHoy);
             }

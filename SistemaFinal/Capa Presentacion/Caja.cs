@@ -18,9 +18,14 @@ namespace SistemaFinal.Capa_Presentacion
         public Caja()
         {
             InitializeComponent();
-            if (SesionActual.Rol == 0) 
+            if (SesionActual.Rol == 0)
             {
                 button6.Enabled = false;
+                button7.Enabled = false;
+                button5.Enabled = false;
+                button4.Enabled = false;
+                button3.Enabled = false;
+                button2.Enabled = false;    
             }
             Estilos.Tema.AplicarEstiloCaja(this);
 
@@ -30,11 +35,12 @@ namespace SistemaFinal.Capa_Presentacion
         {
 
 
-            string fecha = DateTime.Now.ToString("dd/MM/yyyy");
+            string fechavisual = DateTime.Now.ToString("dd/MM/yyyy");
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
             if (caja.CajaCerrada(fecha))
             {
                 CajaInicioTxtBox.Text = "$0,00";
-                LabelFecha.Text = fecha;
+                LabelFecha.Text = fechavisual;
                 VentasEfecTxtBox.Text = "$0,00";
                 OtrosEfecTxtBox.Text = "$0,00";
                 CCEfecTxtBox.Text = "$0,00";
@@ -117,7 +123,7 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
+            string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
             Ingreso form = new Ingreso(fechaActual);
             form.DatosGuardados += cargarCaja;
             form.ShowDialog();
@@ -125,7 +131,7 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
+            string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
             Gasto form = new Gasto(fechaActual);
             form.DatosGuardados += cargarCaja;
             form.ShowDialog();
@@ -133,7 +139,7 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
+            string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
             Retiro form = new Retiro(fechaActual);
             form.DatosGuardados += cargarCaja;
             form.ShowDialog();
@@ -141,41 +147,46 @@ namespace SistemaFinal.Capa_Presentacion
 
         private void button5_Click(object sender, EventArgs e)
         {
-            string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
             if (caja.CajaCerrada(fecha))
             {
-                MessageBox.Show("Ya se realizó un cierre de caja con anterioridad. Puedes verlo a detalle en el panel de notificaciones.");
+                MessageBox.Show("La caja se encuentra cerrada. Si necesita operar nuevamente, debe reabrirla primero.");
             }
             else
             {
                 string cierre = Microsoft.VisualBasic.Interaction.InputBox(
-                $"Ingrese dinero en caja:",
-                "Modificar Cantidad");
-                if (cierre == "")
+                    "Ingrese dinero en caja:",
+                    "Cierre de Caja");
+
+                if (string.IsNullOrWhiteSpace(cierre))
                 {
                     MessageBox.Show("No se ingresó un valor, se cerrará la ventana.");
+                    return;
                 }
-                else
+
+                if (!decimal.TryParse(cierre, out decimal Cierre))
                 {
-                    decimal Cierre = decimal.Parse(cierre);
+                    MessageBox.Show("Ingrese un monto numérico válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                    decimal TotalEfectivo = decimal.Parse(TotalEfectTxtBox.Text.Replace("$", "").Trim());
-                    decimal TotalTarjeta = decimal.Parse(TotalTarjTxtBox.Text.Replace("$", "").Trim());
-                    decimal TotalDia = decimal.Parse(TotalDiaTxtBox.Text.Replace("$", "").Trim());
-                    decimal Inicio = decimal.Parse(CajaInicioTxtBox.Text.Replace("$", "").Trim());
-                    var resultado = MessageBox.Show(
-                       "¿Está seguro de que desea cerrar la caja?",
-                       "Confirmar Cierre",
-                       MessageBoxButtons.YesNo,
-                       MessageBoxIcon.Question);
+                decimal TotalEfectivo = decimal.Parse(TotalEfectTxtBox.Text.Replace("$", "").Trim());
+                decimal TotalTarjeta = decimal.Parse(TotalTarjTxtBox.Text.Replace("$", "").Trim());
+                decimal TotalDia = decimal.Parse(TotalDiaTxtBox.Text.Replace("$", "").Trim());
+                decimal Inicio = decimal.Parse(CajaInicioTxtBox.Text.Replace("$", "").Trim());
 
-                    if (resultado == DialogResult.Yes)
-                    {
+                var resultado = MessageBox.Show(
+                    "¿Está seguro de que desea cerrar la caja?",
+                    "Confirmar Cierre",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
 
-                        caja.CierreCaja(fecha, TotalEfectivo, TotalTarjeta, TotalDia, Cierre, Inicio);
-                        caja.NotifiCierreCaja(TotalEfectivo, TotalTarjeta, TotalDia, Cierre, Inicio);
-                        MessageBox.Show("Cierre de caja hecho, información guardada.");
-                    }
+                if (resultado == DialogResult.Yes)
+                {
+                    caja.CierreCaja(fecha, TotalEfectivo, TotalTarjeta, TotalDia, Cierre, Inicio);
+                    caja.NotifiCierreCaja(TotalEfectivo, TotalTarjeta, TotalDia, Cierre, Inicio);
+                    MessageBox.Show("Cierre de caja hecho, información guardada.");
+                    cargarCaja();
                 }
             }
 
@@ -206,6 +217,30 @@ namespace SistemaFinal.Capa_Presentacion
         private void Caja_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
+
+            if (!caja.CajaCerrada(fecha))
+            {
+                MessageBox.Show("La caja ya está abierta.");
+                return;
+            }
+
+            var resultado = MessageBox.Show(
+                "¿Desea reabrir la caja de hoy?",
+                "Reabrir Caja",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (resultado == DialogResult.Yes)
+            {
+                caja.ReabrirCaja(fecha);
+                MessageBox.Show("Caja reabierta.");
+                cargarCaja();
+            }
         }
     }
 }

@@ -202,7 +202,7 @@ namespace SistemaFinal.Capa_Presentacion
         private void Inicio_Load(object sender, EventArgs e)
         {
             ActualizarMenuNotificaciones();
-            string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
+            string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
             CajaL caja = new CajaL();
             if (!caja.CajaInicialExistente(fechaActual))
             {
@@ -426,8 +426,15 @@ namespace SistemaFinal.Capa_Presentacion
             }
             catch (Exception)
             {
-                
+
             }
+        }
+
+        private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PanelNotificaciones formNotif = new PanelNotificaciones("Clientes");
+            formNotif.ShowDialog();
+            ActualizarMenuNotificaciones();
         }
     }
 }

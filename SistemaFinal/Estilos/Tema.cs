@@ -151,11 +151,12 @@ namespace SistemaFinal.Estilos
             if (form.Controls.Find("label21", true).FirstOrDefault() is Label l21) l21.ForeColor = Color.White;
             if (form.Controls.Find("label18", true).FirstOrDefault() is Label l18) l18.ForeColor = Color.White;
 
-            if (form.Controls.Find("button1", true).FirstOrDefault() is Button b1) { b1.BackColor = TealAuriculares; b1.ForeColor = Color.White; }
+            if (form.Controls.Find("button1", true).FirstOrDefault() is Button b1) { b1.BackColor = Color.FromArgb(220, 53, 69); b1.ForeColor = Color.White; }
             if (form.Controls.Find("button2", true).FirstOrDefault() is Button b2) { b2.BackColor = Color.FromArgb(108, 117, 125); b2.ForeColor = Color.White; }
             if (form.Controls.Find("button3", true).FirstOrDefault() is Button b3) { b3.BackColor = Color.FromArgb(108, 117, 125); b3.ForeColor = Color.White; }
             if (form.Controls.Find("button4", true).FirstOrDefault() is Button b4) { b4.BackColor = AmarilloMonkey; b4.ForeColor = TextoOscuro; }
             if (form.Controls.Find("button5", true).FirstOrDefault() is Button b5) { b5.BackColor = Color.FromArgb(220, 53, 69); b5.ForeColor = Color.White; }
+            if (form.Controls.Find("button7", true).FirstOrDefault() is Button b7) { b7.BackColor = TealAuriculares; b7.ForeColor = Color.White; }
 
             if (form.Controls.Find("TotalDiaTxtBox", true).FirstOrDefault() is TextBox txtTotal)
             {

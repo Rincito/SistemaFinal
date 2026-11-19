@@ -112,6 +112,7 @@
             CliComBox.Name = "CliComBox";
             CliComBox.Size = new Size(164, 32);
             CliComBox.TabIndex = 27;
+            CliComBox.SelectedIndexChanged += CliComBox_SelectedIndexChanged;
             // 
             // label10
             // 
@@ -375,6 +376,7 @@
             CondPagoComBox.Name = "CondPagoComBox";
             CondPagoComBox.Size = new Size(181, 32);
             CondPagoComBox.TabIndex = 10;
+            CondPagoComBox.SelectedIndexChanged += CondPagoComBox_SelectedIndexChanged;
             // 
             // label5
             // 

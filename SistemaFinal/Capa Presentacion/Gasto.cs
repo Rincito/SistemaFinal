@@ -49,7 +49,7 @@ namespace SistemaFinal.Capa_Presentacion
             if (decimal.TryParse(TxtBoxFact.Text, out decimal montoInicial))
             {
                 CajaL cajaL = new CajaL();
-                string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
+                string fechaActual = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
                 string formapago = comboBox1.SelectedValue.ToString();
                 string detalle = comboBox2.SelectedValue.ToString();
                 cajaL.GuardarGasto(fechaActual, montoInicial, formapago, detalle);

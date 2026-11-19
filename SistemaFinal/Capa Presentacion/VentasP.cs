@@ -7,11 +7,12 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
 {
     public partial class VentasP : Form
     {
+        private bool actualizandoCombos = false;
         public VentasP()
         {
             InitializeComponent();
             this.KeyPress += new KeyPressEventHandler(VentasP_KeyPress);
-            TxtBoxFecha.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+            TxtBoxFecha.Text = DateTime.Now.ToString("yyyy-MM-dd");
             TxtBoxTotal.Text = "$0,00";
             this.KeyPreview = true;
             SistemaFinal.Estilos.Tema.AplicarEstiloVentasP(this);
@@ -47,7 +48,7 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
             }
 
             string clientes = "";
-            var cli = ventaL.ObtenerClientes(vendedores);
+            var cli = ventaL.ObtenerClientes(clientes);
 
             if (cli.Any())
             {
@@ -78,6 +79,22 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
             PanelArts.Visible = false;
             DGVArts.Visible = false;
             panel1.Focus();
+
+            actualizandoCombos = true;
+            try
+            {
+
+                int indexNA = CliComBox.FindStringExact("N/A");
+                if (indexNA >= 0)
+                    CliComBox.SelectedIndex = indexNA;
+
+                string metodoInicial = (CondPagoComBox.SelectedItem?.ToString() ?? CondPagoComBox.Text).Trim();
+                CliComBox.Enabled = metodoInicial.Equals("Cuenta Corriente", StringComparison.OrdinalIgnoreCase);
+            }
+            finally
+            {
+                actualizandoCombos = false;
+            }
         }
 
         private void VendComBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -571,7 +588,7 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
             try
             {
                 int numFactura = Convert.ToInt32(TxtBoxFact.Text);
-                string fechaHora = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                string fechaHora = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
                 string vendedor = (VendComBox.SelectedItem as Vendedor)?.Nombre;
                 string cuilCliente = (CliComBox.SelectedItem as Cliente)?.CUIL;
                 string metodoPago = CondPagoComBox.SelectedItem?.ToString();
@@ -738,7 +755,7 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
         private void SenaBtn_Click(object sender, EventArgs e)
         {
             int numFactura = Convert.ToInt32(TxtBoxFact.Text);
-            string fechaHora = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+            string fechaHora = DateTime.Now.ToString("yyyy-MM-dd");
             decimal totalVenta = decimal.Parse(TxtBoxTotal.Text, System.Globalization.NumberStyles.Currency);
             if (DGVCarrito.Rows.Count > 0)
             {
@@ -796,12 +813,12 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
                     {
                         string nombreArticulo = fila.Cells["Nombre"].Value.ToString();
 
-                        
+
                         var articuloDb = listaArticulosDb.FirstOrDefault(a => a.Nombre.Equals(nombreArticulo, StringComparison.OrdinalIgnoreCase));
 
                         if (articuloDb != null)
                         {
-                            
+
                             int stockRestante = articuloDb.Stock - cantidadVendida;
 
                             if (stockRestante <= articuloDb.StockMin)
@@ -818,13 +835,104 @@ namespace Punto_de_venta___Prácticas_profesionales.Presentación
             }
             catch (Exception)
             {
-                
+
             }
         }
 
         private void DGVArts_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void CondPagoComBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (actualizandoCombos) return;
+
+            actualizandoCombos = true;
+            try
+            {
+                string metodo = (CondPagoComBox.SelectedItem?.ToString() ?? CondPagoComBox.Text).Trim();
+
+                if (metodo.Equals("Cuenta Corriente", StringComparison.OrdinalIgnoreCase))
+                {
+                    int indicePrimerClienteValido = -1;
+                    for (int i = 0; i < CliComBox.Items.Count; i++)
+                    {
+                        string nombre = (CliComBox.Items[i] as Cliente)?.Nombre?.Trim()
+                                        ?? CliComBox.GetItemText(CliComBox.Items[i]).Trim();
+
+                        if (!string.IsNullOrEmpty(nombre) && !nombre.Equals("N/A", StringComparison.OrdinalIgnoreCase))
+                        {
+                            indicePrimerClienteValido = i;
+                            break;
+                        }
+                    }
+
+                    if (indicePrimerClienteValido >= 0)
+                    {
+                        CliComBox.Enabled = true;
+                        CliComBox.SelectedIndex = indicePrimerClienteValido;
+                    }
+                    else
+                    {
+                        int indexEfectivo = CondPagoComBox.FindStringExact("Efectivo");
+                        if (indexEfectivo >= 0)
+                            CondPagoComBox.SelectedIndex = indexEfectivo;
+                        else
+                            CondPagoComBox.SelectedItem = "Efectivo";
+
+                        CliComBox.Enabled = false;
+                    }
+                }
+                else
+                {
+                    CliComBox.Enabled = false;
+
+                    int indexNA = CliComBox.FindStringExact("N/A");
+                    if (indexNA >= 0)
+                        CliComBox.SelectedIndex = indexNA;
+                }
+            }
+            finally
+            {
+                actualizandoCombos = false;
+            }
+        }
+
+        private void CliComBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (actualizandoCombos) return;
+
+            actualizandoCombos = true;
+            try
+            {
+                string nombreCliente = ((CliComBox.SelectedItem as Cliente)?.Nombre ?? CliComBox.Text).Trim();
+
+                if (nombreCliente.Equals("N/A", StringComparison.OrdinalIgnoreCase))
+                {
+                    int indexEfectivo = CondPagoComBox.FindStringExact("Efectivo");
+                    if (indexEfectivo >= 0)
+                        CondPagoComBox.SelectedIndex = indexEfectivo;
+                    else
+                        CondPagoComBox.SelectedItem = "Efectivo";
+
+                    CliComBox.Enabled = false;
+                }
+                else if (!string.IsNullOrEmpty(nombreCliente))
+                {
+                    int indexCC = CondPagoComBox.FindStringExact("Cuenta Corriente");
+                    if (indexCC >= 0)
+                        CondPagoComBox.SelectedIndex = indexCC;
+                    else
+                        CondPagoComBox.SelectedItem = "Cuenta Corriente";
+
+                    CliComBox.Enabled = true;
+                }
+            }
+            finally
+            {
+                actualizandoCombos = false;
+            }
         }
     }
 }

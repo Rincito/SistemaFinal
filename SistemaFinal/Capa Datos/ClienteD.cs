@@ -214,7 +214,7 @@ namespace SistemaFinal.Capa_Datos
 
                         // 2. Registrar la notificación indicando quién realizó la acción
                         string operador = SesionActual.NombreCompleto ?? "Administrador";
-                        string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                        string fecha = DateTime.Now.ToString("yyyy-MM-dd Color.FromArgb(220, 53, 69); b5.ForeColor = Color.White; ");
 
                         string queryNoti = "INSERT INTO Notificaciones (Tema, Titulo, FechayHora, Descripcion) VALUES (@Tema, @Titulo, @Fecha, @Desc)";
                         using (var cmdN = new SQLiteCommand(queryNoti, conexion, transaction))

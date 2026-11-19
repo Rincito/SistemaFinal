@@ -48,7 +48,7 @@ namespace SistemaFinal.Capa_Presentacion
             {
                 ClienteL c = new ClienteL();
                 CajaL cajaL = new CajaL();
-                string fechaActual = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
                 string formapago = comboBox1.SelectedValue.ToString();
                 decimal cobro = Decimal.Parse(TxtBoxFact.Text);
                 c.PagoCC(CUIL, pagoCC);

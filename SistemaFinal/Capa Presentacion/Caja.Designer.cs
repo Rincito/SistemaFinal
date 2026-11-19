@@ -73,6 +73,7 @@
             label22 = new Label();
             button5 = new Button();
             button6 = new Button();
+            button7 = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -555,12 +556,24 @@
             button6.UseVisualStyleBackColor = true;
             button6.Click += button6_Click;
             // 
+            // button7
+            // 
+            button7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button7.Location = new Point(488, 433);
+            button7.Name = "button7";
+            button7.Size = new Size(124, 33);
+            button7.TabIndex = 61;
+            button7.Text = "Abrir Caja";
+            button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
+            // 
             // Caja
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(847, 471);
             ControlBox = false;
+            Controls.Add(button7);
             Controls.Add(button6);
             Controls.Add(button5);
             Controls.Add(TotalTarjTxtBox);
@@ -646,5 +659,6 @@
         private Button button6;
         private Label label23;
         private TextBox textBox1;
+        private Button button7;
     }
 }
